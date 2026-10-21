@@ -67,6 +67,7 @@ try {
   await editor.locator('#canvas-frame').waitFor({ state: 'visible' });
   await editor.locator('#status').filter({ hasText: '저장됨' }).waitFor();
   assert.equal(await editor.evaluate(() => window.renderChecks.redraws), 1, 'initial image must be drawn once');
+  await editor.locator('#auto-number').uncheck();
   const bounds = await editor.locator('#canvas').boundingBox();
   const point = (x, y) => [bounds.x + x * bounds.width / 1000, bounds.y + y * bounds.height / 700];
   await editor.mouse.move(...point(120, 150)); await editor.mouse.down();

@@ -12,6 +12,7 @@
       <span class="section-label">MARK TOOLS</span>
       <button class="tool" data-tool="select" title="선택 / 이동 (V)" aria-label="선택 / 이동" aria-pressed="false"><span class="tool-icon">↖</span><span>선택</span><kbd>V</kbd></button>
       <button class="tool active" data-tool="rectangle" title="사각형 (R)" aria-label="사각형" aria-pressed="true"><span class="tool-icon">▭</span><span>사각형</span><kbd>R</kbd></button>
+      <label class="auto-number"><input id="auto-number" type="checkbox" checked>사각형 자동 번호</label>
       <button class="tool" data-tool="number" title="원형 번호 라벨 (N)" aria-label="번호 라벨" aria-pressed="false"><span class="tool-icon number-icon">1</span><span>번호 라벨</span><kbd>N</kbd></button>
       <button class="tool" data-tool="arrow" title="화살표 (A)" aria-label="화살표" aria-pressed="false"><span class="tool-icon">↗</span><span>화살표</span><kbd>A</kbd></button>
       <button class="tool" data-tool="text" title="텍스트 (T)" aria-label="텍스트" aria-pressed="false"><span class="tool-icon text-icon">T</span><span>텍스트</span><kbd>T</kbd></button>
@@ -23,7 +24,7 @@
       <label class="field-label" for="stroke">선 굵기 <output id="stroke-value">4 px</output></label><input id="stroke" type="range" min="2" max="16" value="4">
       <label class="field-label" for="number-start">다음 번호</label><input id="number-start" type="number" min="1" max="999" value="1">
       <label class="field-label" for="label-size">번호 크기</label><select id="label-size"><option value="16">작게</option><option value="22" selected>보통</option><option value="30">크게</option></select>
-      <div class="tool-bottom"><button id="delete" class="quiet" disabled>선택한 표시 삭제 <kbd>Del</kbd></button><p>사각형은 드래그,<br>번호는 클릭으로 추가하세요.</p></div>
+      <div class="tool-bottom"><button id="delete" class="quiet" disabled>선택한 표시 삭제 <kbd>Del</kbd></button><p>자동 번호를 켜면<br>박스에 번호가 함께 붙음.</p></div>
     </aside>
     <main class="desk" id="desk">
       <div class="canvas-toolbar"><div class="history-buttons"><button id="undo" title="실행 취소 (Ctrl+Z)" aria-label="실행 취소" disabled>↶</button><button id="redo" title="다시 실행 (Ctrl+Shift+Z)" aria-label="다시 실행" disabled>↷</button><span id="shape-count">표시 0개</span></div><div class="zoom-controls"><button id="zoom-out" aria-label="축소">−</button><output id="zoom-value">100%</output><button id="zoom-in" aria-label="확대">+</button><button id="fit">화면 맞춤</button></div></div>

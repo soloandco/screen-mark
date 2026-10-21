@@ -6,7 +6,7 @@ A local Chrome screenshot and annotation extension with numbered labels and clip
 
 ## 설치
 
-1. [최신 릴리스](https://github.com/soloandco/screen-mark/releases/latest)에서 `screen-mark-1.0.4.zip`을 내려받아 압축을 푼다. 소스를 받았다면 저장소 안의 `extension` 폴더를 사용한다.
+1. [최신 릴리스](https://github.com/soloandco/screen-mark/releases/latest)에서 `screen-mark-1.0.5.zip`을 내려받아 압축을 푼다. 소스를 받았다면 저장소 안의 `extension` 폴더를 사용한다.
 2. Chrome 주소창에 `chrome://extensions`를 입력한다.
 3. 오른쪽 위 **개발자 모드**를 켠 뒤 **압축해제된 확장 프로그램을 로드합니다**를 누른다.
 4. 릴리스 ZIP에서는 `screen-mark` 폴더, 소스에서는 `extension` 폴더를 선택한다. `manifest.json`이 들어 있는 폴더가 설치 대상이다.
@@ -37,7 +37,11 @@ A local Chrome screenshot and annotation extension with numbered labels and clip
 
 ### 2. 사각형과 번호로 표시
 
-왼쪽 **사각형**을 누르고 표시할 부분을 드래그한다. **번호 라벨**을 누르고 원하는 위치를 클릭하면 1, 2, 3 순서로 추가된다.
+왼쪽 **사각형**을 누르고 표시할 부분을 드래그한다. **사각형 자동 번호**가 켜져 있으면 박스 왼쪽 위에 1, 2, 3 순서로 원형 번호가 함께 붙는다. 기본으로 켜져 있으며, 체크를 끄면 사각형만 추가된다.
+
+![사각형 자동 번호가 켜진 실제 편집 화면. 두 박스를 그리자 왼쪽 위에 1번과 2번이 자동으로 붙은 예시.](docs/images/auto-number.png)
+
+**다음 번호**와 **번호 크기**를 바꾸면 다음 박스에도 적용된다. **번호 라벨** 도구로 직접 추가하는 번호와 같은 순서를 사용한다. 실행 취소 한 번으로 방금 만든 박스와 번호를 함께 지우고, 다시 실행 한 번으로 복원한다. 추가 후에는 박스와 번호를 각각 선택해 이동·삭제할 수 있다. 이미 그린 박스에 소급 적용하지 않으며, 새 편집 탭을 열면 자동 번호가 다시 켜진다.
 
 ![실제 편집 화면. 왼쪽 사각형과 번호 라벨 도구를 사용해 문의 버튼과 서비스 카드를 1번과 2번으로 표시한 예시.](docs/images/annotate-screen.png)
 
@@ -59,7 +63,7 @@ A local Chrome screenshot and annotation extension with numbered labels and clip
 
 | 도구 | 사용법 | 키 |
 |---|---|---|
-| 사각형 | 중요한 부분을 드래그해 테두리 표시 | R |
+| 사각형 | 드래그해 테두리 표시. 자동 번호가 켜져 있으면 번호도 함께 추가 | R |
 | 번호 라벨 | 화면을 클릭하면 원형 숫자를 추가. 다음 번호 자동 증가 | N |
 | 선택 | 표시를 선택해 드래그로 이동. Delete로 삭제 | V |
 | 화살표 | 시작점에서 끝점으로 드래그 | A |
@@ -109,7 +113,9 @@ npm run package
 
 Linux에서 브라우저 시스템 라이브러리도 필요하면 `npx playwright install --with-deps chromium`을 사용한다. 브라우저 검사는 별도 임시 프로필만 사용하며 사용자 Chrome 프로필을 건드리지 않는다. CDP `Extensions.triggerAction`으로 확장 아이콘 호출을 재현해 activeTab을 부여한다. 원본 매니페스트의 권한을 바꾸지 않고 테스트한다. 개발 의존성은 확장 ZIP에 포함되지 않는다.
 
-검증 결과: `docs/verification.md`. ZIP 생성 결과: `dist/screen-mark-1.0.3.zip`.
+검증 결과: `docs/verification.md`. ZIP 생성 결과: `dist/screen-mark-1.0.5.zip`.
+
+`npm run test:auto-number`는 설치된 Google Chrome의 별도 임시 프로필에서 자동 번호, 실행 취소·다시 실행, 수동 번호와의 순서 공유, 가장자리·자르기 배치, PNG 픽셀과 실제 클립보드 쓰기를 검사한다. [v1.0.5 실행 결과](docs/auto-number/v1.0.5.json)를 공개한다.
 
 `npm run test:stability`는 설치된 Google Chrome의 새 시험용 프로필에서 연속 캡처·다중 편집 탭·저장 충돌·오래된 작업 정리·캡처 중 탭 전환·유휴 worker 재시작을 검사한다. 사용자 프로필은 열지 않는다. [v1.0.3 안정성 검증](docs/stability.md)에 발견한 결함과 검증 범위를 기록한다.
 

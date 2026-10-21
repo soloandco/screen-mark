@@ -1,4 +1,4 @@
-import { normalizeRect, imagePoint, createHistory, hitTest, translateShape, cropDocument, capturePlan, nextNumber } from './model.js';
+import { normalizeRect, imagePoint, createHistory, hitTest, translateShape, cropDocument, capturePlan, nextNumber, numberLabelAtCorner } from './model.js';
 import { renderScene, exportPng, createFrameDraw, createPngCache } from './render.js';
 import { getCapture, putCapture, updateDocument } from './storage.js';
 
@@ -112,15 +112,26 @@ function setTool(value, render = true) {
     button.classList.toggle('active', active); button.setAttribute('aria-pressed', active);
   });
   canvas.style.cursor = value === 'select' ? 'default' : 'crosshair';
-  const hints = { rectangle: '드래그해 사각형 표시 추가', number: '클릭해 원형 번호 라벨 추가', select: '표시를 클릭해 선택하고 드래그해 이동', arrow: '드래그해 화살표 추가', text: '텍스트를 넣을 위치 클릭', mosaic: '가릴 영역을 드래그. 민감 정보는 저장 전 결과를 확인하세요.', crop: '남길 영역을 드래그. 실행 취소로 복구할 수 있음' };
+  const hints = { rectangle: $('#auto-number').checked ? '드래그해 사각형과 번호 라벨 함께 추가' : '드래그해 사각형 표시 추가', number: '클릭해 원형 번호 라벨 추가', select: '표시를 클릭해 선택하고 드래그해 이동', arrow: '드래그해 화살표 추가', text: '텍스트를 넣을 위치 클릭', mosaic: '가릴 영역을 드래그. 민감 정보는 저장 전 결과를 확인하세요.', crop: '남길 영역을 드래그. 실행 취소로 복구할 수 있음' };
   status(hints[value]); if (render) draw();
 }
 
 function style() { return { color: $('#color').value, stroke: Number($('#stroke').value) }; }
 
+function numberStyle() {
+  return { number: Math.max(1, Math.min(999, Math.round(Number($('#number-start').value) || 1))), radius: Number($('#label-size').value) };
+}
+
 function addShape(shape) {
   const state = history.current;
-  commit({ ...state, shapes: [...state.shapes, { id: crypto.randomUUID(), ...style(), ...shape }], nextNumber: shape.type === 'number' ? Math.min(999, shape.number + 1) : state.nextNumber || 1 });
+  const annotation = { id: crypto.randomUUID(), ...style(), ...shape };
+  const labelStyle = numberStyle();
+  const label = shape.type === 'rectangle' && $('#auto-number').checked
+    ? { id: crypto.randomUUID(), ...style(), type: 'number', ...labelStyle, ...numberLabelAtCorner(shape, labelStyle.radius, currentCrop()) }
+    : null;
+  const additions = label ? [annotation, label] : [annotation];
+  const number = additions.find(item => item.type === 'number')?.number;
+  commit({ ...state, shapes: [...state.shapes, ...additions], nextNumber: number === undefined ? state.nextNumber || 1 : Math.min(999, number + 1) });
 }
 
 canvas.addEventListener('pointerdown', event => {
@@ -128,8 +139,7 @@ canvas.addEventListener('pointerdown', event => {
   event.preventDefault(); canvas.focus({ preventScroll: true });
   const start = point(event);
   if (tool === 'number') {
-    const number = Math.max(1, Math.min(999, Math.round(Number($('#number-start').value) || 1)));
-    addShape({ type: 'number', ...start, radius: Number($('#label-size').value), number }); return;
+    addShape({ type: 'number', ...start, ...numberStyle() }); return;
   }
   if (tool === 'text') {
     pendingTextPoint = start; $('#text-input').value = ''; $('#text-dialog').showModal(); $('#text-input').focus(); return;
@@ -197,6 +207,7 @@ function applyStyle() {
 }
 
 document.querySelectorAll('[data-tool]').forEach(button => button.addEventListener('click', () => setTool(button.dataset.tool)));
+$('#auto-number').addEventListener('change', () => { if (tool === 'rectangle') setTool('rectangle'); });
 document.querySelectorAll('[data-color]').forEach(button => button.addEventListener('click', () => { $('#color').value = button.dataset.color; applyStyle(); }));
 $('#color').addEventListener('change', applyStyle);
 $('#stroke').addEventListener('input', () => { $('#stroke-value').value = `${$('#stroke').value} px`; });

@@ -11,6 +11,17 @@ export function nextNumber(shapes, start = 1) {
   return Math.max(start - 1, ...shapes.filter(shape => shape.type === 'number').map(shape => shape.number)) + 1;
 }
 
+export function numberLabelAtCorner(rect, radius, bounds) {
+  const margin = Math.min(1, bounds.width / 4, bounds.height / 4);
+  radius = Math.min(radius, bounds.width / 2 - margin, bounds.height / 2 - margin);
+  const inset = radius + margin;
+  return {
+    x: Math.max(bounds.x + inset, Math.min(rect.x, bounds.x + bounds.width - inset)),
+    y: Math.max(bounds.y + inset, Math.min(rect.y, bounds.y + bounds.height - inset)),
+    radius
+  };
+}
+
 export function createHistory(initial) {
   let states = [structuredClone(initial)];
   let index = 0;

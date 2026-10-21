@@ -163,6 +163,8 @@ async function runTrial(label, trial, extension) {
     await editor.waitForFunction(() => document.querySelector('#dimensions').textContent.includes('1600 × 10000'));
     await editor.locator('#status').filter({ hasText: '저장됨' }).waitFor();
     await delay(300);
+    // Keep the original rectangle-plus-manual-label workload across versions.
+    if (await editor.locator('#auto-number').count()) await editor.locator('#auto-number').uncheck();
     if (reader) run.memory.push(await memory(cdp, 'long-image-idle'));
 
     const bounds = await editor.locator('#canvas').boundingBox(); assert.ok(bounds);

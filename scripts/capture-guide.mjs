@@ -70,11 +70,9 @@ try {
   const canvas = await editor.locator('#canvas').boundingBox();
   const point = (x, y) => [canvas.x + x * canvas.width / 1000, canvas.y + y * canvas.height / 700];
   await editor.getByRole('button', { name: '사각형', exact: true }).click();
+  assert.equal(await editor.locator('#auto-number').isChecked(), true);
   await drag(editor, point(contact.x - 9, contact.y - 9), point(contact.x + contact.width + 9, contact.y + contact.height + 9));
   await drag(editor, point(service.x - 6, service.y - 6), point(service.x + service.width + 6, service.y + service.height + 6));
-  await editor.getByRole('button', { name: '번호 라벨', exact: true }).click();
-  await editor.mouse.click(...point(contact.x - 9, contact.y - 9));
-  await editor.mouse.click(...point(service.x - 6, service.y - 6));
   assert.equal(await editor.locator('#shape-count').textContent(), '표시 4개');
   await editor.locator('#status').filter({ hasText: '저장됨' }).waitFor();
   await editor.screenshot({ path: path.join(output, 'annotate-screen.png') });
