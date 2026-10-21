@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "Screen Mark · 화면 캡처와 표시",
+  "version": "1.0.1",
+  "minimum_chrome_version": "120",
+  "description": "현재 화면·스크롤 전체 페이지를 캡처하고 사각형과 번호로 표시한 뒤 클립보드에 복사하는 개인용 도구",
+  "permissions": ["activeTab", "scripting", "clipboardWrite"],
+  "background": { "service_worker": "background.js", "type": "module" },
+  "action": { "default_popup": "popup.html", "default_title": "Screen Mark", "default_icon": { "16": "icons/16.png", "48": "icons/48.png", "128": "icons/128.png" } },
+  "icons": { "16": "icons/16.png", "48": "icons/48.png", "128": "icons/128.png" },
+  "content_security_policy": { "extension_pages": "script-src 'self'; object-src 'none'" }
+}

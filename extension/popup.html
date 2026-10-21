@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Screen Mark</title><link rel="stylesheet" href="popup.css"></head>
+<body>
+  <header><span class="logo" aria-hidden="true">m<span>1</span></span><div><h1>Screen Mark</h1><p>캡처하고, 명확하게 표시하기</p></div></header>
+  <main>
+    <button class="capture primary" data-mode="visible"><span class="symbol">▣</span><span><strong>현재 화면</strong><small>지금 보이는 화면을 캡처</small></span><span>↗</span></button>
+    <button class="capture" data-mode="full"><span class="symbol">↕</span><span><strong>스크롤 전체 페이지</strong><small>아래까지 스크롤하며 한 장으로 캡처</small></span><span>↗</span></button>
+    <p id="status" role="status" aria-live="polite">표시한 화면은 클립보드로 복사해 AI에 붙여 넣으세요.</p>
+    <button id="open-editor">이미지 파일 열어 편집하기 <span>↗</span></button>
+  </main>
+  <footer><span class="dot"></span>이미지는 이 브라우저에만 저장됨</footer>
+  <script type="module" src="popup.js"></script>
+</body></html>
