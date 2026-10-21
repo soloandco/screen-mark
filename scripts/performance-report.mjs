@@ -5,6 +5,8 @@ import path from 'node:path';
 const input = path.resolve(process.argv[2] || 'test-results/performance/raw.json');
 const destination = path.resolve(process.argv[3] || 'docs/performance.md');
 const data = JSON.parse(await readFile(input, 'utf8'));
+const beforeVersion = data.beforeVersion || '1.0.1';
+const afterVersion = data.afterVersion || '1.0.2';
 const median = values => {
   const sorted = [...values].sort((a, b) => a - b); const middle = Math.floor(sorted.length / 2);
   return sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2;
@@ -37,9 +39,9 @@ const format = (value, unit) => `${value.toFixed(unit === '회' ? 0 : 1)} ${unit
 const table = summaries.map(item => `| ${item.name} | ${format(item.before, item.unit)} | ${format(item.after, item.unit)} | ${item.change === null ? '기준값 0' : `${item.change > 0 ? '+' : ''}${item.change.toFixed(1)}%`} |`).join('\n');
 const ranges = summaries.filter(item => item.unit !== '회').map(item => `| ${item.name} | ${item.ranges[0].map(value => value.toFixed(1)).join('~')} | ${item.ranges[1].map(value => value.toFixed(1)).join('~')} |`).join('\n');
 const rawLink = path.relative(path.dirname(destination), input).replaceAll('\\', '/');
-const markdown = `# Screen Mark v1.0.2 성능 비교
+const markdown = `# Screen Mark v${afterVersion} 성능 비교
 
-측정일: ${data.date} (KST). 비교 대상: v1.0.1 공개 소스 ${data.baselineSha} 및 v1.0.2. 이 문서의 수치는 [원시 측정 결과](${rawLink})에서 자동 계산했다.
+측정일: ${data.date} (KST). 비교 대상: v${beforeVersion} 공개 소스 ${data.baselineSha} 및 v${afterVersion}. 이 문서의 수치는 [원시 측정 결과](${rawLink})에서 자동 계산했다.
 
 ## 측정 조건
 

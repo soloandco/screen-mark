@@ -1,6 +1,6 @@
 import { normalizeRect, imagePoint, createHistory, hitTest, translateShape, cropDocument, capturePlan, nextNumber } from './model.js';
 import { renderScene, exportPng, createFrameDraw, createPngCache } from './render.js';
-import { getCapture, putCapture } from './storage.js';
+import { getCapture, putCapture, updateDocument } from './storage.js';
 
 const $ = selector => document.querySelector(selector);
 const canvas = $('#canvas');
@@ -18,6 +18,7 @@ let preview = null;
 let saveQueue = Promise.resolve();
 let pendingSaves = 0;
 let saveFailed = false;
+let saveSession = null;
 let loading = false;
 let pendingTextPoint = null;
 let copyPromise = null;
@@ -25,8 +26,9 @@ const redraw = createFrameDraw(draw);
 const png = createPngCache(() => exportPng(image, history.current));
 
 function status(message, error = false) {
-  $('#status').textContent = message;
-  $('#status').className = error ? 'error' : '';
+  const conflict = saveSession?.conflict;
+  $('#status').textContent = conflict && !error ? `${message} · 다른 탭과 저장 충돌. 파일 저장·복사 후 새로고침하세요.` : message;
+  $('#status').className = error || conflict ? 'error' : '';
 }
 
 function currentCrop() { return history.current.crop || { x: 0, y: 0, width: image.width, height: image.height }; }
@@ -65,21 +67,29 @@ function fit() {
 }
 
 function save() {
-  const record = { ...capture, document: history.current };
+  const session = saveSession;
+  const document = history.current;
   pendingSaves++;
   status('저장 중…');
-  saveQueue = saveQueue.catch(() => {}).then(() => putCapture(record)).then(() => {
-    saveFailed = false;
+  saveQueue = saveQueue.catch(() => {}).then(async () => {
+    if (session.conflict) throw session.conflict;
+    // Read the expected revision when this queued save runs, after the preceding save has finished.
+    session.revision = await updateDocument(session.id, document, session.revision);
+    if (session === saveSession) saveFailed = false;
   }).catch(error => {
-    saveFailed = true;
-    status(`자동 저장 실패: ${error.message}. 파일 저장을 이용해 주세요.`, true);
+    if (error.name === 'SaveConflictError') session.conflict = error;
+    if (session === saveSession) {
+      saveFailed = true;
+      status(`자동 저장 실패: ${error.message}${session.conflict ? '' : '. 파일 저장·복사를 이용해 주세요.'}`, true);
+    }
   }).finally(() => {
     pendingSaves--;
-    if (!pendingSaves && !saveFailed) status('이 브라우저에 저장됨');
+    if (!pendingSaves && !saveFailed && session === saveSession) status('이 브라우저에 저장됨');
   });
 }
 
 function commit(state) {
+  if (loading) return;
   png.invalidate();
   history.commit(state);
   capture.document = history.current;
@@ -88,7 +98,7 @@ function commit(state) {
 }
 
 function undoRedo(action) {
-  if (!image) return;
+  if (!image || loading) return;
   png.invalidate();
   history[action](); selectedId = null; preview = null; gesture = null;
   $('#number-start').value = history.current.nextNumber || 1;
@@ -114,7 +124,7 @@ function addShape(shape) {
 }
 
 canvas.addEventListener('pointerdown', event => {
-  if (!image || event.button !== 0) return;
+  if (!image || loading || event.button !== 0) return;
   event.preventDefault(); canvas.focus({ preventScroll: true });
   const start = point(event);
   if (tool === 'number') {
@@ -218,6 +228,8 @@ async function displayCapture(record) {
   png.invalidate();
   image?.close(); image = bitmap;
   capture = record;
+  saveSession = { id: record.id, revision: record.revision || 0, conflict: null };
+  saveFailed = false;
   history = createHistory({ ...record.document, nextNumber: record.document?.nextNumber || nextNumber(record.document.shapes) });
   selectedId = null; gesture = null; preview = null;
   $('#file-title').textContent = record.title;
@@ -231,10 +243,12 @@ async function displayCapture(record) {
 async function openFile(file) {
   if (!file || loading) return;
   loading = true;
+  gesture = null; preview = null; draw();
   try {
     if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) throw new Error('PNG, JPG, WebP 파일을 선택해 주세요.');
     if (file.size > 40 * 1024 * 1024) throw new Error('40MB 이하 이미지를 선택해 주세요.');
     await saveQueue;
+    if (saveFailed && !window.confirm('자동 저장되지 않은 표시를 버리고 새 이미지를 열까요? 보관하려면 취소하고 파일 저장·복사를 이용하세요.')) return;
     const bitmap = await createImageBitmap(file);
     try { capturePlan(bitmap.width, bitmap.height, bitmap.height); } finally { bitmap.close(); }
     const record = { id: crypto.randomUUID(), blob: file, title: file.name, createdAt: Date.now(), document: { shapes: [], crop: null, nextNumber: 1 } };

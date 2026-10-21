@@ -32,7 +32,7 @@ try {
     channel: 'chromium', headless: true, viewport: { width: 1440, height: 1000 }, acceptDownloads: true,
     args: ['--enable-unsafe-extension-debugging', `--disable-extensions-except=${extension}`, `--load-extension=${extension}`]
   });
-  const worker = context.serviceWorkers()[0] || await context.waitForEvent('serviceworker');
+  let worker = context.serviceWorkers()[0] || await context.waitForEvent('serviceworker');
   const id = new URL(worker.url()).host;
   const editor = await context.newPage();
   await editor.addInitScript(() => {
@@ -208,17 +208,20 @@ try {
   await source.goto(`http://127.0.0.1:${port}/`);
   console.log('CHECK: capture source loaded');
   await source.bringToFront();
-  const tabId = await worker.evaluate(async () => (await chrome.tabs.query({ active: true, lastFocusedWindow: true }))[0].id);
-  console.log('CHECK: capture source tab ID');
   const popup = await context.newPage();
   await popup.goto(`chrome-extension://${id}/popup.html`);
   console.log('CHECK: capture popup loaded');
+  await source.bringToFront();
+  const tabId = await popup.evaluate(async () => (await chrome.tabs.query({ active: true, lastFocusedWindow: true }))[0].id);
+  console.log('CHECK: capture source tab ID');
   assert.deepEqual(await popup.locator('[data-mode]').evaluateAll(buttons => buttons.map(button => button.dataset.mode)), ['visible', 'full']);
   const cdp = await context.browser().newBrowserCDPSession();
   console.log('CHECK: capture CDP connected');
   const { targetInfos } = await cdp.send('Target.getTargets', { filter: [{ type: 'tab', exclude: false }] });
   const tabTarget = targetInfos.find(target => target.url === `http://127.0.0.1:${port}/`);
   assert.ok(tabTarget, JSON.stringify(targetInfos));
+  await popup.evaluate(async () => { try { await chrome.runtime.sendMessage({ type: 'test-wake' }); } catch {} });
+  worker = context.serviceWorkers()[0] || await context.waitForEvent('serviceworker');
   await worker.evaluate(() => {
     globalThis.captureEncodes = 0;
     const encode = OffscreenCanvas.prototype.convertToBlob;

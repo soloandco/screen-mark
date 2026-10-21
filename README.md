@@ -6,7 +6,7 @@ A local Chrome screenshot and annotation extension with numbered labels and clip
 
 ## 설치
 
-1. [최신 릴리스](https://github.com/soloandco/screen-mark/releases/latest)에서 `screen-mark-1.0.2.zip`을 내려받아 압축을 푼다. 소스를 받았다면 저장소 안의 `extension` 폴더를 사용한다.
+1. [최신 릴리스](https://github.com/soloandco/screen-mark/releases/latest)에서 `screen-mark-1.0.3.zip`을 내려받아 압축을 푼다. 소스를 받았다면 저장소 안의 `extension` 폴더를 사용한다.
 2. Chrome 주소창에 `chrome://extensions`를 입력한다.
 3. 오른쪽 위 **개발자 모드**를 켠 뒤 **압축해제된 확장 프로그램을 로드합니다**를 누른다.
 4. 릴리스 ZIP에서는 `screen-mark` 폴더, 소스에서는 `extension` 폴더를 선택한다. `manifest.json`이 들어 있는 폴더가 설치 대상이다.
@@ -71,7 +71,9 @@ A local Chrome screenshot and annotation extension with numbered labels and clip
 
 ## 저장과 권한
 
-이미지를 외부 서버로 보내지 않는다. 원본과 편집 정보는 이 브라우저 프로필의 확장 IndexedDB에 저장된다. 새로고침 시 편집은 복원되며 실행 취소 이력은 초기화된다. 캡처 시 하루가 지난 임시 작업을 삭제한다. 보관할 이미지는 PNG로 저장한다. 확장을 제거하면 내부 저장 데이터도 제거된다.
+이미지를 외부 서버로 보내지 않는다. 원본과 편집 정보는 이 브라우저 프로필의 확장 IndexedDB에 저장된다. 새로고침 시 편집은 복원되며 실행 취소 이력은 초기화된다. 캡처 시 마지막 저장 후 하루가 지난 임시 작업을 삭제한다. 보관할 이미지는 PNG로 저장한다. 확장을 제거하면 내부 저장 데이터도 제거된다.
+
+같은 캡처를 두 편집 탭에서 열면 저장 충돌을 감지한다. 다른 탭의 저장본을 덮어쓰지 않으며, 충돌한 탭의 표시는 현재 화면에 남는다. 해당 탭에서 먼저 **파일 저장** 또는 **클립보드 복사**로 보관한 뒤 새로고침하면 최신 저장본으로 다시 편집할 수 있다. 자동 저장에 실패한 상태에서 새 이미지를 열 때는 미저장 표시를 버릴지 확인한다. 취소하면 현재 작업을 유지한다.
 
 - `activeTab`: 확장 아이콘으로 호출한 현재 탭 캡처.
 - `scripting`: 전체 페이지 스크롤과 고정 요소 중복 방지. 캡처 후 원래 위치와 스타일 복원.
@@ -105,7 +107,9 @@ npm run package
 
 Linux에서 브라우저 시스템 라이브러리도 필요하면 `npx playwright install --with-deps chromium`을 사용한다. 브라우저 검사는 별도 임시 프로필만 사용하며 사용자 Chrome 프로필을 건드리지 않는다. CDP `Extensions.triggerAction`으로 확장 아이콘 호출을 재현해 activeTab을 부여한다. 원본 매니페스트의 권한을 바꾸지 않고 테스트한다. 개발 의존성은 확장 ZIP에 포함되지 않는다.
 
-검증 결과: `docs/verification.md`. ZIP 생성 결과: `dist/screen-mark-1.0.2.zip`.
+검증 결과: `docs/verification.md`. ZIP 생성 결과: `dist/screen-mark-1.0.3.zip`.
+
+`npm run test:stability`는 설치된 Google Chrome의 새 시험용 프로필에서 연속 캡처·다중 편집 탭·저장 충돌·오래된 작업 정리·캡처 중 탭 전환·유휴 worker 재시작을 검사한다. 사용자 프로필은 열지 않는다. [v1.0.3 안정성 검증](docs/stability.md)에 발견한 결함과 검증 범위를 기록한다.
 
 ## 성능 개선과 측정
 

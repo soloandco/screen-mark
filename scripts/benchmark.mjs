@@ -86,6 +86,8 @@ async function measured(cdp, run, stage, operation) {
 const result = {
   date: new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul' }).format(new Date()),
   baselineSha,
+  beforeVersion: JSON.parse(await readFile(path.join(baseline, 'manifest.json'), 'utf8')).version,
+  afterVersion: JSON.parse(await readFile(path.join(after, 'manifest.json'), 'utf8')).version,
   environment: { os: `${os.platform()} ${os.release()}`, arch: os.arch(), cpu: os.cpus()[0].model, playwright: '1.62.1', headless: true, browser: 'Installed Google Chrome', viewport: { width: 1920, height: 1080 }, longImage: { width: 1600, height: 10000, pngBytes: fixtureBytes.length }, trials, order: 'Alternating before/after then after/before; fresh profile for every run; one direct screenshot warmup before measured capture', memoryMetric: reader ? 'Sum of Windows PrivateWorkingSetSize of all isolated Chrome processes, sampled about every 100ms; not extension-only or an exact peak' : 'Unavailable outside Windows', clipboard: 'Actual navigator.clipboard.write image/png; click capture phase to write completion includes synchronous export rendering; no mocked writes' },
   runs: []
 };

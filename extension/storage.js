@@ -21,11 +21,43 @@ async function transaction(mode, operation) {
 }
 
 export const getCapture = id => transaction('readonly', store => store.get(id));
-export const putCapture = capture => transaction('readwrite', store => store.put(capture));
-export const deleteCapture = id => transaction('readwrite', store => store.delete(id));
+export const putCapture = capture => transaction('readwrite', store => store.put({ ...capture, updatedAt: Date.now() }));
 
-export async function cleanOldCaptures() {
-  const captures = await transaction('readonly', store => store.getAll());
+export async function updateDocument(id, document, revision) {
+  const result = await transaction('readwrite', store => {
+    const output = { result: null };
+    const request = store.get(id);
+    request.onsuccess = () => {
+      const current = request.result;
+      if (!current || (current.revision || 0) !== revision) {
+        output.result = { conflict: true };
+        return;
+      }
+      const next = revision + 1;
+      store.put({ ...current, document, revision: next, updatedAt: Date.now() });
+      output.result = { revision: next };
+    };
+    return output;
+  });
+  if (result.conflict) {
+    const error = new Error('다른 탭에서 이 캡처가 변경되었거나 삭제됨. 파일 저장·복사 후 새로고침해 주세요.');
+    error.name = 'SaveConflictError';
+    throw error;
+  }
+  return result.revision;
+}
+
+export function cleanOldCaptures() {
   const cutoff = Date.now() - 24 * 60 * 60 * 1000;
-  for (const capture of captures) if (capture.createdAt < cutoff) await deleteCapture(capture.id);
+  // Scan and delete under the same write lock, so a newer save cannot be deleted from an old snapshot.
+  return transaction('readwrite', store => {
+    const request = store.openCursor();
+    request.onsuccess = () => {
+      const cursor = request.result;
+      if (!cursor) return;
+      if ((cursor.value.updatedAt ?? cursor.value.createdAt) < cutoff) cursor.delete();
+      cursor.continue();
+    };
+    return request;
+  });
 }
