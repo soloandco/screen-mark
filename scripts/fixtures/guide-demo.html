@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>웹사이트 수정 요청 예시</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #f7f5ef; color: #273c35; font: 14px 'Malgun Gothic', sans-serif; }
+    header { display: flex; align-items: center; justify-content: space-between; height: 80px; padding: 0 58px; border-bottom: 1px solid #d9dfd0; }
+    .brand { font: bold 24px Georgia, serif; }
+    nav { display: flex; gap: 26px; font-size: 12px; }
+    main { display: grid; grid-template-columns: 1fr 300px; gap: 40px; padding: 66px 58px 48px; }
+    .eyebrow { color: #7c8e7c; font: 11px monospace; letter-spacing: 2px; }
+    h1 { font-size: 39px; line-height: 1.45; letter-spacing: -2px; font-weight: 500; margin: 21px 0; }
+    p { color: #718174; font-size: 13px; line-height: 1.9; }
+    button { display: block; margin-top: 30px; width: 180px; height: 49px; border: 0; border-radius: 5px; color: white; background: #275d46; font: 13px 'Malgun Gothic', sans-serif; }
+    .panel { background: #e7ecdf; border-radius: 12px; padding: 24px; }
+    .panel-title { font-size: 12px; color: #72806c; margin-bottom: 18px; }
+    .service { background: #fffcf3; border: 1px solid #d4decb; border-radius: 6px; padding: 20px; margin-bottom: 13px; }
+    .service strong { font-size: 16px; font-weight: 500; }
+    .service p { font-size: 11px; margin: 9px 0 0; }
+    footer { margin: 0 58px; border-top: 1px solid #d9dfd0; padding-top: 23px; color: #85917e; font-size: 11px; display: flex; justify-content: space-between; }
+  </style>
+</head>
+<body>
+  <header><span class="brand">Monday Studio</span><nav><span>소개</span><span>서비스</span><span>프로젝트</span></nav></header>
+  <main>
+    <section><span class="eyebrow">SMALL TEAM, CLEAR IDEAS.</span><h1>작은 팀의 웹사이트를<br>명확하게 만듭니다.</h1><p>브랜드 소개부터 서비스 문의까지<br>필요한 내용을 한 화면에 담으세요.</p><button id="contact">프로젝트 문의</button></section>
+    <section class="panel"><div class="panel-title">함께 만드는 화면</div><article class="service" id="service"><strong>서비스 소개</strong><p>우리 팀의 일을 알기 쉽게 소개합니다.</p></article><article class="service"><strong>프로젝트 기록</strong><p>진행한 작업을 한곳에 모읍니다.</p></article><article class="service"><strong>간편한 문의</strong><p>다음 대화를 시작합니다.</p></article></section>
+  </main>
+  <footer><span>설명용으로 만든 가상의 웹사이트</span><span>SCREEN MARK GUIDE</span></footer>
+</body>
+</html>
