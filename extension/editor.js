@@ -1,5 +1,5 @@
 import { normalizeRect, imagePoint, createHistory, hitTest, translateShape, cropDocument, capturePlan, nextNumber } from './model.js';
-import { renderScene, exportPng } from './render.js';
+import { renderScene, exportPng, createFrameDraw, createPngCache } from './render.js';
 import { getCapture, putCapture } from './storage.js';
 
 const $ = selector => document.querySelector(selector);
@@ -20,6 +20,9 @@ let pendingSaves = 0;
 let saveFailed = false;
 let loading = false;
 let pendingTextPoint = null;
+let copyPromise = null;
+const redraw = createFrameDraw(draw);
+const png = createPngCache(() => exportPng(image, history.current));
 
 function status(message, error = false) {
   $('#status').textContent = message;
@@ -35,6 +38,7 @@ function point(event) {
 }
 
 function draw() {
+  redraw.cancel();
   if (!image) return;
   let state = history.current;
   if (gesture?.moving) state = { ...state, shapes: state.shapes.map(shape => shape.id === gesture.moving.id ? translateShape(gesture.moving, gesture.dx || 0, gesture.dy || 0) : shape) };
@@ -50,7 +54,7 @@ function draw() {
   $('#redo').disabled = !history.canRedo;
   $('#delete').disabled = !selectedId;
   $('#download').disabled = false;
-  $('#copy').disabled = false;
+  $('#copy').disabled = !!copyPromise;
 }
 
 function fit() {
@@ -76,6 +80,7 @@ function save() {
 }
 
 function commit(state) {
+  png.invalidate();
   history.commit(state);
   capture.document = history.current;
   $('#number-start').value = state.nextNumber || 1;
@@ -84,6 +89,7 @@ function commit(state) {
 
 function undoRedo(action) {
   if (!image) return;
+  png.invalidate();
   history[action](); selectedId = null; preview = null; gesture = null;
   $('#number-start').value = history.current.nextNumber || 1;
   fit(); save();
@@ -133,7 +139,7 @@ canvas.addEventListener('pointermove', event => {
   const end = point(event);
   if (gesture.moving) { gesture.dx = end.x - gesture.start.x; gesture.dy = end.y - gesture.start.y; }
   else preview = tool === 'arrow' ? { type: tool, x: gesture.start.x, y: gesture.start.y, endX: end.x, endY: end.y, ...style() } : { type: tool, ...normalizeRect(gesture.start, end), ...style() };
-  draw();
+  redraw.request();
 });
 
 canvas.addEventListener('pointerup', event => {
@@ -209,6 +215,7 @@ async function displayCapture(record) {
   const bitmap = await createImageBitmap(record.blob);
   try { capturePlan(bitmap.width, bitmap.height, bitmap.height); }
   catch (error) { bitmap.close(); throw error; }
+  png.invalidate();
   image?.close(); image = bitmap;
   capture = record;
   history = createHistory({ ...record.document, nextNumber: record.document?.nextNumber || nextNumber(record.document.shapes) });
@@ -247,7 +254,7 @@ scroll.addEventListener('drop', event => { event.preventDefault(); scroll.classL
 $('#download').addEventListener('click', async () => {
   if (!image) return;
   try {
-    const blob = await exportPng(image, history.current);
+    const blob = await png.get();
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement('a'); anchor.href = url;
     anchor.download = `${capture.title.replace(/[<>:"/\\|?*\x00-\x1f]/g, '_').replace(/\.(png|jpe?g|webp)$/i, '').slice(0, 100) || 'capture'}-marked.png`;
@@ -256,12 +263,23 @@ $('#download').addEventListener('click', async () => {
   } catch (error) { status(`파일 저장 실패: ${error.message}`, true); }
 });
 
-async function copyImage() {
+function copyImage() {
   if (!image) return;
+  if (copyPromise) return copyPromise;
+  $('#copy').disabled = true;
+  status('클립보드에 복사 중…');
   try {
-    await navigator.clipboard.write([new ClipboardItem({ 'image/png': exportPng(image, history.current) })]);
-    status('이미지가 클립보드에 복사됨. AI 입력창에 Ctrl+V로 붙여 넣으세요.');
-  } catch (error) { status(`복사하지 못함. 파일 저장을 이용해 주세요. (${error.message})`, true); }
+    // Start the write synchronously in the click/shortcut handler to preserve user activation.
+    copyPromise = navigator.clipboard.write([new ClipboardItem({ 'image/png': png.get() })]).then(() => {
+      status('이미지가 클립보드에 복사됨. AI 입력창에 Ctrl+V로 붙여 넣으세요.');
+    }).catch(error => {
+      status(`복사하지 못함. 파일 저장을 이용해 주세요. (${error.message})`, true);
+    }).finally(() => { copyPromise = null; $('#copy').disabled = false; });
+    return copyPromise;
+  } catch (error) {
+    $('#copy').disabled = false;
+    status(`복사하지 못함. 파일 저장을 이용해 주세요. (${error.message})`, true);
+  }
 }
 $('#copy').addEventListener('click', copyImage);
 

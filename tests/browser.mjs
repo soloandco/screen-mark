@@ -35,6 +35,22 @@ try {
   const worker = context.serviceWorkers()[0] || await context.waitForEvent('serviceworker');
   const id = new URL(worker.url()).host;
   const editor = await context.newPage();
+  await editor.addInitScript(() => {
+    window.renderChecks = { encodes: 0, redraws: 0, writes: 0, failCopy: false };
+    const encode = HTMLCanvasElement.prototype.toBlob;
+    HTMLCanvasElement.prototype.toBlob = function (...args) { window.renderChecks.encodes++; return encode.apply(this, args); };
+    const clear = CanvasRenderingContext2D.prototype.clearRect;
+    CanvasRenderingContext2D.prototype.clearRect = function (...args) {
+      if (this.canvas.id === 'canvas') window.renderChecks.redraws++;
+      return clear.apply(this, args);
+    };
+    const write = navigator.clipboard.write.bind(navigator.clipboard);
+    navigator.clipboard.write = (...args) => {
+      window.renderChecks.writes++;
+      if (window.renderChecks.failCopy) return Promise.reject(new Error('simulated clipboard failure'));
+      return write(...args);
+    };
+  });
   const errors = [];
   context.on('weberror', event => errors.push(event.error().message));
   await editor.goto(`chrome-extension://${id}/editor.html`);
@@ -46,6 +62,19 @@ try {
   await editor.locator('#status').filter({ hasText: '저장됨' }).waitFor();
   const bounds = await editor.locator('#canvas').boundingBox();
   const point = (x, y) => [bounds.x + x * bounds.width / 1000, bounds.y + y * bounds.height / 700];
+  await editor.mouse.move(...point(120, 150)); await editor.mouse.down();
+  const batch = await editor.evaluate(async () => {
+    const canvas = document.querySelector('#canvas'); const box = canvas.getBoundingClientRect();
+    const before = window.renderChecks.redraws;
+    for (let i = 0; i < 120; i++) canvas.dispatchEvent(new PointerEvent('pointermove', { clientX: box.x + 100 + i, clientY: box.y + 180, pointerId: 1, bubbles: true }));
+    const immediate = window.renderChecks.redraws - before;
+    await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    return { immediate, frames: window.renderChecks.redraws - before };
+  });
+  assert.equal(batch.immediate, 0); assert.equal(batch.frames, 1);
+  await editor.mouse.up();
+  assert.equal(await editor.locator('#shape-count').textContent(), '표시 0개');
+  checks.push('120 pointer updates share one redraw and pointerup clears the preview');
   await editor.getByRole('button', { name: '사각형', exact: true }).click();
   await drag(editor, ...point(120, 150), ...point(450, 350));
   await editor.getByRole('button', { name: '번호 라벨', exact: true }).click();
@@ -56,6 +85,7 @@ try {
   await editor.getByRole('button', { name: '다시 실행', exact: true }).click();
   assert.equal(await editor.locator('#number-start').inputValue(), '3');
   checks.push('rectangle, sequential number labels, undo and redo');
+  console.log('PASS: annotation and history');
 
   const downloadPromise = editor.waitForEvent('download');
   await editor.locator('#download').click();
@@ -70,6 +100,17 @@ try {
   assert.deepEqual(pixel(491, 146), [228, 77, 53, 255]);
   assert.deepEqual(pixel(800, 600), [255, 253, 245, 255]);
   checks.push('downloaded PNG contains rectangle and both circular labels at original resolution');
+  const encodedBeforeCopy = await editor.evaluate(() => window.renderChecks.encodes);
+  await editor.locator('#copy').click();
+  await editor.locator('#status').filter({ hasText: '클립보드에 복사됨' }).waitFor();
+  assert.equal(await editor.evaluate(() => window.renderChecks.encodes), encodedBeforeCopy, 'copy must reuse the current downloaded PNG');
+  const writesBefore = await editor.evaluate(() => window.renderChecks.writes);
+  await editor.evaluate(() => {
+    for (let i = 0; i < 6; i++) document.dispatchEvent(new KeyboardEvent('keydown', { key: 'c', ctrlKey: true, bubbles: true }));
+  });
+  await editor.locator('#status').filter({ hasText: '클립보드에 복사됨' }).waitFor();
+  assert.equal(await editor.evaluate(() => window.renderChecks.writes), writesBefore + 1, 'repeated shortcuts must share a pending clipboard write');
+  checks.push('PNG result reuse and pending clipboard write deduplication');
 
   await editor.waitForFunction(async () => {
     const { getCapture } = await import('./storage.js');
@@ -107,11 +148,22 @@ try {
   await editor.locator('#copy').click();
   await editor.locator('#status').filter({ hasText: '클립보드에 복사됨' }).waitFor();
   checks.push('arrow, text dialog, mosaic, clipboard image write');
+  const countAfterEdit = await editor.evaluate(() => window.renderChecks.encodes);
+  assert.equal(countAfterEdit, 1, 'edits after reload must produce a new PNG');
   await editor.getByRole('button', { name: '사각형', exact: true }).click();
   await editor.locator('#canvas').focus();
   await editor.keyboard.press('Control+c');
   await editor.locator('#status').filter({ hasText: '클립보드에 복사됨' }).waitFor({ timeout: 3000 });
   checks.push('Ctrl+C copies the annotated image from the canvas');
+  assert.equal(await editor.evaluate(() => window.renderChecks.encodes), countAfterEdit, 'unchanged repeat copy must not encode again');
+  await editor.evaluate(() => { window.renderChecks.failCopy = true; });
+  await editor.locator('#copy').click();
+  await editor.locator('#status.error').waitFor();
+  assert.equal(await editor.locator('#copy').isEnabled(), true);
+  await editor.evaluate(() => { window.renderChecks.failCopy = false; });
+  await editor.locator('#copy').click();
+  await editor.locator('#status').filter({ hasText: '클립보드에 복사됨' }).waitFor();
+  checks.push('clipboard failure unlocks the button and retry succeeds');
 
   await editor.getByRole('button', { name: '자르기', exact: true }).click();
   await drag(editor, ...pt2(80, 100), ...pt2(800, 600));
@@ -122,26 +174,67 @@ try {
   await cropDownload.saveAs(cropPath);
   const croppedInfo = await sharp(cropPath).metadata();
   assert.equal(croppedInfo.width, 720); assert.equal(croppedInfo.height, 500);
+  assert.equal(await editor.evaluate(() => window.renderChecks.encodes), countAfterEdit + 1, 'crop must invalidate the PNG cache');
   checks.push('exported cropped PNG preserves cropped dimensions');
+  await editor.getByRole('button', { name: '실행 취소', exact: true }).click();
+  await editor.locator('#status').filter({ hasText: '저장됨' }).waitFor();
+  await editor.locator('#copy').click();
+  await editor.locator('#status').filter({ hasText: '클립보드에 복사됨' }).waitFor();
+  assert.equal(await editor.evaluate(() => window.renderChecks.encodes), countAfterEdit + 2, 'undo must invalidate the PNG cache');
+  await editor.getByRole('button', { name: '다시 실행', exact: true }).click();
+  await editor.locator('#status').filter({ hasText: '저장됨' }).waitFor();
+  await editor.locator('#copy').click();
+  await editor.locator('#status').filter({ hasText: '클립보드에 복사됨' }).waitFor();
+  assert.equal(await editor.evaluate(() => window.renderChecks.encodes), countAfterEdit + 3, 'redo must invalidate the PNG cache');
+  await editor.locator('#file-input').setInputFiles(fixture);
+  await editor.waitForFunction(() => document.querySelector('#shape-count').textContent === '표시 0개');
+  await editor.locator('#copy').click();
+  await editor.locator('#status').filter({ hasText: '클립보드에 복사됨' }).waitFor();
+  assert.equal(await editor.evaluate(() => window.renderChecks.encodes), countAfterEdit + 4, 'image replacement must invalidate the PNG cache');
+  const freshDownloadPromise = editor.waitForEvent('download');
+  await editor.locator('#download').click();
+  const freshPath = path.join(output, 'fresh-image.png');
+  await (await freshDownloadPromise).saveAs(freshPath);
+  const fresh = await sharp(freshPath).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  assert.equal(fresh.info.width, 1000); assert.equal(fresh.info.height, 700);
+  const freshPixel = (150 * fresh.info.width + 300) * 4;
+  assert.deepEqual([...fresh.data.subarray(freshPixel, freshPixel + 4)], [255, 253, 245, 255], 'new image must not contain a cached rectangle');
+  checks.push('undo, redo and image replacement invalidate export cache; new PNG pixels are clean');
+  console.log('PASS: exports, cache invalidation and clipboard recovery');
 
   // Trigger the real extension action via CDP to grant activeTab, without changing the shipped manifest.
   const source = await context.newPage();
+  console.log('CHECK: capture setup');
   await source.goto(`http://127.0.0.1:${port}/`);
+  console.log('CHECK: capture source loaded');
   await source.bringToFront();
   const tabId = await worker.evaluate(async () => (await chrome.tabs.query({ active: true, lastFocusedWindow: true }))[0].id);
+  console.log('CHECK: capture source tab ID');
   const popup = await context.newPage();
   await popup.goto(`chrome-extension://${id}/popup.html`);
+  console.log('CHECK: capture popup loaded');
   assert.deepEqual(await popup.locator('[data-mode]').evaluateAll(buttons => buttons.map(button => button.dataset.mode)), ['visible', 'full']);
   const cdp = await context.browser().newBrowserCDPSession();
+  console.log('CHECK: capture CDP connected');
   const { targetInfos } = await cdp.send('Target.getTargets', { filter: [{ type: 'tab', exclude: false }] });
   const tabTarget = targetInfos.find(target => target.url === `http://127.0.0.1:${port}/`);
   assert.ok(tabTarget, JSON.stringify(targetInfos));
+  await worker.evaluate(() => {
+    globalThis.captureEncodes = 0;
+    const encode = OffscreenCanvas.prototype.convertToBlob;
+    OffscreenCanvas.prototype.convertToBlob = function (...args) {
+      globalThis.captureEncodes++; return encode.apply(this, args);
+    };
+  });
   for (const mode of ['visible', 'full']) {
+    console.log(`CHECK: ${mode} capture`);
     await source.bringToFront();
     await cdp.send('Extensions.triggerAction', { id, targetId: tabTarget.targetId });
     await source.evaluate(() => window.scrollTo({ top: 280, behavior: 'instant' }));
     const response = await popup.evaluate(async ({ mode, tabId }) => chrome.runtime.sendMessage({ type: 'capture', mode, tabId }), { mode, tabId });
     assert.equal(response.ok, true, response.error);
+    console.log(`CHECK: ${mode} reply`);
+    if (mode === 'visible') assert.equal(await worker.evaluate(() => globalThis.captureEncodes), 0, 'visible PNG must not be encoded again');
     const capture = await popup.evaluate(async id => {
       const { getCapture } = await import('./storage.js');
       const record = await getCapture(id);
@@ -168,6 +261,9 @@ try {
   assert.deepEqual(errors, []);
   await writeFile(path.join(output, 'verification.json'), JSON.stringify({ checks, errors, capturePermission: 'Unmodified production manifest. CDP Extensions.triggerAction granted activeTab in isolated Chromium.' }, null, 2));
   console.log(JSON.stringify({ ok: true, checks, errors }, null, 2));
+} catch (error) {
+  console.error(error);
+  throw error;
 } finally {
   if (context) await context.close();
   await new Promise(resolve => server.close(resolve));

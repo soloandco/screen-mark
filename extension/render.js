@@ -64,5 +64,48 @@ export function renderScene(canvas, image, state, options = {}) {
 export function exportPng(image, state) {
   const output = document.createElement('canvas');
   renderScene(output, image, state);
-  return new Promise((resolve, reject) => output.toBlob(blob => blob ? resolve(blob) : reject(new Error('PNG를 만들지 못함. 이미지 크기를 줄여 주세요.')), 'image/png'));
+  return new Promise((resolve, reject) => {
+    output.toBlob(blob => {
+      output.width = 0; output.height = 0;
+      if (blob) resolve(blob);
+      else reject(new Error('PNG를 만들지 못함. 이미지 크기를 줄여 주세요.'));
+    }, 'image/png');
+  });
+}
+
+export function createFrameDraw(draw, request = requestAnimationFrame, cancel = cancelAnimationFrame) {
+  let frame = null;
+  return {
+    request() {
+      if (frame !== null) return;
+      frame = request(() => { frame = null; draw(); });
+    },
+    cancel() {
+      if (frame !== null) cancel(frame);
+      frame = null;
+    }
+  };
+}
+
+// Keep at most one small result; edits detach pending work so stale results cannot return to the cache.
+export function createPngCache(encode, maxBytes = 16 * 1024 * 1024) {
+  let entry = null;
+  return {
+    invalidate() { entry = null; },
+    get() {
+      if (entry) return entry.promise;
+      const current = {};
+      try {
+        current.promise = Promise.resolve(encode()).then(blob => {
+          if (entry === current && blob.size > maxBytes) entry = null;
+          return blob;
+        }, error => {
+          if (entry === current) entry = null;
+          throw error;
+        });
+        entry = current;
+        return current.promise;
+      } catch (error) { return Promise.reject(error); }
+    }
+  };
 }

@@ -6,12 +6,14 @@ A local Chrome screenshot and annotation extension with numbered labels and clip
 
 ## 설치
 
-1. [최신 릴리스](https://github.com/soloandco/screen-mark/releases/latest)에서 `screen-mark-1.0.1.zip`을 내려받아 압축을 푼다. 소스를 받았다면 저장소 안의 `extension` 폴더를 사용한다.
+1. [최신 릴리스](https://github.com/soloandco/screen-mark/releases/latest)에서 `screen-mark-1.0.2.zip`을 내려받아 압축을 푼다. 소스를 받았다면 저장소 안의 `extension` 폴더를 사용한다.
 2. Chrome 주소창에 `chrome://extensions`를 입력한다.
 3. 오른쪽 위 **개발자 모드**를 켠 뒤 **압축해제된 확장 프로그램을 로드합니다**를 누른다.
 4. 릴리스 ZIP에서는 `screen-mark` 폴더, 소스에서는 `extension` 폴더를 선택한다. `manifest.json`이 들어 있는 폴더가 설치 대상이다.
 
 도구 모음의 퍼즐 아이콘에서 Screen Mark를 고정하면 편하다. ZIP으로 받았다면 먼저 압축을 풀고 그 안의 `screen-mark` 폴더(manifest.json이 들어 있는 폴더)를 선택한다.
+
+기존 설치를 업데이트할 때는 열려 있는 편집 작업을 PNG로 보관하고, 설치한 폴더의 파일을 새 ZIP 내용으로 교체한 뒤 `chrome://extensions`에서 Screen Mark의 새로고침 버튼을 누른다. 소스를 설치했다면 최신 소스를 받은 뒤 같은 버튼을 누른다. 기존 확장 항목을 삭제할 필요는 없다.
 
 ![Chrome 확장 관리 화면. 오른쪽 위 개발자 모드를 켜고 왼쪽 위 압축해제된 확장 프로그램 로드를 누른다.](docs/images/install-extension.png)
 
@@ -103,7 +105,17 @@ npm run package
 
 Linux에서 브라우저 시스템 라이브러리도 필요하면 `npx playwright install --with-deps chromium`을 사용한다. 브라우저 검사는 별도 임시 프로필만 사용하며 사용자 Chrome 프로필을 건드리지 않는다. CDP `Extensions.triggerAction`으로 확장 아이콘 호출을 재현해 activeTab을 부여한다. 원본 매니페스트의 권한을 바꾸지 않고 테스트한다. 개발 의존성은 확장 ZIP에 포함되지 않는다.
 
-검증 결과: `docs/verification.md`. ZIP 생성 결과: `dist/screen-mark-1.0.1.zip`.
+검증 결과: `docs/verification.md`. ZIP 생성 결과: `dist/screen-mark-1.0.2.zip`.
+
+## 성능 개선과 측정
+
+v1.0.2는 현재 화면 캡처의 중복 PNG 변환을 제거하고, 드래그 중 그리기를 화면 프레임 단위로 묶는다. 변경 없는 PNG 내보내기 결과를 한 개만 재사용하며, 편집·실행 취소·다시 실행·이미지 교체 시 즉시 무효화한다. 캐시는 16MiB 이하의 PNG만 유지하며, 연속 복사 요청은 진행 중인 작업을 공유한다.
+
+[변경 전후 실측 보고서](docs/performance.md)에 캡처·편집 화면 표시·드래그·실제 클립보드 복사·메모리를 비교했다. 측정일은 2026-10-21이며, 설치된 Chrome의 별도 headless 프로필에서 버전별 다섯 번 측정한 중앙값과 변동 범위를 공개한다. 메모리는 시험용 Chrome 전체의 관측값이며 확장 단독이나 다른 제품과의 비교 수치가 아니다. [원시 결과](docs/benchmarks/2026-10-21.json)도 포함한다.
+
+전후 측정은 `npm run benchmark`로 재현한다. 설치된 Google Chrome과 새 임시 프로필을 사용하며, Windows 메모리 측정에는 Python 3가 필요하다. 기본값은 이전 공개 버전 `d5aed23`과 현재 `extension/`을 각각 다섯 번 번갈아 실행하는 것이다. 원시 결과는 `test-results/performance/raw.json`에 저장된다. `BENCH_BASELINE`, `BENCH_TRIALS`, `BENCH_OUTPUT`, `BENCH_PYTHON` 환경변수로 기준 커밋·반복 수·출력 위치·Python 실행 파일을 지정할 수 있다.
+
+`node scripts/performance-report.mjs docs/benchmarks/2026-10-21.json docs/performance.md`로 공개 원시 결과에서 보고서 수치를 다시 계산한다. `node tests/render-mutation.mjs`는 임시 사본의 프레임 묶기·PNG 재사용·무효화를 각각 무력화해 회귀 테스트가 실패하는지 확인한다.
 
 기여 방법은 [CONTRIBUTING.md](CONTRIBUTING.md)를 참고한다.
 

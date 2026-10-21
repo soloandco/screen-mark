@@ -1,0 +1,4586 @@
+{
+  "date": "2026-10-21",
+  "baselineSha": "d5aed23ec78f4c2d20c6260b345ad36a59cc6234",
+  "environment": {
+    "os": "win32 10.0.26200",
+    "arch": "x64",
+    "cpu": "AMD Ryzen 7 4700U with Radeon Graphics         ",
+    "playwright": "1.62.1",
+    "headless": true,
+    "browser": "Installed Google Chrome",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "longImage": {
+      "width": 1600,
+      "height": 10000,
+      "pngBytes": 735744
+    },
+    "trials": 5,
+    "order": "Alternating before/after then after/before; fresh profile for every run; one direct screenshot warmup before measured capture",
+    "memoryMetric": "Sum of Windows PrivateWorkingSetSize of all isolated Chrome processes, sampled about every 100ms; not extension-only or an exact peak",
+    "clipboard": "Actual navigator.clipboard.write image/png; click capture phase to write completion includes synchronous export rendering; no mocked writes",
+    "chrome": {
+      "protocolVersion": "1.3",
+      "product": "Chrome/155.0.8059.86",
+      "revision": "@804d6b05f089b27af8342622a36558c49401a1d4",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+      "jsVersion": "15.5.35.25"
+    }
+  },
+  "runs": [
+    {
+      "label": "before",
+      "trial": 1,
+      "memory": [
+        {
+          "stage": "visible-capture",
+          "at": 1792565738943,
+          "processCount": 10,
+          "unavailable": [],
+          "privateWorkingSetBytes": 158310400
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565739065,
+          "processCount": 10,
+          "unavailable": [],
+          "privateWorkingSetBytes": 173666304
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565739187,
+          "processCount": 10,
+          "unavailable": [],
+          "privateWorkingSetBytes": 165736448
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565739294,
+          "processCount": 10,
+          "unavailable": [],
+          "privateWorkingSetBytes": 165801984
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565739408,
+          "processCount": 10,
+          "unavailable": [],
+          "privateWorkingSetBytes": 165801984
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565739521,
+          "processCount": 10,
+          "unavailable": [],
+          "privateWorkingSetBytes": 166227968
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565739641,
+          "processCount": 10,
+          "unavailable": [],
+          "privateWorkingSetBytes": 166293504
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565739747,
+          "processCount": 10,
+          "unavailable": [],
+          "privateWorkingSetBytes": 166940672
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565739856,
+          "processCount": 10,
+          "unavailable": [],
+          "privateWorkingSetBytes": 167006208
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565739984,
+          "processCount": 10,
+          "unavailable": [],
+          "privateWorkingSetBytes": 173207552
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565740089,
+          "processCount": 10,
+          "unavailable": [],
+          "privateWorkingSetBytes": 188899328
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565740201,
+          "processCount": 10,
+          "unavailable": [],
+          "privateWorkingSetBytes": 193867776
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565740310,
+          "processCount": 10,
+          "unavailable": [],
+          "privateWorkingSetBytes": 184139776
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565740459,
+          "processCount": 10,
+          "unavailable": [],
+          "privateWorkingSetBytes": 190484480
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565740642,
+          "processCount": 10,
+          "unavailable": [],
+          "privateWorkingSetBytes": 196395008
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565740782,
+          "processCount": 10,
+          "unavailable": [],
+          "privateWorkingSetBytes": 199843840
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565740892,
+          "processCount": 10,
+          "unavailable": [],
+          "privateWorkingSetBytes": 210112512
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565741006,
+          "processCount": 10,
+          "unavailable": [],
+          "privateWorkingSetBytes": 210030592
+        },
+        {
+          "stage": "long-image-idle",
+          "at": 1792565742060,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 398422016
+        },
+        {
+          "stage": "drag",
+          "at": 1792565742108,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 398622720
+        },
+        {
+          "stage": "drag",
+          "at": 1792565742224,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 466366464
+        },
+        {
+          "stage": "drag",
+          "at": 1792565742344,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 601776128
+        },
+        {
+          "stage": "drag",
+          "at": 1792565742457,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 604160000
+        },
+        {
+          "stage": "drag",
+          "at": 1792565742580,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 606752768
+        },
+        {
+          "stage": "drag",
+          "at": 1792565742704,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 610615296
+        },
+        {
+          "stage": "drag",
+          "at": 1792565742826,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 618131456
+        },
+        {
+          "stage": "drag",
+          "at": 1792565742960,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 628711424
+        },
+        {
+          "stage": "drag",
+          "at": 1792565743083,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 635379712
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565743438,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 636895232
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565743549,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 768450560
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565743657,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 834072576
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565743765,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 817438720
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565743880,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 837742592
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565743990,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 836739072
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565744115,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 839839744
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565744219,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 979292160
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565744330,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 987172864
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565744443,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1036476416
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565744550,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1035431936
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565744662,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 971759616
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565744771,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1103220736
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565744879,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1167241216
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565744992,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1168228352
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565745107,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1167220736
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565745233,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1104400384
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565745354,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1132285952
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565745461,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1169489920
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565745573,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1172312064
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565745681,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1171312640
+        },
+        {
+          "stage": "after-copy-idle",
+          "at": 1792565746105,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1107296256
+        }
+      ],
+      "captureRequestMs": 1466.199999999255,
+      "editorReadyMs": 2134.7906000000003,
+      "drag": {
+        "handlerMs": 93.69999999925494,
+        "elapsedMs": 999.5999999977648,
+        "redraws": 120,
+        "frameGapsMs": [
+          2,
+          16.899999998509884,
+          16.600000001490116,
+          29.799999997019768,
+          5,
+          26.400000002235174,
+          52.80000000074506,
+          34.29999999701977,
+          52,
+          30.600000001490116,
+          33.600000001490116,
+          33.19999999925494,
+          33.19999999925494,
+          30.699999999254942,
+          33,
+          33.100000001490116,
+          33.19999999925494,
+          30.800000000745058,
+          33.599999997764826,
+          33.70000000298023,
+          33.5,
+          30.5,
+          34.29999999701977,
+          35.5,
+          34.5,
+          31.600000001490116,
+          34.5,
+          34.69999999925494,
+          34.900000002235174,
+          32.19999999925494
+        ],
+        "moves": 120,
+        "frames": 30,
+        "mainThreadTaskMs": 153.52500000000003
+      },
+      "firstCopy": {
+        "apiMs": 397.19999999925494,
+        "copyMs": 515,
+        "actionMs": 634.5386999999973,
+        "encodes": 1
+      },
+      "repeatCopies": [
+        {
+          "apiMs": 324.4000000022352,
+          "copyMs": 426.80000000074506,
+          "actionMs": 530.7802000000011,
+          "encodes": 1
+        },
+        {
+          "apiMs": 323.70000000298023,
+          "copyMs": 430.30000000074506,
+          "actionMs": 542.3724000000002,
+          "encodes": 1
+        },
+        {
+          "apiMs": 335.3999999985099,
+          "copyMs": 425,
+          "actionMs": 543.5036000000036,
+          "encodes": 1
+        }
+      ],
+      "ok": true,
+      "cleanup": "Isolated benchmark browser needed forced shutdown after measurements"
+    },
+    {
+      "label": "after",
+      "trial": 1,
+      "memory": [
+        {
+          "stage": "visible-capture",
+          "at": 1792565766585,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 184520704
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565766703,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 201670656
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565766815,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 201867264
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565766923,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 201330688
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565767032,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 193273856
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565767142,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 193290240
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565767248,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 193695744
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565767359,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 195153920
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565767467,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 196227072
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565767574,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 196874240
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565767689,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 197005312
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565767796,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 193318912
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565767904,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 193335296
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565768016,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 194502656
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565768139,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 197554176
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565768262,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 200728576
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565768375,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 211935232
+        },
+        {
+          "stage": "long-image-idle",
+          "at": 1792565769186,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 407584768
+        },
+        {
+          "stage": "drag",
+          "at": 1792565769231,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 407838720
+        },
+        {
+          "stage": "drag",
+          "at": 1792565769344,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 476385280
+        },
+        {
+          "stage": "drag",
+          "at": 1792565769453,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 478904320
+        },
+        {
+          "stage": "drag",
+          "at": 1792565769567,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 487116800
+        },
+        {
+          "stage": "drag",
+          "at": 1792565769686,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 491057152
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565769997,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 505151488
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565770113,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 636792832
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565770223,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 702599168
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565770337,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 662704128
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565770448,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 706273280
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565770574,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 706367488
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565770693,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 705388544
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565770804,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 705421312
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565770915,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 770473984
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565771026,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 754262016
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565771136,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 705466368
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565771249,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 770498560
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565771356,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 769490944
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565771473,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 705495040
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565771597,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 770514944
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565771704,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 770514944
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565771825,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 742260736
+        },
+        {
+          "stage": "after-copy-idle",
+          "at": 1792565772256,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 697987072
+        }
+      ],
+      "captureRequestMs": 1394,
+      "editorReadyMs": 1887.5751999999993,
+      "drag": {
+        "handlerMs": 19.99999999627471,
+        "elapsedMs": 524.6000000014901,
+        "redraws": 30,
+        "frameGapsMs": [
+          7.600000001490116,
+          17.399999998509884,
+          16.300000000745058,
+          16.699999999254942,
+          16.900000002235174,
+          16.5,
+          17.300000000745058,
+          16.099999997764826,
+          16.5,
+          16.800000000745058,
+          16.600000001490116,
+          16.699999999254942,
+          16.699999999254942,
+          16.600000001490116,
+          16.699999999254942,
+          16.699999999254942,
+          16.600000001490116,
+          16.899999998509884,
+          16.699999999254942,
+          16.699999999254942,
+          16.600000001490116,
+          16.800000000745058,
+          16.5,
+          16.899999998509884,
+          16.600000001490116,
+          16.699999999254942,
+          16.5,
+          17,
+          16.5,
+          16.600000001490116
+        ],
+        "moves": 120,
+        "frames": 30,
+        "mainThreadTaskMs": 69.44500000000001
+      },
+      "firstCopy": {
+        "apiMs": 526.2000000029802,
+        "copyMs": 651.8999999985099,
+        "actionMs": 774.8050000000003,
+        "encodes": 1
+      },
+      "repeatCopies": [
+        {
+          "apiMs": 200.80000000074506,
+          "copyMs": 200.80000000074506,
+          "actionMs": 292.50650000000314,
+          "encodes": 0
+        },
+        {
+          "apiMs": 201,
+          "copyMs": 201.09999999776483,
+          "actionMs": 309.18930000001274,
+          "encodes": 0
+        },
+        {
+          "apiMs": 263.30000000074506,
+          "copyMs": 263.4000000022352,
+          "actionMs": 365.799199999994,
+          "encodes": 0
+        }
+      ],
+      "ok": true,
+      "cleanup": "Isolated benchmark browser needed forced shutdown after measurements"
+    },
+    {
+      "label": "after",
+      "trial": 2,
+      "memory": [
+        {
+          "stage": "visible-capture",
+          "at": 1792565795587,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 156528640
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565795694,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 156930048
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565795802,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 174960640
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565795912,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 175169536
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565796021,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 175669248
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565796130,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 176136192
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565796240,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 176377856
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565796353,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 177156096
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565796459,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 177426432
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565796572,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 174305280
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565796694,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 166883328
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565796807,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 173432832
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565796923,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 184643584
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565797052,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 201510912
+        },
+        {
+          "stage": "long-image-idle",
+          "at": 1792565798087,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 395251712
+        },
+        {
+          "stage": "drag",
+          "at": 1792565798143,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 395444224
+        },
+        {
+          "stage": "drag",
+          "at": 1792565798264,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 463622144
+        },
+        {
+          "stage": "drag",
+          "at": 1792565798383,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 467636224
+        },
+        {
+          "stage": "drag",
+          "at": 1792565798494,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 476356608
+        },
+        {
+          "stage": "drag",
+          "at": 1792565798610,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 480608256
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565798904,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 504561664
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565799013,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 636125184
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565799131,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 702033920
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565799246,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 705814528
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565799403,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 709484544
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565799531,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 715788288
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565799644,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 787922944
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565799748,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 779259904
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565799860,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 723009536
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565799970,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 788078592
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565800079,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 787070976
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565800186,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 723079168
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565800299,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 723083264
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565800407,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 788197376
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565800515,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 788152320
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565800663,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 720351232
+        },
+        {
+          "stage": "after-copy-idle",
+          "at": 1792565801092,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 715218944
+        }
+      ],
+      "captureRequestMs": 940.8000000007451,
+      "editorReadyMs": 1495.5757999999914,
+      "drag": {
+        "handlerMs": 18.399999998509884,
+        "elapsedMs": 523.8999999985099,
+        "redraws": 30,
+        "frameGapsMs": [
+          7,
+          17.199999999254942,
+          17.100000001490116,
+          16,
+          17.399999998509884,
+          16,
+          17.199999999254942,
+          16.100000001490116,
+          16.699999999254942,
+          17,
+          16.5,
+          16.5,
+          16.600000001490116,
+          16.699999999254942,
+          16.699999999254942,
+          16.600000001490116,
+          16.799999997019768,
+          16.600000001490116,
+          16.699999999254942,
+          16.699999999254942,
+          16.800000000745058,
+          16.5,
+          16.699999999254942,
+          16.700000002980232,
+          16.899999998509884,
+          17.300000000745058,
+          16.300000000745058,
+          16.5,
+          16.5,
+          16.5
+        ],
+        "moves": 120,
+        "frames": 30,
+        "mainThreadTaskMs": 60.163000000000004
+      },
+      "firstCopy": {
+        "apiMs": 268.8999999985099,
+        "copyMs": 392.0999999977648,
+        "actionMs": 502.4128999999957,
+        "encodes": 1
+      },
+      "repeatCopies": [
+        {
+          "apiMs": 197.10000000149012,
+          "copyMs": 197.20000000298023,
+          "actionMs": 301.45410000000265,
+          "encodes": 0
+        },
+        {
+          "apiMs": 242.80000000074506,
+          "copyMs": 242.80000000074506,
+          "actionMs": 323.61889999998675,
+          "encodes": 0
+        },
+        {
+          "apiMs": 264.30000000074506,
+          "copyMs": 264.5,
+          "actionMs": 369.9704000000056,
+          "encodes": 0
+        }
+      ],
+      "ok": true,
+      "cleanup": "Isolated benchmark browser needed forced shutdown after measurements"
+    },
+    {
+      "label": "before",
+      "trial": 2,
+      "memory": [
+        {
+          "stage": "visible-capture",
+          "at": 1792565825112,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 189071360
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565825222,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 208478208
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565825332,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 209797120
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565825444,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 209891328
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565825555,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 210558976
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565825663,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 211943424
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565825771,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 213032960
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565825887,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 199802880
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565826007,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 219947008
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565826116,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 233746432
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565826227,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 224161792
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565826453,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 235106304
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565826583,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 248279040
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565826704,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 256430080
+        },
+        {
+          "stage": "long-image-idle",
+          "at": 1792565827610,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 441974784
+        },
+        {
+          "stage": "drag",
+          "at": 1792565827900,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 442699776
+        },
+        {
+          "stage": "drag",
+          "at": 1792565828034,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 510361600
+        },
+        {
+          "stage": "drag",
+          "at": 1792565828172,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 646025216
+        },
+        {
+          "stage": "drag",
+          "at": 1792565828311,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 650764288
+        },
+        {
+          "stage": "drag",
+          "at": 1792565828442,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 663621632
+        },
+        {
+          "stage": "drag",
+          "at": 1792565828570,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 692854784
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565828954,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 710103040
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565829061,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 841682944
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565829172,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 906297344
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565829282,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 874323968
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565829393,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 911147008
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565829514,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 910606336
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565829664,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 908197888
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565829774,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 906702848
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565829881,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 974192640
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565829987,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1037279232
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565830102,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1039319040
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565830207,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1038315520
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565830324,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 974401536
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565830442,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 974438400
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565830554,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1119092736
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565830665,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1161334784
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565830779,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1170780160
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565830887,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1170784256
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565831024,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1148772352
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565831137,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1103630336
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565831245,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1131065344
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565831367,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1113972736
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565831482,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1170911232
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565831594,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1170882560
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565831750,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1148928000
+        },
+        {
+          "stage": "after-copy-idle",
+          "at": 1792565832170,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1105883136
+        }
+      ],
+      "captureRequestMs": 1202.8999999985099,
+      "editorReadyMs": 1659.37049999999,
+      "drag": {
+        "handlerMs": 117.40000001341105,
+        "elapsedMs": 659,
+        "redraws": 120,
+        "frameGapsMs": [
+          0.29999999701976776,
+          16.600000001490116,
+          17.899999998509884,
+          23.100000001490116,
+          22,
+          6.5,
+          38.30000000074506,
+          22.899999998509884,
+          19.600000001490116,
+          45.80000000074506,
+          21.199999999254942,
+          20.699999999254942,
+          20.899999998509884,
+          19.300000000745058,
+          20.5,
+          19.199999999254942,
+          20,
+          19.800000000745058,
+          19.100000001490116,
+          20.199999999254942,
+          19.300000000745058,
+          20.099999997764826,
+          19.600000001490116,
+          20.300000000745058,
+          21.699999999254942,
+          18.399999998509884,
+          22.100000001490116,
+          20.399999998509884,
+          21.100000001490116,
+          21.399999998509884
+        ],
+        "moves": 120,
+        "frames": 30,
+        "mainThreadTaskMs": 180.196
+      },
+      "firstCopy": {
+        "apiMs": 474,
+        "copyMs": 601.0999999977648,
+        "actionMs": 712.275999999998,
+        "encodes": 1
+      },
+      "repeatCopies": [
+        {
+          "apiMs": 299.3999999985099,
+          "copyMs": 447.8999999985099,
+          "actionMs": 551.5218000000023,
+          "encodes": 1
+        },
+        {
+          "apiMs": 384.9000000022352,
+          "copyMs": 492.19999999925494,
+          "actionMs": 589.0204999999987,
+          "encodes": 1
+        },
+        {
+          "apiMs": 425.5999999977648,
+          "copyMs": 510,
+          "actionMs": 622.8567000000039,
+          "encodes": 1
+        }
+      ],
+      "ok": true,
+      "cleanup": "Isolated benchmark browser needed forced shutdown after measurements"
+    },
+    {
+      "label": "before",
+      "trial": 3,
+      "memory": [
+        {
+          "stage": "visible-capture",
+          "at": 1792565867812,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 175693824
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565867929,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 175697920
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565868051,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 175697920
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565868160,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 175775744
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565868273,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 175775744
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565868382,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 176091136
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565868492,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 176091136
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565868596,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 176074752
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565868709,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 176074752
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565868818,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 176074752
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565868929,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 176074752
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565869036,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 176074752
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565869148,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 176271360
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565869254,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 176271360
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565869368,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 195690496
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565869486,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 202829824
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565869608,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 202891264
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565869725,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 203141120
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565869843,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 203157504
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565869958,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 203468800
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565870067,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 203603968
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565870177,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 204705792
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565870286,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 198017024
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565870398,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 201531392
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565870510,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 204992512
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565870614,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 207925248
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565870721,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 214851584
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565870830,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 209809408
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565870956,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 209887232
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565871074,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 214155264
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565871195,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 227692544
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565871306,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 226455552
+        },
+        {
+          "stage": "long-image-idle",
+          "at": 1792565873105,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 414425088
+        },
+        {
+          "stage": "drag",
+          "at": 1792565873236,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 414552064
+        },
+        {
+          "stage": "drag",
+          "at": 1792565873406,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 551215104
+        },
+        {
+          "stage": "drag",
+          "at": 1792565873581,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 622161920
+        },
+        {
+          "stage": "drag",
+          "at": 1792565873746,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 633786368
+        },
+        {
+          "stage": "drag",
+          "at": 1792565873935,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 651022336
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565874364,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 656752640
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565874481,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 789184512
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565874592,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 856117248
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565874725,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 809254912
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565874842,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 824864768
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565874961,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 830283776
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565875075,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 855441408
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565875204,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 855449600
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565875398,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 854499328
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565875515,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 854511616
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565875626,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 963411968
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565875764,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1048969216
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565875889,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 993218560
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565876008,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1051041792
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565876175,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1039642624
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565876289,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 986116096
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565876436,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 986116096
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565876596,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1116463104
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565876721,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1055129600
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565876857,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1075974144
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565876978,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1085939712
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565877113,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1092988928
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565877226,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1101959168
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565877430,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1101946880
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565877547,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1101946880
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565877688,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1090465792
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565877807,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1036935168
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565877931,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1036992512
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565878042,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1101058048
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565878159,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1041301504
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565878273,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1052053504
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565878404,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1062014976
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565878522,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1076113408
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565878628,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1086402560
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565878739,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1096957952
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565878849,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1101979648
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565879008,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1052999680
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565879116,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1036980224
+        },
+        {
+          "stage": "after-copy-idle",
+          "at": 1792565879552,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1036963840
+        }
+      ],
+      "captureRequestMs": 1622.800000000745,
+      "editorReadyMs": 3524.5117999999784,
+      "drag": {
+        "handlerMs": 169.10000001639128,
+        "elapsedMs": 666,
+        "redraws": 120,
+        "frameGapsMs": [
+          0.29999999701976776,
+          14,
+          15.700000002980232,
+          18.799999997019768,
+          22.100000001490116,
+          34.100000001490116,
+          22.799999997019768,
+          8.200000002980232,
+          12.299999997019768,
+          35.100000001490116,
+          19.5,
+          42.399999998509884,
+          21.600000001490116,
+          19.800000000745058,
+          20.699999999254942,
+          20.600000001490116,
+          30.899999998509884,
+          24.399999998509884,
+          20,
+          19.200000002980232,
+          21.799999997019768,
+          19.300000000745058,
+          19.699999999254942,
+          20.300000000745058,
+          20.5,
+          20.600000001490116,
+          21.899999998509884,
+          19.800000000745058,
+          20,
+          19.600000001490116
+        ],
+        "moves": 120,
+        "frames": 30,
+        "mainThreadTaskMs": 259.52000000000004
+      },
+      "firstCopy": {
+        "apiMs": 808.1000000014901,
+        "copyMs": 909.6999999992549,
+        "actionMs": 1041.5801999999967,
+        "encodes": 1
+      },
+      "repeatCopies": [
+        {
+          "apiMs": 358.5,
+          "copyMs": 521.4000000022352,
+          "actionMs": 667.5414999999921,
+          "encodes": 1
+        },
+        {
+          "apiMs": 1085.300000000745,
+          "copyMs": 1188.5,
+          "actionMs": 1407.2116999999853,
+          "encodes": 1
+        },
+        {
+          "apiMs": 1045.0999999977648,
+          "copyMs": 1134.2999999970198,
+          "actionMs": 1323.3703000000096,
+          "encodes": 1
+        }
+      ],
+      "ok": true,
+      "cleanup": "Isolated benchmark browser needed forced shutdown after measurements"
+    },
+    {
+      "label": "after",
+      "trial": 3,
+      "memory": [
+        {
+          "stage": "visible-capture",
+          "at": 1792565908402,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 146747392
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565908528,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 146845696
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565908640,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 146845696
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565908762,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 145956864
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565908874,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 145956864
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565908996,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 145965056
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565909105,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 145965056
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565909217,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 171368448
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565909339,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 171622400
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565909452,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 171798528
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565909582,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 171884544
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565910998,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 166023168
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565911116,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 166023168
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565911239,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 166023168
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565911348,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 166023168
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565911452,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 166662144
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565911571,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 164749312
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565911714,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 164749312
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565911840,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 164753408
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565911949,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 164753408
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565912078,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 164765696
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565912185,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 164765696
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565912297,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 164765696
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565912410,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 165273600
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565912545,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 161701888
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565912667,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 163237888
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565912810,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 164003840
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565912920,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 167747584
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565913038,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 167755776
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565913162,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 168239104
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565913269,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 168501248
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565913397,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 168603648
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565913518,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 169828352
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565913645,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 185413632
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565913763,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 176459776
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565913912,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 177569792
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565914026,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 182169600
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565914170,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 186585088
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565914303,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 211681280
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792565914424,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 221663232
+        },
+        {
+          "stage": "long-image-idle",
+          "at": 1792565915438,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 405319680
+        },
+        {
+          "stage": "drag",
+          "at": 1792565915466,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 405393408
+        },
+        {
+          "stage": "drag",
+          "at": 1792565915578,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 473423872
+        },
+        {
+          "stage": "drag",
+          "at": 1792565915686,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 476069888
+        },
+        {
+          "stage": "drag",
+          "at": 1792565915807,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 484253696
+        },
+        {
+          "stage": "drag",
+          "at": 1792565915938,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 505405440
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565916284,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 530710528
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565916396,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 662302720
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565916524,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 728813568
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565916640,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 713973760
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565916758,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 732172288
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565916889,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 732172288
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565917007,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 732172288
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792565917159,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 731332608
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565917273,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 731336704
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565917381,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 768323584
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565917489,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 796520448
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565917599,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 796487680
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565917731,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 782913536
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565917852,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 731488256
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565917985,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 776773632
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565918116,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 796553216
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565918260,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 795619328
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565918388,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 731631616
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565918518,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 731635712
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565918629,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 731721728
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565918743,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 796749824
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792565918869,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 744316928
+        },
+        {
+          "stage": "after-copy-idle",
+          "at": 1792565919322,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 731811840
+        }
+      ],
+      "captureRequestMs": 5516.89999999851,
+      "editorReadyMs": 6066.943999999989,
+      "drag": {
+        "handlerMs": 17.49999998509884,
+        "elapsedMs": 523.8999999985099,
+        "redraws": 30,
+        "frameGapsMs": [
+          6.699999999254942,
+          17.399999998509884,
+          16.5,
+          16.800000000745058,
+          16.800000000745058,
+          16.699999999254942,
+          16.5,
+          16.699999999254942,
+          16.700000002980232,
+          16.399999998509884,
+          17,
+          16.399999998509884,
+          16.700000002980232,
+          16.5,
+          16.699999999254942,
+          16.699999999254942,
+          16.699999999254942,
+          16.600000001490116,
+          16.699999999254942,
+          16.800000000745058,
+          16.699999999254942,
+          16.600000001490116,
+          17,
+          16.5,
+          16.799999997019768,
+          16.700000002980232,
+          16.5,
+          16.599999997764826,
+          16.800000000745058,
+          16.699999999254942
+        ],
+        "moves": 120,
+        "frames": 30,
+        "mainThreadTaskMs": 59.907999999999994
+      },
+      "firstCopy": {
+        "apiMs": 609.2999999970198,
+        "copyMs": 737.8999999985099,
+        "actionMs": 882.268699999986,
+        "encodes": 1
+      },
+      "repeatCopies": [
+        {
+          "apiMs": 355.69999999925494,
+          "copyMs": 355.80000000074506,
+          "actionMs": 470.4137000000046,
+          "encodes": 0
+        },
+        {
+          "apiMs": 377.9000000022352,
+          "copyMs": 378,
+          "actionMs": 517.2961999999825,
+          "encodes": 0
+        },
+        {
+          "apiMs": 221,
+          "copyMs": 221.09999999776483,
+          "actionMs": 413.7914999999921,
+          "encodes": 0
+        }
+      ],
+      "ok": true,
+      "cleanup": "Isolated benchmark browser needed forced shutdown after measurements"
+    },
+    {
+      "label": "after",
+      "trial": 4,
+      "memory": [
+        {
+          "stage": "visible-capture",
+          "at": 1792566032926,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 164569088
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566033052,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 164569088
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566033167,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 164569088
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566033277,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 164569088
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566033383,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 164569088
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566033494,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 164569088
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566033605,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 164569088
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566033709,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 156180480
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566033820,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 156180480
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566033927,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 157499392
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566034036,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 157499392
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566034146,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 157503488
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566034253,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 157614080
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566034366,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 157708288
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566034479,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 157061120
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566034602,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 157831168
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566034712,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 157990912
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566034830,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 158806016
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566034942,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 184377344
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566035052,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 185065472
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566035159,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 185303040
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566035273,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 185278464
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566035378,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 185413632
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566035492,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 185413632
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566035597,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 185544704
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566035710,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 186216448
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566035831,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 173121536
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566035941,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 178085888
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566036047,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 176246784
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566036161,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 180314112
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566036270,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 184205312
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566036379,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 196395008
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566036497,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 204529664
+        },
+        {
+          "stage": "long-image-idle",
+          "at": 1792566037611,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 390492160
+        },
+        {
+          "stage": "drag",
+          "at": 1792566037659,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 390631424
+        },
+        {
+          "stage": "drag",
+          "at": 1792566037778,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 459091968
+        },
+        {
+          "stage": "drag",
+          "at": 1792566037897,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 463224832
+        },
+        {
+          "stage": "drag",
+          "at": 1792566038024,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 473710592
+        },
+        {
+          "stage": "drag",
+          "at": 1792566038148,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 475295744
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792566038525,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 491016192
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792566038640,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 622587904
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792566038748,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 688467968
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792566038862,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 665911296
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792566038982,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 684064768
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566039095,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 684204032
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566039216,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 747966464
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566039337,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 747974656
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566039454,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 746967040
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566039565,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 683089920
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566039678,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 683089920
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566039802,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 716689408
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566039922,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 748138496
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566040037,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 747130880
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566040156,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 717791232
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566040276,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 682586112
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566040386,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 690941952
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566040518,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 747622400
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566040638,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 747622400
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566040775,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 747622400
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566040990,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 747626496
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566041132,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 747626496
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566041297,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 682676224
+        },
+        {
+          "stage": "after-copy-idle",
+          "at": 1792566041729,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 682749952
+        }
+      ],
+      "captureRequestMs": 1341.9000000022352,
+      "editorReadyMs": 3594.059200000018,
+      "drag": {
+        "handlerMs": 22.50000001117587,
+        "elapsedMs": 522.3999999985099,
+        "redraws": 30,
+        "frameGapsMs": [
+          5.299999997019768,
+          17.5,
+          16.5,
+          16.800000000745058,
+          16.400000002235174,
+          17,
+          16.5,
+          16.699999999254942,
+          16.699999999254942,
+          16.399999998509884,
+          16.700000002980232,
+          16.599999997764826,
+          16.699999999254942,
+          16.800000000745058,
+          16.600000001490116,
+          16.899999998509884,
+          16.699999999254942,
+          16.600000001490116,
+          16.600000001490116,
+          19.599999997764826,
+          13.800000000745058,
+          16.699999999254942,
+          16.800000000745058,
+          16.5,
+          16.800000000745058,
+          16.5,
+          17,
+          16.099999997764826,
+          17,
+          16.600000001490116
+        ],
+        "moves": 120,
+        "frames": 30,
+        "mainThreadTaskMs": 80.379
+      },
+      "firstCopy": {
+        "apiMs": 302.4000000022352,
+        "copyMs": 423.5,
+        "actionMs": 544.2320000000182,
+        "encodes": 1
+      },
+      "repeatCopies": [
+        {
+          "apiMs": 359.80000000074506,
+          "copyMs": 359.8999999985099,
+          "actionMs": 469.04119999997783,
+          "encodes": 0
+        },
+        {
+          "apiMs": 377.70000000298023,
+          "copyMs": 377.80000000074506,
+          "actionMs": 488.75479999999516,
+          "encodes": 0
+        },
+        {
+          "apiMs": 840.1000000014901,
+          "copyMs": 840.2000000029802,
+          "actionMs": 1033.6146999999764,
+          "encodes": 0
+        }
+      ],
+      "ok": true,
+      "cleanup": "Isolated benchmark browser needed forced shutdown after measurements"
+    },
+    {
+      "label": "before",
+      "trial": 4,
+      "memory": [
+        {
+          "stage": "visible-capture",
+          "at": 1792566076471,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 189415424
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566076588,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 207032320
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566076709,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 207228928
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566076827,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 198991872
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566076932,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 199229440
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566077048,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 199860224
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566077176,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 199974912
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566077288,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 200052736
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566077397,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 200699904
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566077507,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 194723840
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566077613,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 206196736
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566077721,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 213413888
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566077832,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 241958912
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566077947,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 235876352
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566078074,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 234397696
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566078227,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 242511872
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566078348,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 244875264
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566078479,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 245096448
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566078613,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 245391360
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566078743,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 261382144
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566078871,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 261390336
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566078984,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 259829760
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566079126,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 284504064
+        },
+        {
+          "stage": "long-image-idle",
+          "at": 1792566080365,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 470290432
+        },
+        {
+          "stage": "drag",
+          "at": 1792566080486,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 470405120
+        },
+        {
+          "stage": "drag",
+          "at": 1792566080642,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 537874432
+        },
+        {
+          "stage": "drag",
+          "at": 1792566080767,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 586866688
+        },
+        {
+          "stage": "drag",
+          "at": 1792566080884,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 608337920
+        },
+        {
+          "stage": "drag",
+          "at": 1792566081024,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 610041856
+        },
+        {
+          "stage": "drag",
+          "at": 1792566081149,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 629878784
+        },
+        {
+          "stage": "drag",
+          "at": 1792566081266,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 681414656
+        },
+        {
+          "stage": "drag",
+          "at": 1792566081376,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 685748224
+        },
+        {
+          "stage": "drag",
+          "at": 1792566081576,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 714977280
+        },
+        {
+          "stage": "drag",
+          "at": 1792566081703,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 737308672
+        },
+        {
+          "stage": "drag",
+          "at": 1792566081832,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 748732416
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792566082291,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 755789824
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792566082406,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 820027392
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792566082520,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 926552064
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792566082670,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 913063936
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792566082781,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 956063744
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792566082889,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 956063744
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792566083035,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 957067264
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566083156,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 957079552
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566083333,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1091276800
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566083451,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1154322432
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566083557,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1102508032
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566083674,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1156272128
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566083844,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1147760640
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566083981,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1084391424
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566084089,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1158545408
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566084197,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1283289088
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566084317,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1210441728
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566084430,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1268756480
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566084541,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1268039680
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566084659,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1257578496
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566084782,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1202974720
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566084911,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1218600960
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566085047,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1204031488
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566085164,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1268039680
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566085275,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1267032064
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566085384,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1261142016
+        },
+        {
+          "stage": "after-copy-idle",
+          "at": 1792566085815,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1203417088
+        }
+      ],
+      "captureRequestMs": 1652.0999999977648,
+      "editorReadyMs": 2662.9200999999885,
+      "drag": {
+        "handlerMs": 167.90000000596046,
+        "elapsedMs": 1268.9000000022352,
+        "redraws": 120,
+        "frameGapsMs": [
+          0.30000000074505806,
+          13,
+          16.900000002235174,
+          117.29999999701977,
+          38.5,
+          128.90000000223517,
+          35.69999999925494,
+          35.30000000074506,
+          33.30000000074506,
+          33,
+          37.29999999701977,
+          33.100000001490116,
+          12,
+          21.800000000745058,
+          34.399999998509884,
+          33.69999999925494,
+          134.80000000074506,
+          34.80000000074506,
+          34.399999998509884,
+          35.20000000298023,
+          34,
+          32.79999999701977,
+          33.30000000074506,
+          35.900000002235174,
+          30.799999997019768,
+          34.70000000298023,
+          34.19999999925494,
+          34,
+          35.099999997764826,
+          33.70000000298023
+        ],
+        "moves": 120,
+        "frames": 30,
+        "mainThreadTaskMs": 253.09300000000002
+      },
+      "firstCopy": {
+        "apiMs": 429.19999999925494,
+        "copyMs": 640.1999999992549,
+        "actionMs": 751.2410000000382,
+        "encodes": 1
+      },
+      "repeatCopies": [
+        {
+          "apiMs": 341.19999999925494,
+          "copyMs": 555.6999999992549,
+          "actionMs": 698.6541999999899,
+          "encodes": 1
+        },
+        {
+          "apiMs": 414.30000000074506,
+          "copyMs": 586.2000000029802,
+          "actionMs": 686.4740000000456,
+          "encodes": 1
+        },
+        {
+          "apiMs": 379.19999999925494,
+          "copyMs": 477.0999999977648,
+          "actionMs": 619.1370999999926,
+          "encodes": 1
+        }
+      ],
+      "ok": true,
+      "cleanup": "Isolated benchmark browser needed forced shutdown after measurements"
+    },
+    {
+      "label": "before",
+      "trial": 5,
+      "memory": [
+        {
+          "stage": "visible-capture",
+          "at": 1792566104173,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 189071360
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566104290,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 214425600
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566104399,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 206442496
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566104508,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 212021248
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566104616,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 212996096
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566104727,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 211644416
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566104835,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 211718144
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566104948,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 211861504
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566105059,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 212619264
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566105165,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 211140608
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566105274,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 238665728
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566105386,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 236695552
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566105519,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 227311616
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566105639,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 252633088
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566105765,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 267542528
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566105886,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 271712256
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566105997,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 288038912
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566106105,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 295178240
+        },
+        {
+          "stage": "long-image-idle",
+          "at": 1792566107721,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 480157696
+        },
+        {
+          "stage": "drag",
+          "at": 1792566107782,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 479813632
+        },
+        {
+          "stage": "drag",
+          "at": 1792566107909,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 547979264
+        },
+        {
+          "stage": "drag",
+          "at": 1792566108026,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 615899136
+        },
+        {
+          "stage": "drag",
+          "at": 1792566108143,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 684060672
+        },
+        {
+          "stage": "drag",
+          "at": 1792566108275,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 686923776
+        },
+        {
+          "stage": "drag",
+          "at": 1792566108425,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 691073024
+        },
+        {
+          "stage": "drag",
+          "at": 1792566108534,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 695975936
+        },
+        {
+          "stage": "drag",
+          "at": 1792566108645,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 713297920
+        },
+        {
+          "stage": "drag",
+          "at": 1792566108751,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 734097408
+        },
+        {
+          "stage": "drag",
+          "at": 1792566108865,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 751009792
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792566109152,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 765280256
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792566109269,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 898793472
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792566109382,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 963715072
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792566109490,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 931020800
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792566109600,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 968658944
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792566109737,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 968327168
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566109855,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 968544256
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566109963,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1100161024
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566110071,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1100861440
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566110184,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1158422528
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566110290,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1138798592
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566110400,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1168031744
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566110511,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1169141760
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566110625,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1107759104
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566110734,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1108656128
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566110849,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1238560768
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566110964,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1303228416
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566111074,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1305001984
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566111183,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1305251840
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566111350,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1291673600
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566111467,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1240240128
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566111574,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1285042176
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566111688,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1217720320
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566111796,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1279639552
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566111956,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1263964160
+        },
+        {
+          "stage": "after-copy-idle",
+          "at": 1792566112376,
+          "processCount": 7,
+          "unavailable": [],
+          "privateWorkingSetBytes": 1214545920
+        }
+      ],
+      "captureRequestMs": 1335.2999999970198,
+      "editorReadyMs": 1936.4574000000139,
+      "drag": {
+        "handlerMs": 149.19999999552965,
+        "elapsedMs": 1027.8999999985099,
+        "redraws": 120,
+        "frameGapsMs": [
+          0.5,
+          16.399999998509884,
+          15.700000002980232,
+          40.5,
+          39,
+          20.799999997019768,
+          29.300000000745058,
+          35.5,
+          32.400000002235174,
+          58,
+          33.5,
+          33.099999997764826,
+          33.400000002235174,
+          30.399999998509884,
+          34.100000001490116,
+          33.5,
+          34.099999997764826,
+          32.100000001490116,
+          36.30000000074506,
+          33.599999997764826,
+          36.19999999925494,
+          33.900000002235174,
+          30.399999998509884,
+          34.19999999925494,
+          33.70000000298023,
+          33.5,
+          31.199999999254942,
+          33.099999997764826,
+          35,
+          37.900000002235174
+        ],
+        "moves": 120,
+        "frames": 30,
+        "mainThreadTaskMs": 222.635
+      },
+      "firstCopy": {
+        "apiMs": 324.30000000074506,
+        "copyMs": 463.19999999925494,
+        "actionMs": 587.1305000000284,
+        "encodes": 1
+      },
+      "repeatCopies": [
+        {
+          "apiMs": 352.69999999925494,
+          "copyMs": 658,
+          "actionMs": 770.5369000000064,
+          "encodes": 1
+        },
+        {
+          "apiMs": 364.5999999977648,
+          "copyMs": 532.3000000007451,
+          "actionMs": 624.5272999999579,
+          "encodes": 1
+        },
+        {
+          "apiMs": 303,
+          "copyMs": 397.9000000022352,
+          "actionMs": 498.7163999999757,
+          "encodes": 1
+        }
+      ],
+      "ok": true
+    },
+    {
+      "label": "after",
+      "trial": 5,
+      "memory": [
+        {
+          "stage": "visible-capture",
+          "at": 1792566121124,
+          "processCount": 9,
+          "unavailable": [],
+          "privateWorkingSetBytes": 191451136
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566121247,
+          "processCount": 10,
+          "unavailable": [],
+          "privateWorkingSetBytes": 228192256
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566121357,
+          "processCount": 11,
+          "unavailable": [],
+          "privateWorkingSetBytes": 229175296
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566121470,
+          "processCount": 11,
+          "unavailable": [],
+          "privateWorkingSetBytes": 223817728
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566121593,
+          "processCount": 11,
+          "unavailable": [],
+          "privateWorkingSetBytes": 224292864
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566121699,
+          "processCount": 10,
+          "unavailable": [],
+          "privateWorkingSetBytes": 222248960
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566121812,
+          "processCount": 10,
+          "unavailable": [],
+          "privateWorkingSetBytes": 222793728
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566121923,
+          "processCount": 10,
+          "unavailable": [],
+          "privateWorkingSetBytes": 223825920
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566122068,
+          "processCount": 10,
+          "unavailable": [],
+          "privateWorkingSetBytes": 218689536
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566122183,
+          "processCount": 10,
+          "unavailable": [],
+          "privateWorkingSetBytes": 220819456
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566122336,
+          "processCount": 10,
+          "unavailable": [],
+          "privateWorkingSetBytes": 221782016
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566122457,
+          "processCount": 10,
+          "unavailable": [],
+          "privateWorkingSetBytes": 229081088
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566122603,
+          "processCount": 10,
+          "unavailable": [],
+          "privateWorkingSetBytes": 232828928
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566122799,
+          "processCount": 10,
+          "unavailable": [],
+          "privateWorkingSetBytes": 241664000
+        },
+        {
+          "stage": "visible-capture",
+          "at": 1792566122907,
+          "processCount": 10,
+          "unavailable": [],
+          "privateWorkingSetBytes": 267513856
+        },
+        {
+          "stage": "long-image-idle",
+          "at": 1792566124998,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 442347520
+        },
+        {
+          "stage": "drag",
+          "at": 1792566125065,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 442658816
+        },
+        {
+          "stage": "drag",
+          "at": 1792566125179,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 511098880
+        },
+        {
+          "stage": "drag",
+          "at": 1792566125305,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 515829760
+        },
+        {
+          "stage": "drag",
+          "at": 1792566125413,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 524382208
+        },
+        {
+          "stage": "drag",
+          "at": 1792566125526,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 539860992
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792566125893,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 563322880
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792566126017,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 671019008
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792566126123,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 761028608
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792566126244,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 707661824
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792566126362,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 771592192
+        },
+        {
+          "stage": "first-copy",
+          "at": 1792566126539,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 770686976
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566126680,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 770699264
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566126786,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 784445440
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566126901,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 835768320
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566127022,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 835411968
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566127157,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 799776768
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566127288,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 774012928
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566127402,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 825081856
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566127524,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 841015296
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566127632,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 831885312
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566127744,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 768102400
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566127852,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 833306624
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566127959,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 832303104
+        },
+        {
+          "stage": "repeat-copy",
+          "at": 1792566128096,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 768299008
+        },
+        {
+          "stage": "after-copy-idle",
+          "at": 1792566128530,
+          "processCount": 8,
+          "unavailable": [],
+          "privateWorkingSetBytes": 751812608
+        }
+      ],
+      "captureRequestMs": 1218.5,
+      "editorReadyMs": 1845.7462999999989,
+      "drag": {
+        "handlerMs": 40,
+        "elapsedMs": 516.2000000029802,
+        "redraws": 30,
+        "frameGapsMs": [
+          0.20000000298023224,
+          16.299999997019768,
+          16.5,
+          16.600000001490116,
+          17.100000001490116,
+          16.299999997019768,
+          17.200000002980232,
+          16.5,
+          17.199999999254942,
+          15.899999998509884,
+          19.100000001490116,
+          14.300000000745058,
+          17.5,
+          16.5,
+          16,
+          16.699999999254942,
+          16.699999999254942,
+          17.199999999254942,
+          17.600000001490116,
+          15.599999997764826,
+          16.200000002980232,
+          17.099999997764826,
+          16.699999999254942,
+          16.700000002980232,
+          16.099999997764826,
+          17.300000000745058,
+          16.399999998509884,
+          17.300000000745058,
+          15.800000000745058,
+          16.800000000745058
+        ],
+        "moves": 120,
+        "frames": 30,
+        "mainThreadTaskMs": 113.081
+      },
+      "firstCopy": {
+        "apiMs": 340.69999999925494,
+        "copyMs": 481.19999999925494,
+        "actionMs": 656.6790000000037,
+        "encodes": 1
+      },
+      "repeatCopies": [
+        {
+          "apiMs": 313.19999999925494,
+          "copyMs": 313.19999999925494,
+          "actionMs": 489.61109999998007,
+          "encodes": 0
+        },
+        {
+          "apiMs": 303.5,
+          "copyMs": 303.5999999977648,
+          "actionMs": 444.08720000000903,
+          "encodes": 0
+        },
+        {
+          "apiMs": 237.59999999776483,
+          "copyMs": 237.79999999701977,
+          "actionMs": 362.2038000000175,
+          "encodes": 0
+        }
+      ],
+      "ok": true
+    }
+  ]
+}

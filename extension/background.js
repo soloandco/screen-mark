@@ -16,7 +16,7 @@ async function screenshot(tab) {
   const data = await chrome.tabs.captureVisibleTab(tab.windowId, { format: 'png' });
   lastCapture = Date.now();
   await assertActive(tab);
-  return createImageBitmap(await (await fetch(data)).blob());
+  return (await fetch(data)).blob();
 }
 
 async function execute(tab, action, y) {
@@ -38,7 +38,7 @@ async function fullPage(tab) {
       await assertActive(tab);
       const actual = await execute(tab, 'scroll', position);
       if (actual.width !== dimensions.width || actual.height !== dimensions.viewportHeight || Math.abs(actual.y - position) > 2) throw new Error('페이지 크기나 스크롤 위치가 바뀜. 로딩이 끝난 뒤 다시 시도해 주세요.');
-      const bitmap = await screenshot(tab);
+      const bitmap = await createImageBitmap(await screenshot(tab));
       const scale = bitmap.width / dimensions.width;
       if (Math.abs(scale - dimensions.scale) > 0.02) { bitmap.close(); throw new Error('화면 배율이 바뀜. 다시 캡처해 주세요.'); }
       ctx.drawImage(bitmap, 0, Math.round(actual.y * scale));
@@ -63,12 +63,10 @@ async function capture(message) {
     let blob;
     if (message.mode === 'full') blob = await fullPage(tab);
     else {
-      const bitmap = await screenshot(tab);
-      capturePlan(bitmap.width, bitmap.height, bitmap.height);
-      const canvas = new OffscreenCanvas(bitmap.width, bitmap.height);
-      canvas.getContext('2d').drawImage(bitmap, 0, 0);
-      bitmap.close();
-      blob = await canvas.convertToBlob({ type: 'image/png' });
+      blob = await screenshot(tab);
+      const bitmap = await createImageBitmap(blob);
+      try { capturePlan(bitmap.width, bitmap.height, bitmap.height); }
+      finally { bitmap.close(); }
     }
     await cleanOldCaptures();
     const id = crypto.randomUUID();
