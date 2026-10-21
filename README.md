@@ -6,7 +6,7 @@ A local Chrome screenshot and annotation extension with numbered labels and clip
 
 ## 설치
 
-1. [최신 릴리스](https://github.com/soloandco/screen-mark/releases/latest)에서 `screen-mark-1.0.3.zip`을 내려받아 압축을 푼다. 소스를 받았다면 저장소 안의 `extension` 폴더를 사용한다.
+1. [최신 릴리스](https://github.com/soloandco/screen-mark/releases/latest)에서 `screen-mark-1.0.4.zip`을 내려받아 압축을 푼다. 소스를 받았다면 저장소 안의 `extension` 폴더를 사용한다.
 2. Chrome 주소창에 `chrome://extensions`를 입력한다.
 3. 오른쪽 위 **개발자 모드**를 켠 뒤 **압축해제된 확장 프로그램을 로드합니다**를 누른다.
 4. 릴리스 ZIP에서는 `screen-mark` 폴더, 소스에서는 `extension` 폴더를 선택한다. `manifest.json`이 들어 있는 폴더가 설치 대상이다.
@@ -24,6 +24,8 @@ A local Chrome screenshot and annotation extension with numbered labels and clip
 ### 1. 캡처 방식 선택
 
 크롬 도구 모음에서 **Screen Mark 아이콘**을 누른다.
+
+메뉴 하단에 실제 설치된 버전이 표시된다. 업데이트한 폴더를 쓰는 경우 `chrome://extensions`에서 Screen Mark의 새로고침을 누르고 메뉴를 다시 열어 버전을 확인한다.
 
 <img src="docs/images/capture-menu.png" alt="현재 화면과 스크롤 전체 페이지를 선택하는 Screen Mark 실제 메뉴" width="344">
 

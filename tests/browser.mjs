@@ -34,6 +34,12 @@ try {
   });
   let worker = context.serviceWorkers()[0] || await context.waitForEvent('serviceworker');
   const id = new URL(worker.url()).host;
+  const versionPopup = await context.newPage();
+  await versionPopup.goto(`chrome-extension://${id}/popup.html`);
+  const expectedVersion = await versionPopup.evaluate(() => `v${chrome.runtime.getManifest().version}`);
+  assert.equal(await versionPopup.locator('#version').textContent({ timeout: 3000 }), expectedVersion);
+  await versionPopup.close();
+  checks.push('popup displays the installed manifest version');
   const editor = await context.newPage();
   await editor.addInitScript(() => {
     window.renderChecks = { encodes: 0, redraws: 0, writes: 0, failCopy: false };
@@ -60,6 +66,7 @@ try {
   await editor.locator('#file-input').setInputFiles(fixture);
   await editor.locator('#canvas-frame').waitFor({ state: 'visible' });
   await editor.locator('#status').filter({ hasText: '저장됨' }).waitFor();
+  assert.equal(await editor.evaluate(() => window.renderChecks.redraws), 1, 'initial image must be drawn once');
   const bounds = await editor.locator('#canvas').boundingBox();
   const point = (x, y) => [bounds.x + x * bounds.width / 1000, bounds.y + y * bounds.height / 700];
   await editor.mouse.move(...point(120, 150)); await editor.mouse.down();

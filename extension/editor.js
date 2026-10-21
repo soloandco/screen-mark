@@ -105,7 +105,7 @@ function undoRedo(action) {
   fit(); save();
 }
 
-function setTool(value) {
+function setTool(value, render = true) {
   tool = value; gesture = null; preview = null; selectedId = null;
   document.querySelectorAll('[data-tool]').forEach(button => {
     const active = button.dataset.tool === value;
@@ -113,7 +113,7 @@ function setTool(value) {
   });
   canvas.style.cursor = value === 'select' ? 'default' : 'crosshair';
   const hints = { rectangle: '드래그해 사각형 표시 추가', number: '클릭해 원형 번호 라벨 추가', select: '표시를 클릭해 선택하고 드래그해 이동', arrow: '드래그해 화살표 추가', text: '텍스트를 넣을 위치 클릭', mosaic: '가릴 영역을 드래그. 민감 정보는 저장 전 결과를 확인하세요.', crop: '남길 영역을 드래그. 실행 취소로 복구할 수 있음' };
-  status(hints[value]); draw();
+  status(hints[value]); if (render) draw();
 }
 
 function style() { return { color: $('#color').value, stroke: Number($('#stroke').value) }; }
@@ -236,7 +236,7 @@ async function displayCapture(record) {
   $('#number-start').value = history.current.nextNumber;
   $('#empty').hidden = true; frame.hidden = false;
   document.title = `${record.title} · Screen Mark`;
-  fit(); setTool('rectangle');
+  fit(); setTool('rectangle', false);
   status('이 브라우저에 저장됨');
 }
 

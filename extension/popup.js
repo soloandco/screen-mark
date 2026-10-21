@@ -1,5 +1,6 @@
 const status = document.querySelector('#status');
 const buttons = [...document.querySelectorAll('button')];
+document.querySelector('#version').textContent = `v${chrome.runtime.getManifest().version}`;
 document.querySelectorAll('[data-mode]').forEach(button => button.addEventListener('click', async () => {
   buttons.forEach(item => { item.disabled = true; });
   status.className = '';

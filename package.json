@@ -1,6 +1,6 @@
 {
   "name": "screen-mark",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "private": true,
   "description": "Local Chrome screenshot capture and annotation with numbered labels and clipboard export",
   "license": "MIT",
