@@ -15,7 +15,7 @@ const temporary = await mkdtemp(path.join(os.tmpdir(), 'screen-mark-stability-')
 const extension = path.join(temporary, 'extension');
 await cp(path.join(root, 'extension'), extension, { recursive: true });
 const manifest = JSON.parse(await readFile(path.join(extension, 'manifest.json')));
-const result = { date: '2026-10-21', version: manifest.version, selection: process.env.STABILITY_ONLY || 'all', environment: { browser: 'Installed Google Chrome', headless: true, viewport: { width: 1280, height: 900 }, isolatedProfile: true }, scenarios: [], pageErrors: [], operations: { captures: 0, copies: 0, rapidEdits: 0 } };
+const result = { date: new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul' }).format(new Date()), version: manifest.version, selection: process.env.STABILITY_ONLY || 'all', environment: { browser: 'Installed Google Chrome', headless: true, viewport: { width: 1280, height: 900 }, isolatedProfile: true }, scenarios: [], pageErrors: [], operations: { captures: 0, copies: 0, rapidEdits: 0 } };
 const colors = { a: '#c8e8d0', b: '#e8d0c8' };
 const server = http.createServer((request, response) => {
   const key = request.url === '/b' ? 'b' : 'a';

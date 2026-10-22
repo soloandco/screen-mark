@@ -15,8 +15,12 @@ export async function pageCapture(action, y = 0) {
       window.scrollTo({ left: session.x, top: session.y, behavior: 'instant' });
       delete globalThis[key];
     };
-    // A backup restores the page even if the extension worker is interrupted.
-    session.timer = setTimeout(session.restore, 90000);
+    // Recover after inactivity, including an interrupted worker, rather than limiting total capture time.
+    session.touch = () => {
+      clearTimeout(session.timer);
+      session.timer = setTimeout(session.restore, 90000);
+    };
+    session.touch();
     for (const node of [root, document.body]) {
       for (const [property, value] of [['scroll-behavior', 'auto'], ['scroll-snap-type', 'none']]) {
         session.styles.push([node, property, node.style.getPropertyValue(property), node.style.getPropertyPriority(property)]);
@@ -40,6 +44,7 @@ export async function pageCapture(action, y = 0) {
   if (!session) throw new Error('캡처 세션이 종료됨. 다시 시도해 주세요.');
   if (action === 'restore') { session.restore(); return true; }
   if (action === 'scroll') {
+    session.touch();
     if (y > 0 && !session.hidden) {
       session.hidden = true;
       for (const node of session.nodes) {

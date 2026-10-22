@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Screen Mark · 화면 캡처와 표시",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "minimum_chrome_version": "120",
   "description": "현재 화면·스크롤 전체 페이지를 캡처하고 사각형과 번호로 표시한 뒤 클립보드에 복사하는 개인용 도구",
   "permissions": ["activeTab", "scripting", "clipboardWrite"],

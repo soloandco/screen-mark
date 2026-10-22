@@ -6,7 +6,7 @@ A local Chrome screenshot and annotation extension with numbered labels and clip
 
 ## 설치
 
-1. [최신 릴리스](https://github.com/soloandco/screen-mark/releases/latest)에서 `screen-mark-1.0.5.zip`을 내려받아 압축을 푼다. 소스를 받았다면 저장소 안의 `extension` 폴더를 사용한다.
+1. [최신 릴리스](https://github.com/soloandco/screen-mark/releases/latest)에서 `screen-mark-1.0.6.zip`을 내려받아 압축을 푼다. 소스를 받았다면 저장소 안의 `extension` 폴더를 사용한다.
 2. Chrome 주소창에 `chrome://extensions`를 입력한다.
 3. 오른쪽 위 **개발자 모드**를 켠 뒤 **압축해제된 확장 프로그램을 로드합니다**를 누른다.
 4. 릴리스 ZIP에서는 `screen-mark` 폴더, 소스에서는 `extension` 폴더를 선택한다. `manifest.json`이 들어 있는 폴더가 설치 대상이다.
@@ -113,7 +113,9 @@ npm run package
 
 Linux에서 브라우저 시스템 라이브러리도 필요하면 `npx playwright install --with-deps chromium`을 사용한다. 브라우저 검사는 별도 임시 프로필만 사용하며 사용자 Chrome 프로필을 건드리지 않는다. CDP `Extensions.triggerAction`으로 확장 아이콘 호출을 재현해 activeTab을 부여한다. 원본 매니페스트의 권한을 바꾸지 않고 테스트한다. 개발 의존성은 확장 ZIP에 포함되지 않는다.
 
-검증 결과: `docs/verification.md`. ZIP 생성 결과: `dist/screen-mark-1.0.5.zip`.
+검증 결과: `docs/verification.md`. ZIP 생성 결과: `dist/screen-mark-1.0.6.zip`.
+
+`npm run test:regressions`는 설치된 Google Chrome의 별도 임시 프로필에서 초기 이미지 로딩 충돌, 오류 후 파일 열기 복구, 화살표 선택, 전체 페이지의 헤더·하단 픽셀을 검사한다. `npm run test:regressions -- --long`은 캡처 API에 매회 3.2초 지연을 주입하고 높이 32,000px 페이지를 실제로 32번 촬영해, 90초 이후에도 완료되는지 추가 검사한다. 이 검사는 수 분이 걸리며 속도 벤치마크가 아니다. 단위 테스트는 제어된 시계로 복원 타이머 갱신과 유휴 상태의 원상 복구도 확인한다.
 
 `npm run test:auto-number`는 설치된 Google Chrome의 별도 임시 프로필에서 자동 번호, 실행 취소·다시 실행, 수동 번호와의 순서 공유, 가장자리·자르기 배치, PNG 픽셀과 실제 클립보드 쓰기를 검사한다. [v1.0.5 실행 결과](docs/auto-number/v1.0.5.json)를 공개한다.
 

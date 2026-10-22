@@ -39,15 +39,48 @@ export function createHistory(initial) {
   };
 }
 
+export function arrowHead(shape) {
+  const angle = Math.atan2(shape.endY - shape.y, shape.endX - shape.x);
+  const length = Math.max(14, (shape.stroke || 4) * 4);
+  return [
+    { x: shape.endX, y: shape.endY },
+    { x: shape.endX - length * Math.cos(angle - .45), y: shape.endY - length * Math.sin(angle - .45) },
+    { x: shape.endX - length * Math.cos(angle + .45), y: shape.endY - length * Math.sin(angle + .45) }
+  ];
+}
+
+function segmentDistance(point, start, end) {
+  const dx = end.x - start.x, dy = end.y - start.y;
+  const lengthSquared = dx * dx + dy * dy;
+  const t = lengthSquared ? Math.max(0, Math.min(1, ((point.x - start.x) * dx + (point.y - start.y) * dy) / lengthSquared)) : 0;
+  return Math.hypot(point.x - start.x - t * dx, point.y - start.y - t * dy);
+}
+
+function hitsArrow(shape, point) {
+  const head = arrowHead(shape);
+  if (segmentDistance(point, shape, head[0]) <= Math.max(6, (shape.stroke || 4) / 2)) return true;
+  const sides = head.map((start, index) => {
+    const end = head[(index + 1) % 3];
+    return (end.x - start.x) * (point.y - start.y) - (end.y - start.y) * (point.x - start.x);
+  });
+  if (sides.every(side => side >= 0) || sides.every(side => side <= 0)) return true;
+  return head.some((start, index) => segmentDistance(point, start, head[(index + 1) % 3]) <= 6);
+}
+
 export function shapeBounds(shape) {
   if (shape.type === 'number') return { x: shape.x - shape.radius, y: shape.y - shape.radius, width: shape.radius * 2, height: shape.radius * 2 };
-  if (shape.type === 'arrow') return normalizeRect({ x: shape.x, y: shape.y }, { x: shape.endX, y: shape.endY });
+  if (shape.type === 'arrow') {
+    const points = [shape, ...arrowHead(shape)];
+    const x = Math.min(...points.map(point => point.x)), y = Math.min(...points.map(point => point.y));
+    return { x, y, width: Math.max(...points.map(point => point.x)) - x, height: Math.max(...points.map(point => point.y)) - y };
+  }
   return { x: shape.x, y: shape.y, width: shape.width, height: shape.height };
 }
 
 export function hitTest(shapes, point) {
   return [...shapes].reverse().find(shape => {
     if (shape.type === 'number') return Math.hypot(point.x - shape.x, point.y - shape.y) <= shape.radius + 5;
+    if (shape.type === 'arrow') return hitsArrow(shape, point);
     const bounds = shapeBounds(shape);
     return point.x >= bounds.x - 6 && point.x <= bounds.x + bounds.width + 6 && point.y >= bounds.y - 6 && point.y <= bounds.y + bounds.height + 6;
   }) || null;
@@ -74,4 +107,11 @@ export function capturePlan(width, height, viewportHeight, scale = 1) {
     if (positions.at(-1) !== position) positions.push(position);
   }
   return { pixelWidth, pixelHeight, positions };
+}
+
+// Pixel coordinates: retain earlier captures and append only the uncovered strip.
+export function captureSlice(top, height, coveredHeight, totalHeight) {
+  const destinationY = Math.max(top, coveredHeight);
+  const sourceY = destinationY - top;
+  return { sourceY, destinationY, height: Math.max(0, Math.min(height - sourceY, totalHeight - destinationY)) };
 }

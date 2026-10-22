@@ -1,4 +1,4 @@
-import { shapeBounds } from './model.js';
+import { shapeBounds, arrowHead } from './model.js';
 
 function drawShape(ctx, shape, image) {
   ctx.save();
@@ -16,12 +16,10 @@ function drawShape(ctx, shape, image) {
     ctx.fillText(String(shape.number), shape.x, shape.y + 1);
   }
   if (shape.type === 'arrow') {
-    const angle = Math.atan2(shape.endY - shape.y, shape.endX - shape.x);
-    const length = Math.max(14, (shape.stroke || 4) * 4);
+    const [tip, left, right] = arrowHead(shape);
     ctx.beginPath(); ctx.moveTo(shape.x, shape.y); ctx.lineTo(shape.endX, shape.endY); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(shape.endX, shape.endY);
-    ctx.lineTo(shape.endX - length * Math.cos(angle - .45), shape.endY - length * Math.sin(angle - .45));
-    ctx.lineTo(shape.endX - length * Math.cos(angle + .45), shape.endY - length * Math.sin(angle + .45)); ctx.closePath(); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(tip.x, tip.y);
+    ctx.lineTo(left.x, left.y); ctx.lineTo(right.x, right.y); ctx.closePath(); ctx.fill();
   }
   if (shape.type === 'text') {
     ctx.font = `600 ${shape.fontSize}px "Malgun Gothic", sans-serif`;

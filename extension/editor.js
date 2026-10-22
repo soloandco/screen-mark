@@ -251,23 +251,36 @@ async function displayCapture(record) {
   status('이 브라우저에 저장됨');
 }
 
-async function openFile(file) {
-  if (!file || loading) return;
+async function loadImage(operation) {
+  if (loading) return;
   loading = true;
+  const controls = ['#open-file', '#empty-open', '#file-input'].map($);
+  controls.forEach(control => { control.disabled = true; });
   gesture = null; preview = null; draw();
+  try { await operation(); }
+  finally {
+    loading = false;
+    controls.forEach(control => { control.disabled = false; });
+    $('#file-input').value = '';
+  }
+}
+
+async function openFile(file) {
+  if (!file) return;
   try {
-    if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) throw new Error('PNG, JPG, WebP 파일을 선택해 주세요.');
-    if (file.size > 40 * 1024 * 1024) throw new Error('40MB 이하 이미지를 선택해 주세요.');
-    await saveQueue;
-    if (saveFailed && !window.confirm('자동 저장되지 않은 표시를 버리고 새 이미지를 열까요? 보관하려면 취소하고 파일 저장·복사를 이용하세요.')) return;
-    const bitmap = await createImageBitmap(file);
-    try { capturePlan(bitmap.width, bitmap.height, bitmap.height); } finally { bitmap.close(); }
-    const record = { id: crypto.randomUUID(), blob: file, title: file.name, createdAt: Date.now(), document: { shapes: [], crop: null, nextNumber: 1 } };
-    await putCapture(record);
-    window.history.replaceState(null, '', `editor.html?id=${record.id}`);
-    await displayCapture(record);
+    await loadImage(async () => {
+      if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) throw new Error('PNG, JPG, WebP 파일을 선택해 주세요.');
+      if (file.size > 40 * 1024 * 1024) throw new Error('40MB 이하 이미지를 선택해 주세요.');
+      await saveQueue;
+      if (saveFailed && !window.confirm('자동 저장되지 않은 표시를 버리고 새 이미지를 열까요? 보관하려면 취소하고 파일 저장·복사를 이용하세요.')) return;
+      const bitmap = await createImageBitmap(file);
+      try { capturePlan(bitmap.width, bitmap.height, bitmap.height); } finally { bitmap.close(); }
+      const record = { id: crypto.randomUUID(), blob: file, title: file.name, createdAt: Date.now(), document: { shapes: [], crop: null, nextNumber: 1 } };
+      await putCapture(record);
+      window.history.replaceState(null, '', `editor.html?id=${record.id}`);
+      await displayCapture(record);
+    });
   } catch (error) { status(`이미지를 열지 못함: ${error.message}`, true); }
-  finally { loading = false; $('#file-input').value = ''; }
 }
 
 for (const id of ['#open-file', '#empty-open']) $(id).addEventListener('click', () => $('#file-input').click());
@@ -315,8 +328,10 @@ window.addEventListener('resize', fit);
 applyStyle();
 if (params.get('id')) {
   try {
-    const record = await getCapture(params.get('id'));
-    if (!record) throw new Error('임시 이미지가 삭제됨. 다시 캡처하거나 파일을 열어 주세요.');
-    await displayCapture(record);
+    await loadImage(async () => {
+      const record = await getCapture(params.get('id'));
+      if (!record) throw new Error('임시 이미지가 삭제됨. 다시 캡처하거나 파일을 열어 주세요.');
+      await displayCapture(record);
+    });
   } catch (error) { status(error.message, true); }
 }

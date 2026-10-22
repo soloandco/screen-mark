@@ -1,5 +1,5 @@
 import { putCapture, cleanOldCaptures } from './storage.js';
-import { capturePlan } from './model.js';
+import { capturePlan, captureSlice } from './model.js';
 import { pageCapture } from './page-capture.js';
 
 let busy = false;
@@ -34,6 +34,7 @@ async function fullPage(tab) {
     const canvas = new OffscreenCanvas(plan.pixelWidth, plan.pixelHeight);
     const ctx = canvas.getContext('2d');
     ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    let coveredHeight = 0;
     for (const position of plan.positions) {
       await assertActive(tab);
       const actual = await execute(tab, 'scroll', position);
@@ -41,7 +42,11 @@ async function fullPage(tab) {
       const bitmap = await createImageBitmap(await screenshot(tab));
       const scale = bitmap.width / dimensions.width;
       if (Math.abs(scale - dimensions.scale) > 0.02) { bitmap.close(); throw new Error('화면 배율이 바뀜. 다시 캡처해 주세요.'); }
-      ctx.drawImage(bitmap, 0, Math.round(actual.y * scale));
+      const slice = captureSlice(Math.round(actual.y * scale), bitmap.height, coveredHeight, canvas.height);
+      if (slice.height > 0) {
+        ctx.drawImage(bitmap, 0, slice.sourceY, bitmap.width, slice.height, 0, slice.destinationY, bitmap.width, slice.height);
+        coveredHeight = slice.destinationY + slice.height;
+      }
       bitmap.close();
     }
     return canvas.convertToBlob({ type: 'image/png' });
