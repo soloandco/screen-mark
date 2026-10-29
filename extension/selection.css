@@ -6,7 +6,7 @@ header{display:flex;align-items:center;justify-content:space-between;gap:20px;pa
 header>div{display:flex;align-items:center;gap:24px}.brand{font:600 24px Georgia,serif;white-space:nowrap}h1{font-size:15px;font-weight:500;margin:0;color:var(--muted)}
 header .actions{gap:10px}button{font:inherit;padding:11px 16px;border:1px solid #bcc9b6;border-radius:6px;background:transparent;color:var(--ink);cursor:pointer;white-space:nowrap}
 button.primary{background:var(--green);color:white;border-color:var(--green)}button:disabled{opacity:.4;cursor:default}button:focus-visible,#surface:focus-visible{outline:3px solid #c2963c;outline-offset:3px}kbd{font:10px Consolas,monospace;opacity:.7;margin-left:14px}
-.guide{margin:0;padding:13px 26px;color:var(--muted);font-size:12px}
+.guide{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0;padding:13px 26px;color:var(--muted);font-size:12px}.guide p{margin:0}.guide label{display:flex;align-items:center;gap:7px;white-space:nowrap;cursor:pointer;color:var(--green)}.guide input{margin:0;accent-color:var(--green)}
 #stage{min-height:0;flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:24px;background:#e9ece5;background-image:radial-gradient(#c7cfc0 .65px,transparent .65px);background-size:13px 13px}
 #surface{position:relative;flex:none;overflow:hidden;cursor:crosshair;touch-action:none;user-select:none;box-shadow:0 4px 22px #28382417,0 0 0 1px #c5ccbf}img{display:block;pointer-events:none}
 #selection{position:absolute;pointer-events:none;border:2px solid #e44d35;background:#ffffff08;box-shadow:0 0 0 10000px #172c2470}

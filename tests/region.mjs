@@ -67,11 +67,13 @@ try {
       return { ...size, pending: !!record.selectionPending, shapes: record.document.shapes.length };
     }, captureId);
   }
-  async function drag(page, x1, y1, x2, y2) {
+  async function drag(page, x1, y1, x2, y2, screenshot = false) {
     const box = await page.locator('#capture-image').boundingBox();
     const point = (x, y) => [Math.round(box.x + x * box.width / 1200), Math.round(box.y + y * box.height / 900)];
     await page.mouse.move(...point(x1, y1)); await page.mouse.down();
-    await page.mouse.move(...point(x2, y2), { steps: 6 }); await page.mouse.up();
+    await page.mouse.move(...point(x2, y2), { steps: 6 });
+    if (screenshot) await page.screenshot({ path: path.join(output, 'region-guide.png') });
+    await page.mouse.up();
     const first = point(x1, y1), last = point(x2, y2);
     const x = Math.floor((Math.min(first[0], last[0]) - box.x) * 1200 * scale / box.width);
     const y = Math.floor((Math.min(first[1], last[1]) - box.y) * 900 * scale / box.height);
@@ -80,7 +82,33 @@ try {
       height: Math.ceil((Math.max(first[1], last[1]) - box.y) * 900 * scale / box.height) - y
     };
   }
+  const quick = await capture();
+  await quick.page.screenshot({ path: path.join(output, 'region-ready.png') });
+  await drag(quick.page, 101, 101, 101.1, 101.1);
+  assert.ok(quick.page.url().includes('selection.html'));
+  const quickSize = await drag(quick.page, 400, 300, 100, 100);
+  await quick.page.waitForURL('**/editor.html?*');
+  assert.deepEqual(await getRecord(quick.captureId), { ...quickSize, pending: false, shapes: 0 });
+  checks.push('default region drag opens the cropped editor without a confirm click; tiny gestures stay in selection');
+  const automaticFailure = await capture();
+  await automaticFailure.page.evaluate(() => {
+    const original = OffscreenCanvas.prototype.convertToBlob;
+    globalThis.restoreEncoding = () => { OffscreenCanvas.prototype.convertToBlob = original; };
+    OffscreenCanvas.prototype.convertToBlob = async () => { throw new Error('Injected encoding failure'); };
+  });
+  await drag(automaticFailure.page, 100, 100, 400, 300);
+  await automaticFailure.page.locator('#status.error').waitFor();
+  assert.equal((await getRecord(automaticFailure.captureId)).pending, true);
+  assert.equal(await automaticFailure.page.locator('#confirm').isVisible(), true);
+  await automaticFailure.page.evaluate(() => globalThis.restoreEncoding());
+  await automaticFailure.page.locator('#confirm').click();
+  await automaticFailure.page.waitForURL('**/editor.html?*');
+  checks.push('automatic confirmation errors preserve the original and expose an explicit retry button');
   const first = await capture();
+  await first.page.locator('#auto-confirm').uncheck();
+  await first.page.reload(); await first.page.locator('#surface').waitFor({ state: 'visible' });
+  assert.equal(await first.page.locator('#auto-confirm').isChecked(), false);
+  checks.push('manual confirmation preference survives reload and new selection tabs');
   assert.equal((await getRecord(first.captureId)).width, 1200 * scale);
   const earlyEditor = await context.newPage();
   await earlyEditor.goto(`${base}/editor.html?id=${first.captureId}`);
@@ -126,6 +154,7 @@ try {
   await first.page.locator('#copy').click(); await first.page.locator('#status').filter({ hasText: '클립보드에 복사됨' }).waitFor();
   checks.push('cropped image supports automatic numbering and actual clipboard image write');
   const cancelled = await capture();
+  assert.equal(await cancelled.page.locator('#auto-confirm').isChecked(), false);
   await cancelled.page.reload(); await cancelled.page.locator('#surface').waitFor({ state: 'visible' });
   const closing = cancelled.page.waitForEvent('close'); await cancelled.page.keyboard.press('Escape'); await closing;
   assert.equal(await getRecord(cancelled.captureId), null);
@@ -152,10 +181,9 @@ try {
   checks.push('failed crop persistence keeps original; resize preserves selection and Enter retries');
   await source.goto(new URL('/guide', sourceUrl).href);
   const demo = await capture();
-  await drag(demo.page, 175, 130, 1000, 530);
-  await demo.page.screenshot({ path: path.join(output, 'region-guide.png') });
-  const demoClosing = demo.page.waitForEvent('close');
-  await demo.page.locator('#cancel').click(); await demoClosing;
+  await demo.page.locator('#auto-confirm').check();
+  await drag(demo.page, 60, 160, 850, 590, true);
+  await demo.page.waitForURL('**/editor.html?*');
   assert.deepEqual(errors, []);
   const result = { ok: true, date: '2026-10-29', version: await control.evaluate(() => chrome.runtime.getManifest().version), browser, scale, checks, errors };
   await writeFile(path.join(output, 'verification.json'), JSON.stringify(result, null, 2));

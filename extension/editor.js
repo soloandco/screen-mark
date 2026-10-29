@@ -138,13 +138,15 @@ canvas.addEventListener('pointerdown', event => {
   if (!image || loading || event.button !== 0) return;
   event.preventDefault(); canvas.focus({ preventScroll: true });
   const start = point(event);
-  if (tool === 'number') {
+  const selecting = tool === 'select' || event.ctrlKey || event.metaKey;
+  if (!selecting) selectedId = null;
+  if (!selecting && tool === 'number') {
     addShape({ type: 'number', ...start, ...numberStyle() }); return;
   }
-  if (tool === 'text') {
+  if (!selecting && tool === 'text') {
     pendingTextPoint = start; $('#text-input').value = ''; $('#text-dialog').showModal(); $('#text-input').focus(); return;
   }
-  if (tool === 'select') {
+  if (selecting) {
     const selected = hitTest(history.current.shapes, start);
     selectedId = selected?.id || null;
     gesture = selected ? { start, moving: selected } : null;
@@ -285,6 +287,13 @@ async function openFile(file) {
 
 for (const id of ['#open-file', '#empty-open']) $(id).addEventListener('click', () => $('#file-input').click());
 $('#file-input').addEventListener('change', event => openFile(event.target.files[0]));
+document.addEventListener('paste', event => {
+  if ($('#text-dialog').open || event.target.isContentEditable || event.target.closest?.('input, textarea, select')) return;
+  const file = [...(event.clipboardData?.files || [])].find(item => item.type.startsWith('image/'));
+  if (!file) return;
+  event.preventDefault();
+  openFile(file);
+});
 scroll.addEventListener('dragover', event => { event.preventDefault(); scroll.classList.add('dragging'); });
 scroll.addEventListener('dragleave', () => scroll.classList.remove('dragging'));
 scroll.addEventListener('drop', event => { event.preventDefault(); scroll.classList.remove('dragging'); openFile(event.dataTransfer.files[0]); });

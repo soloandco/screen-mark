@@ -1,6 +1,6 @@
 {
   "name": "screen-mark",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "description": "Local Chrome screenshot capture and annotation with numbered labels and clipboard export",
   "license": "MIT",
@@ -13,6 +13,7 @@
     "test:stability": "node tests/stability.mjs",
     "test:regressions": "node tests/review-regressions.mjs",
     "test:region": "node tests/region.mjs",
+    "test:interaction": "node tests/interaction.mjs",
     "benchmark": "node scripts/benchmark.mjs",
     "package": "node scripts/package.mjs",
     "icons": "node scripts/icons.mjs",

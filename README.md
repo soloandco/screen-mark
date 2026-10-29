@@ -6,7 +6,7 @@ A local Chrome screenshot and annotation extension with numbered labels and clip
 
 ## 설치
 
-1. [최신 릴리스](https://github.com/soloandco/screen-mark/releases/latest)에서 `screen-mark-1.1.0.zip`을 내려받아 압축을 푼다. 소스를 받았다면 저장소 안의 `extension` 폴더를 사용한다.
+1. [최신 릴리스](https://github.com/soloandco/screen-mark/releases/latest)에서 `screen-mark-1.2.0.zip`을 내려받아 압축을 푼다. 소스를 받았다면 저장소 안의 `extension` 폴더를 사용한다.
 2. Chrome 주소창에 `chrome://extensions`를 입력한다.
 3. 오른쪽 위 **개발자 모드**를 켠 뒤 **압축해제된 확장 프로그램을 로드합니다**를 누른다.
 4. 릴리스 ZIP에서는 `screen-mark` 폴더, 소스에서는 `extension` 폴더를 선택한다. `manifest.json`이 들어 있는 폴더가 설치 대상이다.
@@ -19,7 +19,7 @@ A local Chrome screenshot and annotation extension with numbered labels and clip
 
 ## 이미지로 따라 하기
 
-아래 이미지는 확장을 실제로 실행해 촬영했다. 메뉴와 영역 선택은 v1.1.0, 자동 번호는 v1.0.5, 나머지는 기존 버전의 사용 예시다. 화면 안의 웹사이트는 설명용 예제다.
+아래 이미지는 확장을 실제로 실행해 촬영했다. 메뉴와 영역 선택은 v1.2.0, 자동 번호는 v1.0.5, 나머지는 기존 버전의 사용 예시다. 화면 안의 웹사이트는 설명용 예제다.
 
 ### 1. 캡처 방식 선택
 
@@ -36,9 +36,11 @@ A local Chrome screenshot and annotation extension with numbered labels and clip
 | **스크롤 전체 페이지** | 아래로 긴 웹페이지를 한 장에 담을 때 |
 | 이미지 파일 열어 편집하기 | 이미 저장한 PNG·JPG·WebP를 편집할 때 |
 
-**선택 영역**을 누르면 캡처한 현재 화면이 새 탭에 고정되어 열린다. 원하는 부분을 드래그한 뒤 **선택 영역 사용** 또는 `Enter`를 누른다. 다시 드래그하면 선택을 바꿀 수 있고, **취소** 또는 `Esc`로 돌아간다.
+**선택 영역**을 누르면 캡처한 현재 화면이 새 탭에 고정되어 열린다. 원하는 부분을 **드래그하고 마우스를 놓으면 바로 편집기로 이동**한다. 별도의 확인 클릭이 필요 없다. 드래그하기 전 **취소** 또는 `Esc`로 돌아갈 수 있다.
 
-![선택 화면에서 원하는 부분을 드래그한 모습. 오른쪽 위 선택 영역 사용을 누르면 그 부분만 편집기에 열린다.](docs/images/region-capture.png)
+![드래그 후 바로 편집이 켜진 실제 선택 화면. 원하는 부분을 드래그하고 마우스를 놓으면 편집기로 이동한다.](docs/images/region-capture.png)
+
+선택을 여러 번 조정하려면 **드래그 후 바로 편집** 체크를 끈다. 이때는 다시 드래그해서 조정한 뒤 **선택 영역 사용** 또는 `Enter`로 확정한다. 선택 방식은 이 브라우저에 기억된다. 저장 실패 시에는 원본을 유지하고 재시도 버튼을 보여 준다.
 
 확정한 부분만 이미지로 잘라서 편집기에 넘긴다. 이후 사각형·번호 표시, 파일 저장, 클립보드 복사를 그대로 사용할 수 있다. 편집기의 실행 취소로 선택 바깥을 되살릴 수는 없다. 페이지를 스크롤해서 더 넓은 부분을 담으려면 **스크롤 전체 페이지**로 캡처한 뒤 편집기의 **자르기**를 사용한다.
 
@@ -52,7 +54,7 @@ A local Chrome screenshot and annotation extension with numbered labels and clip
 
 ![실제 편집 화면. 왼쪽 사각형과 번호 라벨 도구를 사용해 문의 버튼과 서비스 카드를 1번과 2번으로 표시한 예시.](docs/images/annotate-screen.png)
 
-표시를 옮길 때는 **선택** 도구로 드래그한다. 지우려면 선택 후 `Delete`, 되돌리려면 `Ctrl+Z`를 누른다.
+표시를 옮길 때는 **Ctrl을 누른 채 드래그**한다(Mac은 `⌘`). 도구를 바꾸지 않고 옮길 수 있어 선택 도구로 전환했다가 돌아오는 클릭 2회를 줄인다. **선택** 도구도 그대로 사용할 수 있다. 지우려면 선택 후 `Delete`, 되돌리려면 `Ctrl+Z`를 누른다.
 
 ### 3. 복사해서 AI에 붙여 넣기
 
@@ -65,6 +67,10 @@ A local Chrome screenshot and annotation extension with numbered labels and clip
 > 1번 문의 버튼을 더 크게 해줘. 2번 카드의 제목은 '이용 방법'으로 바꿔줘.
 
 파일로 보관할 때는 **파일 저장**을 누른다. 사각형과 번호가 포함된 PNG로 저장된다.
+
+## 클립보드 이미지 바로 편집
+
+Windows 화면 캡처 등으로 복사한 이미지가 있으면 편집기에서 **Ctrl+V**(Mac은 `⌘+V`)를 누른다. 파일로 저장하거나 파일 선택창을 열지 않아도 바로 편집할 수 있다. 열려 있는 이미지가 있으면 새 이미지로 교체한다. 텍스트 입력란에서는 평소처럼 텍스트가 붙여넣어지고, 미저장 표시가 있으면 기존 확인 절차를 거친다.
 
 ## 도구·단축키
 
@@ -122,7 +128,9 @@ npm run package
 
 Linux에서 브라우저 시스템 라이브러리도 필요하면 `npx playwright install --with-deps chromium`을 사용한다. 브라우저 검사는 별도 임시 프로필만 사용하며 사용자 Chrome 프로필을 건드리지 않는다. CDP `Extensions.triggerAction`으로 확장 아이콘 호출을 재현해 activeTab을 부여한다. 원본 매니페스트의 권한을 바꾸지 않고 테스트한다. 개발 의존성은 확장 ZIP에 포함되지 않는다.
 
-검증 결과: `docs/verification.md`. ZIP 생성 결과: `dist/screen-mark-1.1.0.zip`.
+검증 결과: `docs/verification.md`. ZIP 생성 결과: `dist/screen-mark-1.2.0.zip`.
+
+`npm run test:interaction`은 실제 클립보드 이미지·텍스트 붙여넣기, 도구를 유지하는 modifier 드래그, 실행 취소, 저장 충돌 후 붙여넣기 취소, 로딩 중 입력 잠금을 검사한다. [클릭 흐름 검토](docs/fewer-clicks.md)에 비교 기준과 검증 범위를 기록한다.
 
 `npm run test:region`은 설치된 Google Chrome의 별도 headless 프로필에서 영역 캡처, 실제 PNG 픽셀, 편집·클립보드 쓰기, 취소와 중복 탭, 저장 실패·재시도를 검사한다. `REGION_SCALE=2` 환경변수로 2배 배율에서도 실행할 수 있다. 메뉴와 영역 선택 예시 이미지는 `test-results/region-1/`에 생성된다.
 

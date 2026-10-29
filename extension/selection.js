@@ -5,8 +5,22 @@ const $ = selector => document.querySelector(selector);
 const surface = $('#surface');
 const image = $('#capture-image');
 const captureId = new URLSearchParams(location.search).get('id');
+const autoConfirm = $('#auto-confirm');
+try { autoConfirm.checked = localStorage.getItem('screen-mark.auto-confirm') !== 'false'; }
+catch (error) { console.warn('선택 방식 설정을 읽지 못함.', error); }
 let record = null, bitmap = null, objectUrl = null;
 let selection = null, gesture = null, busy = false;
+
+function selectionHint() {
+  $('#selection-guide').textContent = autoConfirm.checked ? '드래그를 마치면 선택한 부분이 바로 편집기에 열림.' : '원하는 부분을 드래그하고 선택 영역 사용을 누르세요. 다시 드래그해 조정할 수 있음.';
+}
+selectionHint();
+autoConfirm.addEventListener('change', () => {
+  try { localStorage.setItem('screen-mark.auto-confirm', String(autoConfirm.checked)); }
+  catch (error) { console.warn('선택 방식 설정을 저장하지 못함.', error); }
+  selectionHint();
+  draw();
+});
 
 function status(message, error = false) {
   $('#status').textContent = message;
@@ -21,7 +35,9 @@ function draw() {
     Object.assign(box.style, { left: `${selection.x * scale}px`, top: `${selection.y * scale}px`, width: `${selection.width * scale}px`, height: `${selection.height * scale}px` });
   }
   $('#confirm').disabled = busy || !!gesture || !selection;
+  $('#confirm').hidden = autoConfirm.checked && (busy || !!gesture || !selection);
   $('#cancel').disabled = busy;
+  autoConfirm.disabled = busy || !!gesture;
   $('#dimensions').textContent = selection ? `${selection.width} × ${selection.height} px` : '';
 }
 
@@ -54,6 +70,7 @@ surface.addEventListener('pointerup', event => {
   if (surface.hasPointerCapture(event.pointerId)) surface.releasePointerCapture(event.pointerId);
   status(selection ? '선택 영역 사용을 누르면 표시·저장·복사할 수 있음.' : '영역이 너무 작음. 원하는 부분을 다시 드래그하세요.');
   draw();
+  if (selection && autoConfirm.checked) confirm();
 });
 surface.addEventListener('pointercancel', () => { gesture = null; selection = null; draw(); });
 surface.addEventListener('contextmenu', event => event.preventDefault());
