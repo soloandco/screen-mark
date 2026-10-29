@@ -14,7 +14,7 @@ async function transaction(mode, operation) {
       const tx = db.transaction('captures', mode);
       const result = operation(tx.objectStore('captures'));
       tx.oncomplete = () => resolve(result.result);
-      tx.onerror = () => reject(tx.error);
+      tx.onerror = event => reject(event.target?.error || tx.error || new Error('저장 작업에 실패함.'));
       tx.onabort = () => reject(tx.error || new Error('저장 작업이 취소됨.'));
     });
   } finally { db.close(); }
@@ -22,6 +22,24 @@ async function transaction(mode, operation) {
 
 export const getCapture = id => transaction('readonly', store => store.get(id));
 export const putCapture = capture => transaction('readwrite', store => store.put({ ...capture, updatedAt: Date.now() }));
+
+// One write lock protects completed images from stale selection tabs, including late cancellation.
+export async function finishSelection(id, blob = null) {
+  const changed = await transaction('readwrite', store => {
+    const output = { result: false };
+    const request = store.get(id);
+    request.onsuccess = () => {
+      const current = request.result;
+      if (!current?.selectionPending) return;
+      if (blob) store.put({ ...current, blob, selectionPending: false, updatedAt: Date.now() });
+      else store.delete(id);
+      output.result = true;
+    };
+    return output;
+  });
+  if (blob && !changed) throw new Error('이미 완료되었거나 취소된 캡처임. 메뉴에서 다시 캡처해 주세요.');
+  return changed;
+}
 
 export async function updateDocument(id, document, revision) {
   const result = await transaction('readwrite', store => {

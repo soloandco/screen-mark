@@ -222,7 +222,7 @@ try {
   await source.bringToFront();
   const tabId = await popup.evaluate(async () => (await chrome.tabs.query({ active: true, lastFocusedWindow: true }))[0].id);
   console.log('CHECK: capture source tab ID');
-  assert.deepEqual(await popup.locator('[data-mode]').evaluateAll(buttons => buttons.map(button => button.dataset.mode)), ['visible', 'full']);
+  assert.deepEqual(await popup.locator('[data-mode]').evaluateAll(buttons => buttons.map(button => button.dataset.mode)), ['visible', 'region', 'full']);
   const cdp = await context.browser().newBrowserCDPSession();
   console.log('CHECK: capture CDP connected');
   const { targetInfos } = await cdp.send('Target.getTargets', { filter: [{ type: 'tab', exclude: false }] });

@@ -1,4 +1,4 @@
-import { putCapture, cleanOldCaptures } from './storage.js';
+import { putCapture, cleanOldCaptures, finishSelection } from './storage.js';
 import { capturePlan, captureSlice } from './model.js';
 import { pageCapture } from './page-capture.js';
 
@@ -60,7 +60,7 @@ async function fullPage(tab) {
 
 async function capture(message) {
   if (busy) throw new Error('다른 캡처가 진행 중임. 잠시 뒤 다시 시도해 주세요.');
-  if (!['visible', 'full'].includes(message.mode) || !Number.isInteger(message.tabId)) throw new Error('올바르지 않은 캡처 요청임.');
+  if (!['visible', 'region', 'full'].includes(message.mode) || !Number.isInteger(message.tabId)) throw new Error('올바르지 않은 캡처 요청임.');
   busy = true;
   try {
     const tab = await chrome.tabs.get(message.tabId);
@@ -75,9 +75,11 @@ async function capture(message) {
     }
     await cleanOldCaptures();
     const id = crypto.randomUUID();
-    await putCapture({ id, blob, title: tab.title || '화면 캡처', createdAt: Date.now(), document: { shapes: [], crop: null } });
-    const url = chrome.runtime.getURL(`editor.html?id=${id}`);
-    await chrome.tabs.create({ url });
+    const selectionPending = message.mode === 'region';
+    await putCapture({ id, blob, title: tab.title || '화면 캡처', createdAt: Date.now(), document: { shapes: [], crop: null }, ...(selectionPending ? { selectionPending, sourceTabId: tab.id } : {}) });
+    const url = chrome.runtime.getURL(`${selectionPending ? 'selection' : 'editor'}.html?id=${id}`);
+    try { await chrome.tabs.create({ url }); }
+    catch (error) { if (selectionPending) await finishSelection(id); throw error; }
     return { ok: true, id };
   } finally { busy = false; }
 }

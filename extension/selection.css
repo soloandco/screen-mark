@@ -1,0 +1,14 @@
+:root{color-scheme:light;--ink:#242d28;--muted:#6e776e;--paper:#f7f5ee;--green:#245b46;--line:#d9ded3}
+*{box-sizing:border-box}
+body{margin:0;height:100dvh;display:flex;flex-direction:column;background:var(--paper);color:var(--ink);font:13px 'Malgun Gothic','Segoe UI',sans-serif}
+[hidden]{display:none!important}
+header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 26px;border-bottom:1px solid var(--line);background:#fffcf5}
+header>div{display:flex;align-items:center;gap:24px}.brand{font:600 24px Georgia,serif;white-space:nowrap}h1{font-size:15px;font-weight:500;margin:0;color:var(--muted)}
+header .actions{gap:10px}button{font:inherit;padding:11px 16px;border:1px solid #bcc9b6;border-radius:6px;background:transparent;color:var(--ink);cursor:pointer;white-space:nowrap}
+button.primary{background:var(--green);color:white;border-color:var(--green)}button:disabled{opacity:.4;cursor:default}button:focus-visible,#surface:focus-visible{outline:3px solid #c2963c;outline-offset:3px}kbd{font:10px Consolas,monospace;opacity:.7;margin-left:14px}
+.guide{margin:0;padding:13px 26px;color:var(--muted);font-size:12px}
+#stage{min-height:0;flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:24px;background:#e9ece5;background-image:radial-gradient(#c7cfc0 .65px,transparent .65px);background-size:13px 13px}
+#surface{position:relative;flex:none;overflow:hidden;cursor:crosshair;touch-action:none;user-select:none;box-shadow:0 4px 22px #28382417,0 0 0 1px #c5ccbf}img{display:block;pointer-events:none}
+#selection{position:absolute;pointer-events:none;border:2px solid #e44d35;background:#ffffff08;box-shadow:0 0 0 10000px #172c2470}
+footer{display:flex;justify-content:space-between;gap:16px;min-height:38px;padding:10px 26px;border-top:1px solid var(--line);color:var(--muted);font-size:11px}#status.error{color:#b13222}#dimensions{font:11px Consolas,monospace;white-space:nowrap}
+@media(max-width:720px){header{padding:14px;gap:8px}.brand{font-size:20px}h1,kbd{display:none}header .actions{gap:6px}button{padding:10px}.guide{padding:10px 14px}footer{padding:10px 14px}}

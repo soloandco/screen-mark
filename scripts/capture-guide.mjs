@@ -35,7 +35,7 @@ try {
   const popup = await context.newPage();
   await popup.setViewportSize({ width: 344, height: 500 });
   await popup.goto(`chrome-extension://${id}/popup.html`);
-  assert.deepEqual(await popup.locator('[data-mode]').evaluateAll(buttons => buttons.map(button => button.dataset.mode)), ['visible', 'full']);
+  assert.deepEqual(await popup.locator('[data-mode]').evaluateAll(buttons => buttons.map(button => button.dataset.mode)), ['visible', 'region', 'full']);
   await popup.locator('body').screenshot({ path: path.join(output, 'capture-menu.png') });
 
   const manager = await context.newPage();
@@ -84,7 +84,7 @@ try {
     extensionVersion: JSON.parse(await readFile(path.join(extension, 'manifest.json'))).version,
     fixture: 'scripts/fixtures/guide-demo.html',
     imageNames: ['install-extension.png', 'capture-menu.png', 'annotate-screen.png', 'copy-to-ai.png'],
-    checks: ['unpacked load menu visible', 'two capture modes', 'actual visible capture 1000x700', 'two rectangles and labels 1,2', 'clipboard image write succeeded'],
+    checks: ['unpacked load menu visible', 'three capture modes', 'actual visible capture 1000x700', 'two rectangles and labels 1,2', 'clipboard image write succeeded'],
     personalProfileUsed: false
   }, null, 2));
   console.log('Created and verified four real UI screenshots for README.');

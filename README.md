@@ -1,12 +1,12 @@
 # Screen Mark
 
-현재 화면과 스크롤 전체 페이지를 캡처하고, 사각형·원형 숫자로 표시한 뒤 AI 입력창에 붙여 넣는 크롬 확장 프로그램.
+현재 화면·선택 영역·스크롤 전체 페이지를 캡처하고, 사각형·원형 숫자로 표시한 뒤 AI 입력창에 붙여 넣는 크롬 확장 프로그램.
 
 A local Chrome screenshot and annotation extension with numbered labels and clipboard export. MIT licensed. No account or cloud upload required.
 
 ## 설치
 
-1. [최신 릴리스](https://github.com/soloandco/screen-mark/releases/latest)에서 `screen-mark-1.0.6.zip`을 내려받아 압축을 푼다. 소스를 받았다면 저장소 안의 `extension` 폴더를 사용한다.
+1. [최신 릴리스](https://github.com/soloandco/screen-mark/releases/latest)에서 `screen-mark-1.1.0.zip`을 내려받아 압축을 푼다. 소스를 받았다면 저장소 안의 `extension` 폴더를 사용한다.
 2. Chrome 주소창에 `chrome://extensions`를 입력한다.
 3. 오른쪽 위 **개발자 모드**를 켠 뒤 **압축해제된 확장 프로그램을 로드합니다**를 누른다.
 4. 릴리스 ZIP에서는 `screen-mark` 폴더, 소스에서는 `extension` 폴더를 선택한다. `manifest.json`이 들어 있는 폴더가 설치 대상이다.
@@ -19,7 +19,7 @@ A local Chrome screenshot and annotation extension with numbered labels and clip
 
 ## 이미지로 따라 하기
 
-아래 이미지는 v1.0.1 확장을 실제로 실행해 촬영했다. 화면 안의 웹사이트는 설명용 예제다.
+아래 이미지는 확장을 실제로 실행해 촬영했다. 메뉴와 영역 선택은 v1.1.0, 자동 번호는 v1.0.5, 나머지는 기존 버전의 사용 예시다. 화면 안의 웹사이트는 설명용 예제다.
 
 ### 1. 캡처 방식 선택
 
@@ -27,13 +27,20 @@ A local Chrome screenshot and annotation extension with numbered labels and clip
 
 메뉴 하단에 실제 설치된 버전이 표시된다. 업데이트한 폴더를 쓰는 경우 `chrome://extensions`에서 Screen Mark의 새로고침을 누르고 메뉴를 다시 열어 버전을 확인한다.
 
-<img src="docs/images/capture-menu.png" alt="현재 화면과 스크롤 전체 페이지를 선택하는 Screen Mark 실제 메뉴" width="344">
+<img src="docs/images/capture-menu.png" alt="현재 화면, 선택 영역, 스크롤 전체 페이지를 선택하는 Screen Mark 실제 메뉴" width="344">
 
 | 메뉴 | 선택할 때 |
 |---|---|
 | **현재 화면** | 지금 보이는 부분만 캡처할 때 |
+| **선택 영역** | 현재 화면 중 원하는 부분만 드래그해 캡처할 때 |
 | **스크롤 전체 페이지** | 아래로 긴 웹페이지를 한 장에 담을 때 |
 | 이미지 파일 열어 편집하기 | 이미 저장한 PNG·JPG·WebP를 편집할 때 |
+
+**선택 영역**을 누르면 캡처한 현재 화면이 새 탭에 고정되어 열린다. 원하는 부분을 드래그한 뒤 **선택 영역 사용** 또는 `Enter`를 누른다. 다시 드래그하면 선택을 바꿀 수 있고, **취소** 또는 `Esc`로 돌아간다.
+
+![선택 화면에서 원하는 부분을 드래그한 모습. 오른쪽 위 선택 영역 사용을 누르면 그 부분만 편집기에 열린다.](docs/images/region-capture.png)
+
+확정한 부분만 이미지로 잘라서 편집기에 넘긴다. 이후 사각형·번호 표시, 파일 저장, 클립보드 복사를 그대로 사용할 수 있다. 편집기의 실행 취소로 선택 바깥을 되살릴 수는 없다. 페이지를 스크롤해서 더 넓은 부분을 담으려면 **스크롤 전체 페이지**로 캡처한 뒤 편집기의 **자르기**를 사용한다.
 
 ### 2. 사각형과 번호로 표시
 
@@ -79,6 +86,8 @@ A local Chrome screenshot and annotation extension with numbered labels and clip
 
 이미지를 외부 서버로 보내지 않는다. 원본과 편집 정보는 이 브라우저 프로필의 확장 IndexedDB에 저장된다. 새로고침 시 편집은 복원되며 실행 취소 이력은 초기화된다. 캡처 시 마지막 저장 후 하루가 지난 임시 작업을 삭제한다. 보관할 이미지는 PNG로 저장한다. 확장을 제거하면 내부 저장 데이터도 제거된다.
 
+영역 선택 중에는 전체 현재 화면을 임시 저장한다. 확정하면 선택 부분으로 교체하고, **취소**·`Esc`를 누르면 임시 원본을 삭제한다. 선택 탭을 X로 닫으면 임시 원본이 남으며, 마지막 저장 후 하루가 지난 다음 캡처 때 정리된다.
+
 같은 캡처를 두 편집 탭에서 열면 저장 충돌을 감지한다. 다른 탭의 저장본을 덮어쓰지 않으며, 충돌한 탭의 표시는 현재 화면에 남는다. 해당 탭에서 먼저 **파일 저장** 또는 **클립보드 복사**로 보관한 뒤 새로고침하면 최신 저장본으로 다시 편집할 수 있다. 자동 저장에 실패한 상태에서 새 이미지를 열 때는 미저장 표시를 버릴지 확인한다. 취소하면 현재 작업을 유지한다.
 
 - `activeTab`: 확장 아이콘으로 호출한 현재 탭 캡처.
@@ -113,7 +122,9 @@ npm run package
 
 Linux에서 브라우저 시스템 라이브러리도 필요하면 `npx playwright install --with-deps chromium`을 사용한다. 브라우저 검사는 별도 임시 프로필만 사용하며 사용자 Chrome 프로필을 건드리지 않는다. CDP `Extensions.triggerAction`으로 확장 아이콘 호출을 재현해 activeTab을 부여한다. 원본 매니페스트의 권한을 바꾸지 않고 테스트한다. 개발 의존성은 확장 ZIP에 포함되지 않는다.
 
-검증 결과: `docs/verification.md`. ZIP 생성 결과: `dist/screen-mark-1.0.6.zip`.
+검증 결과: `docs/verification.md`. ZIP 생성 결과: `dist/screen-mark-1.1.0.zip`.
+
+`npm run test:region`은 설치된 Google Chrome의 별도 headless 프로필에서 영역 캡처, 실제 PNG 픽셀, 편집·클립보드 쓰기, 취소와 중복 탭, 저장 실패·재시도를 검사한다. `REGION_SCALE=2` 환경변수로 2배 배율에서도 실행할 수 있다. 메뉴와 영역 선택 예시 이미지는 `test-results/region-1/`에 생성된다.
 
 `npm run test:regressions`는 설치된 Google Chrome의 별도 임시 프로필에서 초기 이미지 로딩 충돌, 오류 후 파일 열기 복구, 화살표 선택, 전체 페이지의 헤더·하단 픽셀을 검사한다. `npm run test:regressions -- --long`은 캡처 API에 매회 3.2초 지연을 주입하고 높이 32,000px 페이지를 실제로 32번 촬영해, 90초 이후에도 완료되는지 추가 검사한다. 이 검사는 수 분이 걸리며 속도 벤치마크가 아니다. 단위 테스트는 제어된 시계로 복원 타이머 갱신과 유휴 상태의 원상 복구도 확인한다.
 

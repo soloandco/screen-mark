@@ -2,6 +2,17 @@ export function normalizeRect(start, end) {
   return { x: Math.min(start.x, end.x), y: Math.min(start.y, end.y), width: Math.abs(end.x - start.x), height: Math.abs(end.y - start.y) };
 }
 
+export function pixelSelection(start, end, width, height) {
+  if (![start.x, start.y, end.x, end.y, width, height].every(Number.isFinite) || width <= 0 || height <= 0) return null;
+  const box = normalizeRect(start, end);
+  if (box.width < 3 || box.height < 3) return null;
+  const x = Math.max(0, Math.min(width, Math.floor(box.x)));
+  const y = Math.max(0, Math.min(height, Math.floor(box.y)));
+  const right = Math.max(0, Math.min(width, Math.ceil(box.x + box.width)));
+  const bottom = Math.max(0, Math.min(height, Math.ceil(box.y + box.height)));
+  return right - x >= 3 && bottom - y >= 3 ? { x, y, width: right - x, height: bottom - y } : null;
+}
+
 export function imagePoint(clientX, clientY, bounds, width, height) {
   const clamp = (value, max) => Math.min(max, Math.max(0, value));
   return { x: clamp((clientX - bounds.left) * width / bounds.width, width), y: clamp((clientY - bounds.top) * height / bounds.height, height) };

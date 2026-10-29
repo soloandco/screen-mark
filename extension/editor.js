@@ -331,6 +331,7 @@ if (params.get('id')) {
     await loadImage(async () => {
       const record = await getCapture(params.get('id'));
       if (!record) throw new Error('임시 이미지가 삭제됨. 다시 캡처하거나 파일을 열어 주세요.');
+      if (record.selectionPending) throw new Error('선택 화면에서 영역을 먼저 확정해 주세요.');
       await displayCapture(record);
     });
   } catch (error) { status(error.message, true); }
