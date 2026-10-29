@@ -4,7 +4,7 @@ document.querySelector('#version').textContent = `v${chrome.runtime.getManifest(
 document.querySelectorAll('[data-mode]').forEach(button => button.addEventListener('click', async () => {
   buttons.forEach(item => { item.disabled = true; });
   status.className = '';
-  status.textContent = { full: '캡처 중… 완료될 때까지 이 탭을 유지해 주세요.', region: '영역을 선택할 화면을 준비하는 중…', visible: '화면을 캡처하는 중…' }[button.dataset.mode];
+  status.textContent = { full: '캡처 중… 완료될 때까지 이 탭을 유지해 주세요.', region: '현재 페이지에서 영역 선택을 시작하는 중…', visible: '화면을 캡처하는 중…' }[button.dataset.mode];
   try {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     if (!tab?.id) throw new Error('캡처할 탭을 찾지 못함.');

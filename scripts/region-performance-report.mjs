@@ -1,0 +1,94 @@
+import assert from 'node:assert/strict';
+import { readFile, writeFile } from 'node:fs/promises';
+import path from 'node:path';
+
+const input = path.resolve(process.argv[2] || 'docs/performance/region-study.json');
+const output = path.resolve(process.argv[3] || 'docs/performance-region.md');
+const study = JSON.parse(await readFile(input, 'utf8'));
+const load = async name => {
+  const data = JSON.parse(await readFile(path.resolve(path.dirname(input), name), 'utf8'));
+  assert.equal(data.runs.length, data.environment.trials);
+  for (const run of data.runs) assert.equal(run.dimensions, '300 × 200 px');
+  return data;
+};
+const initial = await load(study.initialRegion), before = await load(study.baselineRegion);
+const after = study.optimizedRegion ? await load(study.optimizedRegion) : null;
+if (after) {
+  assert.equal(after.environment.trials, before.environment.trials);
+  for (const key of ['headless', 'viewport', 'input']) assert.deepEqual(after.environment[key], before.environment[key]);
+  assert.equal(after.environment.chrome.product, before.environment.chrome.product);
+}
+const median = values => {
+  assert.ok(values.length && values.every(Number.isFinite));
+  const sorted = [...values].sort((a, b) => a - b), middle = Math.floor(sorted.length / 2);
+  return sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2;
+};
+const sum = values => values.reduce((total, value) => total + value, 0);
+const metrics = [
+  ['선택 시작 요청', run => run.selectionRequestMs],
+  ['마우스 놓기부터 편집 화면 그리기', run => run.releaseToPaintMs],
+  ['선택 완료 요청 응답', run => run.contentCaptureRequestMs],
+  ['촬영 API', run => run.captureApiMs],
+  ['이미지 디코딩', run => run.decodeMs],
+  ['선택 부분 PNG 인코딩', run => run.encodeMs],
+  ['DB 열기 합계', run => sum(run.databaseOpenMs)],
+  ['DB 트랜잭션 합계', run => sum(run.transactions.map(item => item.ms))],
+  ['편집 탭 생성 API', run => run.tabCreateMs],
+  ['드래그 입력 120회 처리 합계', run => sum(run.drag.handlerMs)]
+];
+for (const data of [before, after].filter(Boolean)) {
+  assert.equal(data.methodologyVersion, 2);
+  assert.match(data.sourceSha256, /^[a-f0-9]{64}$/);
+  for (const run of data.runs) assert.deepEqual(run.drag.selection, { width: '300px', height: '200px' });
+}
+const rows = metrics.map(([name, measure]) => {
+  const value = data => median(data.runs.map(measure));
+  return `| ${name} | ${value(before).toFixed(1)} ms |${after ? ` ${value(after).toFixed(1)} ms |` : ''}`;
+}).join('\n');
+const link = name => path.relative(path.dirname(output), path.resolve(path.dirname(input), name)).replaceAll('\\', '/');
+const editor = JSON.parse(await readFile(path.resolve(path.dirname(input), study.editorComparison), 'utf8'));
+assert.equal(editor.runs.length, editor.environment.trials * 2);
+assert.ok(editor.runs.every(run => run.ok && !run.error));
+for (const run of editor.runs) {
+  assert.equal(run.drag.moves, 120); assert.equal(run.drag.redraws, 30);
+  assert.ok(run.repeatCopies.every(copy => copy.encodes === 0));
+}
+const editorAfter = editor.runs.filter(run => run.label === 'after');
+const contents = `# Screen Mark 영역 캡처 성능 기록
+
+측정일: ${before.date} KST. ${before.environment.chrome.product}. 설치된 Chrome의 별도 headless 프로필과 동일한 로컬 예제를 사용함. 원시 결과에서 이 문서의 수치를 자동 계산함.
+
+## 초기 측정 보존
+
+v${initial.version}의 최초 ${initial.environment.trials}회 측정에서 선택 준비 중앙값은 ${median(initial.runs.map(run => run.selectionReadyMs)).toFixed(1)}ms, 마우스를 놓은 뒤 편집기 표시 중앙값은 ${median(initial.runs.map(run => run.releaseToEditorMs)).toFixed(1)}ms였음. Node·CDP 왕복과 자동화 도구의 대기까지 포함한 값임. 제품 내부 지연으로 그대로 해석하거나 아래 측정과 개선율을 계산하지 않음. [초기 원본](${link(study.initialRegion)}).
+
+## 브라우저 내부 구간 측정
+
+v${before.version}${after ? `와 v${after.version}를 각각` : '를'} ${before.environment.trials}회 측정함. 선택 시작은 브라우저 내부 sendMessage 왕복, 편집 표시 구간은 원래 페이지의 요청 시작과 편집기의 두 번째 애니메이션 프레임 시각 차이임. 서로 다른 페이지의 performance.timeOrigin과 performance.now를 합한 시각을 사용함. 촬영·인코딩·DB는 각 API 구간으로, 병행되거나 서로 겹칠 수 있어 합산하지 않음. 표는 실행별 중앙값임.
+
+| 항목 | v${before.version} |${after ? ` v${after.version} |` : ''}
+|---|---:|${after ? '---:|' : ''}
+${rows}
+
+실제 pointerdown의 ID를 재사용한 합성 pointermove 입력 120개를 30개 프레임에 전달함. 마지막 실제 마우스 이동 전에 선택 상자가 300 × 200px로 갱신됐는지 단언함. 물리적 마우스 입력 지연을 측정한 결과는 아님. 드래그 구간에서 관측된 50ms 이상 작업은 기준선 ${sum(before.runs.map(run => run.drag.longTasksMs.length))}회${after ? `, 변경 후 ${sum(after.runs.map(run => run.drag.longTasksMs.length))}회` : ''}였음.
+
+소스 SHA-256: 기준선 \`${before.sourceSha256}\`${after ? `, 변경 후 \`${after.sourceSha256}\`` : ''}. [기준선 원본](${link(study.baselineRegion)})${after ? `, [변경 후 원본](${link(study.optimizedRegion)})` : ''}.
+
+## 큰 이미지 편집·복사
+
+v${editor.beforeVersion} 커밋 \`${editor.baselineSha}\`와 v${editor.afterVersion}를 교대로 각각 ${editor.environment.trials}회 측정함. 1600 × 10000px 동일 이미지와 실제 클립보드 쓰기를 사용함. v${editor.afterVersion}의 첫 복사 중앙값은 ${median(editorAfter.map(run => run.firstCopy.copyMs)).toFixed(1)}ms, 수정 없는 반복 복사는 ${median(editorAfter.map(run => median(run.repeatCopies.map(copy => copy.copyMs)))).toFixed(1)}ms임. 양쪽 모두 120회 입력에서 재그리기 30회, 반복 복사의 PNG 재생성 0회를 확인함. 실행 간 변동과 겹치는 범위가 있고 편집·렌더 소스가 같으므로 리팩터링에 따른 속도 변화로 단정하지 않음. [비교 원본](${link(study.editorComparison)}).
+
+## 확인한 개선 후보와 제약
+
+- 촬영·자르기가 끝난 뒤 DB 정리를 시작하는 순서가 첫 DB 열기 시간을 그대로 더함. 동일한 만료 기준·쓰기 잠금으로 정리하되 촬영과 겹쳐 실행하는 방법을 시험함. 양쪽 작업이 끝난 뒤에만 저장하고 실패를 전달해야 함.
+- 선택 검증에 전체 UI 함수를 다시 전달하는 비용은 세부 계측에서 작았으므로 우선순위를 낮춤. 드래그 입력 처리도 낮은 비용을 보였으므로 현재 단계에서 새 그리기 구조를 추가하지 않음.
+- 촬영 호출 제한은 유지함. Chrome은 captureVisibleTab을 초당 최대 2회로 제한함. [Chrome Tabs 공식 문서](https://developer.chrome.com/docs/extensions/reference/api/tabs#property-MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND).
+- executeScript는 주입 함수를 직렬화하며 기본적으로 document_idle에 실행함. 로딩 중 페이지에는 injectImmediately도 후보지만 현재 로드된 예제 결과와 별도로 검증해야 함. [Chrome Scripting 공식 문서](https://developer.chrome.com/docs/extensions/reference/api/scripting#type-ScriptInjection).
+- 사용자 프로필의 도구 모음 팝업 생성 시간, 모든 웹사이트, 장시간 연속 사용은 이번 측정에 포함하지 않음. 소수 표본의 중앙값은 통계적으로 확정된 개선율을 뜻하지 않음.
+
+## 재현
+
+영역 측정: \`node scripts/benchmark-region.mjs\`. BENCH_TRIALS, BENCH_OUTPUT, BENCH_EXTENSION으로 반복 수·출력·소스를 지정함. 보고서 재생성: \`node scripts/region-performance-report.mjs\`.
+`;
+await writeFile(output, contents);
+console.log(JSON.stringify({ output, beforeTrials: before.runs.length, afterTrials: after?.runs.length || 0 }));

@@ -10,7 +10,7 @@ import sharp from 'sharp';
 const root = path.resolve(import.meta.dirname, '..');
 const temporary = await mkdtemp(path.join(os.tmpdir(), 'screen-mark-region-'));
 const scale = Number(process.env.REGION_SCALE || 1);
-const output = path.join(root, `test-results/region-${scale}`);
+const output = path.join(root, `test-results/region-legacy-${scale}`);
 await mkdir(output, { recursive: true });
 const guide = await readFile(path.join(root, 'scripts/fixtures/guide-demo.html'));
 const server = http.createServer((req, res) => {
@@ -44,12 +44,24 @@ try {
   await source.goto(sourceUrl);
   const { targetInfos } = await cdp.send('Target.getTargets', { filter: [{ type: 'tab', exclude: false }] });
   const target = targetInfos.find(target => target.url === sourceUrl);
+  let lastCapture = 0;
   async function capture() {
     await source.bringToFront();
     await cdp.send('Extensions.triggerAction', { id, targetId: target.targetId });
     const tabId = await control.evaluate(async () => (await chrome.tabs.query({ active: true, lastFocusedWindow: true }))[0].id);
+    await new Promise(resolve => setTimeout(resolve, Math.max(0, 560 - (Date.now() - lastCapture))));
     const pagePromise = context.waitForEvent('page', page => page !== source && page !== control);
-    const result = await control.evaluate(async tabId => chrome.runtime.sendMessage({ type: 'capture', mode: 'region', tabId }), tabId);
+    // Existing pending selection tabs remain usable after upgrading to live region selection.
+    const result = await control.evaluate(async tabId => {
+      const { putCapture } = await import('./storage.js');
+      const tab = await chrome.tabs.get(tabId);
+      const blob = await (await fetch(await chrome.tabs.captureVisibleTab(tab.windowId, { format: 'png' }))).blob();
+      const id = crypto.randomUUID();
+      await putCapture({ id, blob, title: tab.title, createdAt: Date.now(), document: { shapes: [], crop: null }, selectionPending: true, sourceTabId: tabId });
+      await chrome.tabs.create({ url: chrome.runtime.getURL(`selection.html?id=${id}`) });
+      return { ok: true, id };
+    }, tabId);
+    lastCapture = Date.now();
     assert.equal(result.ok, true, result.error);
     const page = await pagePromise;
     await page.waitForURL(`**/selection.html?id=${result.id}`);
