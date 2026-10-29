@@ -1,0 +1,245 @@
+{
+  "version": "1.2.3",
+  "date": "2026-10-29",
+  "region": [
+    {
+      "ok": true,
+      "date": "2026-10-29",
+      "version": "1.2.3",
+      "browser": {
+        "protocolVersion": "1.3",
+        "product": "Chrome/155.0.8059.86",
+        "revision": "@804d6b05f089b27af8342622a36558c49401a1d4",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+        "jsVersion": "15.5.35.25"
+      },
+      "scale": 1,
+      "checks": [
+        "menu selects on the source page with no screenshot tab or stored capture; tiny gestures do nothing",
+        "reverse drag physically crops the PNG and every exported pixel excludes the overlay",
+        "cropped editor supports numbered annotations and actual clipboard writes",
+        "Escape cancels without storing an image or opening a tab",
+        "wheel is blocked while selecting and resize cancels safely",
+        "restarting replaces the previous overlay and remains cancellable",
+        "capture failure restores the overlay and allows retry",
+        "storage failure does not leave a whole-screen record and allows another drag",
+        "a region completion message without a genuine source selection cannot create a capture",
+        "viewport-edge selection uses the actual screenshot pixel scale",
+        "navigation removes the overlay and subsequent selection still works"
+      ],
+      "errors": []
+    },
+    {
+      "ok": true,
+      "date": "2026-10-29",
+      "version": "1.2.3",
+      "browser": {
+        "protocolVersion": "1.3",
+        "product": "Chrome/155.0.8059.86",
+        "revision": "@804d6b05f089b27af8342622a36558c49401a1d4",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+        "jsVersion": "15.5.35.25"
+      },
+      "scale": 2,
+      "checks": [
+        "menu selects on the source page with no screenshot tab or stored capture; tiny gestures do nothing",
+        "reverse drag physically crops the PNG and every exported pixel excludes the overlay",
+        "cropped editor supports numbered annotations and actual clipboard writes",
+        "Escape cancels without storing an image or opening a tab",
+        "wheel is blocked while selecting and resize cancels safely",
+        "restarting replaces the previous overlay and remains cancellable",
+        "capture failure restores the overlay and allows retry",
+        "storage failure does not leave a whole-screen record and allows another drag",
+        "a region completion message without a genuine source selection cannot create a capture",
+        "viewport-edge selection uses the actual screenshot pixel scale",
+        "navigation removes the overlay and subsequent selection still works"
+      ],
+      "errors": []
+    }
+  ],
+  "legacySelectionReference": {
+    "ok": true,
+    "date": "2026-10-29",
+    "version": "1.2.1",
+    "browser": {
+      "protocolVersion": "1.3",
+      "product": "Chrome/155.0.8059.86",
+      "revision": "@804d6b05f089b27af8342622a36558c49401a1d4",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+      "jsVersion": "15.5.35.25"
+    },
+    "scale": 1,
+    "checks": [
+      "default region drag opens the cropped editor without a confirm click; tiny gestures stay in selection",
+      "automatic confirmation errors preserve the original and expose an explicit retry button",
+      "manual confirmation preference survives reload and new selection tabs",
+      "pending originals cannot be opened directly in the editor",
+      "reverse selection physically crops PNG and cannot undo to reveal outside pixels",
+      "stale selection confirmation and cancellation cannot replace or delete a completed capture",
+      "cropped image supports automatic numbering and actual clipboard image write",
+      "pending reload works and Escape removes the temporary original",
+      "failed crop persistence keeps original; resize preserves selection and Enter retries"
+    ],
+    "errors": []
+  },
+  "browser": {
+    "checks": [
+      "popup displays the installed manifest version",
+      "120 pointer updates share one redraw and pointerup clears the preview",
+      "rectangle, sequential number labels, undo and redo",
+      "downloaded PNG contains rectangle and both circular labels at original resolution",
+      "PNG result reuse and pending clipboard write deduplication",
+      "reload persistence, selection, moving and deleting labels",
+      "crop and undo restore image dimensions",
+      "arrow, text dialog, mosaic, clipboard image write",
+      "Ctrl+C copies the annotated image from the canvas",
+      "clipboard failure unlocks the button and retry succeeds",
+      "exported cropped PNG preserves cropped dimensions",
+      "undo, redo and image replacement invalidate export cache; new PNG pixels are clean",
+      "visible capture: 1440x1000",
+      "full capture: 1440x2600"
+    ],
+    "errors": [],
+    "capturePermission": "Unmodified production manifest. CDP Extensions.triggerAction granted activeTab in isolated Chromium."
+  },
+  "stability": {
+    "date": "2026-10-29",
+    "version": "1.2.3",
+    "selection": "all",
+    "environment": {
+      "browser": "Installed Google Chrome",
+      "headless": true,
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "isolatedProfile": true,
+      "chrome": {
+        "protocolVersion": "1.3",
+        "product": "Chrome/155.0.8059.86",
+        "revision": "@804d6b05f089b27af8342622a36558c49401a1d4",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+        "jsVersion": "15.5.35.25"
+      }
+    },
+    "scenarios": [
+      {
+        "name": "12 alternating visible/full captures keep source pixels and restore the page",
+        "ok": true,
+        "ms": 40889.5688,
+        "details": {
+          "captures": 12,
+          "full": 4,
+          "visible": 8
+        }
+      },
+      {
+        "name": "three independent editor tabs survive rapid saves, repeated copy and reload",
+        "ok": true,
+        "ms": 10495.667399999998,
+        "details": {
+          "editorTabs": 3,
+          "rounds": 4,
+          "edits": 156,
+          "clipboardWrites": 24,
+          "reloads": 12
+        }
+      },
+      {
+        "name": "replacing long and small images repeatedly clears the previous image and labels",
+        "ok": true,
+        "ms": 6512.894799999995,
+        "details": {
+          "imageReplacements": 4,
+          "longImages": 2,
+          "longDimensions": "1600x10000",
+          "clipboardWrites": 8
+        }
+      },
+      {
+        "name": "duplicate editor cannot silently overwrite a newer save from another tab",
+        "ok": true,
+        "ms": 1763.8910000000033,
+        "details": {
+          "preservedNewerSave": true,
+          "laterQueuedEditsBlocked": 8,
+          "cancelledReplacementPreserved": true,
+          "explicitDiscardReplacement": true,
+          "localConflictCopy": true,
+          "saveAfterReload": true
+        }
+      },
+      {
+        "name": "recent edits keep an older capture alive during temporary cleanup",
+        "ok": true,
+        "ms": 998.6586000000025,
+        "details": {
+          "simulatedAgeHours": 25,
+          "real24HourSoak": false
+        }
+      },
+      {
+        "name": "atomic document revisions reject simultaneous stale writers and missing records",
+        "ok": true,
+        "ms": 778.5077999999994,
+        "details": {
+          "competingWriters": 2,
+          "accepted": 1,
+          "missingRecordNotRecreated": true
+        }
+      },
+      {
+        "name": "temporary cleanup supports legacy timestamps and removes only inactive records",
+        "ok": true,
+        "ms": 3658.354099999997,
+        "details": {
+          "legacyAndUpdatedRecords": 4,
+          "deletedInactive": 2,
+          "preservedRecent": 2
+        }
+      },
+      {
+        "name": "image replacement freezes edits until the old save queue and decode finish",
+        "ok": true,
+        "ms": 825.9657000000007,
+        "details": {
+          "pausedDuringDecode": true,
+          "blockedEditingInputs": 5,
+          "previousSavePreserved": true
+        }
+      },
+      {
+        "name": "overlapping capture is rejected and switching source tabs restores and unlocks capture",
+        "ok": true,
+        "ms": 3848.5280000000057,
+        "details": {
+          "overlapRejected": true,
+          "cancellationRestored": true,
+          "retrySucceeded": true
+        }
+      },
+      {
+        "name": "idle extension worker restart preserves edits and permits another capture",
+        "ok": true,
+        "ms": 5730.878800000006,
+        "details": {
+          "restartedAfterIdle": true,
+          "persistedShapes": 48
+        }
+      }
+    ],
+    "pageErrors": [],
+    "operations": {
+      "captures": 14,
+      "copies": 33,
+      "rapidEdits": 180
+    }
+  },
+  "package": {
+    "files": 20,
+    "sha256": "7fc65201d38f6ddc73a7e7bfc7cf18bb68b677699133ce2a4916184c8098815a",
+    "allFilesMatchSource": true
+  },
+  "benchmarkedSourceMatches": true,
+  "personalProfileUpdated": false
+}

@@ -128,7 +128,7 @@ npm run package
 
 Linux에서 브라우저 시스템 라이브러리도 필요하면 `npx playwright install --with-deps chromium`을 사용한다. 브라우저 검사는 별도 임시 프로필만 사용하며 사용자 Chrome 프로필을 건드리지 않는다. CDP `Extensions.triggerAction`으로 확장 아이콘 호출을 재현해 activeTab을 부여한다. 원본 매니페스트의 권한을 바꾸지 않고 테스트한다. 개발 의존성은 확장 ZIP에 포함되지 않는다.
 
-검증 결과: `docs/verification.md`. ZIP 생성 결과: `dist/screen-mark-1.2.2.zip`.
+검증 결과: `docs/verification.md`. ZIP 생성 결과: `dist/screen-mark-1.2.3.zip`.
 
 `npm run test:interaction`은 실제 클립보드 이미지·텍스트 붙여넣기, 도구를 유지하는 modifier 드래그, 실행 취소, 저장 충돌 후 붙여넣기 취소, 로딩 중 입력 잠금을 검사한다. [클릭 흐름 검토](docs/fewer-clicks.md)에 비교 기준과 검증 범위를 기록한다.
 

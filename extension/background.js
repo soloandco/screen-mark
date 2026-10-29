@@ -94,14 +94,19 @@ async function capture(message) {
     }
     let blob;
     if (message.mode === 'full') blob = await fullPage(tab);
-    else if (message.mode === 'selected-region') blob = await selectedRegion(tab);
-    else {
+    else if (message.mode === 'selected-region') {
+      // Keep both operations inside the capture lock, including either failure path.
+      const [image, cleanup] = await Promise.allSettled([selectedRegion(tab), cleanOldCaptures()]);
+      if (image.status === 'rejected') throw image.reason;
+      if (cleanup.status === 'rejected') throw cleanup.reason;
+      blob = image.value;
+    } else {
       blob = await screenshot(tab);
       const bitmap = await createImageBitmap(blob);
       try { capturePlan(bitmap.width, bitmap.height, bitmap.height); }
       finally { bitmap.close(); }
     }
-    await cleanOldCaptures();
+    if (message.mode !== 'selected-region') await cleanOldCaptures();
     const id = crypto.randomUUID();
     await putCapture({ id, blob, title: tab.title || '화면 캡처', createdAt: Date.now(), document: { shapes: [], crop: null } });
     const url = chrome.runtime.getURL(`editor.html?id=${id}`);

@@ -1,6 +1,7 @@
 {
   "initialRegion": "v1.2.2-region-initial.json",
-  "baselineRegion": "v1.2.2-region-profile.json",
-  "optimizedRegion": null,
+  "baselineRegion": "v1.2.2-region-comparison.json",
+  "optimizedRegion": "v1.2.3-region-comparison.json",
+  "diagnosticBaselineRegion": "v1.2.2-region-profile.json",
   "editorComparison": "v1.2.0-v1.2.2-editor.json"
 }

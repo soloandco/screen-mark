@@ -17,6 +17,7 @@ if (after) {
   assert.equal(after.environment.trials, before.environment.trials);
   for (const key of ['headless', 'viewport', 'input']) assert.deepEqual(after.environment[key], before.environment[key]);
   assert.equal(after.environment.chrome.product, before.environment.chrome.product);
+  assert.equal(after.environment.comparisonOrder, before.environment.comparisonOrder);
 }
 const median = values => {
   assert.ok(values.length && values.every(Number.isFinite));
@@ -43,7 +44,8 @@ for (const data of [before, after].filter(Boolean)) {
 }
 const rows = metrics.map(([name, measure]) => {
   const value = data => median(data.runs.map(measure));
-  return `| ${name} | ${value(before).toFixed(1)} ms |${after ? ` ${value(after).toFixed(1)} ms |` : ''}`;
+  const range = data => `${Math.min(...data.runs.map(measure)).toFixed(1)}~${Math.max(...data.runs.map(measure)).toFixed(1)} ms`;
+  return `| ${name} | ${value(before).toFixed(1)} ms (${range(before)}) |${after ? ` ${value(after).toFixed(1)} ms (${range(after)}) |` : ''}`;
 }).join('\n');
 const link = name => path.relative(path.dirname(output), path.resolve(path.dirname(input), name)).replaceAll('\\', '/');
 const editor = JSON.parse(await readFile(path.resolve(path.dirname(input), study.editorComparison), 'utf8'));
@@ -64,11 +66,13 @@ v${initial.version}의 최초 ${initial.environment.trials}회 측정에서 선�
 
 ## 브라우저 내부 구간 측정
 
-v${before.version}${after ? `와 v${after.version}를 각각` : '를'} ${before.environment.trials}회 측정함. 선택 시작은 브라우저 내부 sendMessage 왕복, 편집 표시 구간은 원래 페이지의 요청 시작과 편집기의 두 번째 애니메이션 프레임 시각 차이임. 서로 다른 페이지의 performance.timeOrigin과 performance.now를 합한 시각을 사용함. 촬영·인코딩·DB는 각 API 구간으로, 병행되거나 서로 겹칠 수 있어 합산하지 않음. 표는 실행별 중앙값임.
+측정 대상: v${before.version}${after ? `, v${after.version}` : ''}. 버전별 ${before.environment.trials}회 측정함. ${after ? '전후와 후전 순서를 번갈아 실행함. ' : ''}새 프로필의 첫 영역 캡처 기준이며, DB가 이미 열린 반복 사용의 이득은 별도 측정이 필요함. 선택 시작은 브라우저 내부 sendMessage 왕복, 편집 표시 구간은 원래 페이지의 요청 시작과 편집기의 두 번째 애니메이션 프레임 시각 차이임. 서로 다른 페이지의 performance.timeOrigin과 performance.now를 합한 시각을 사용함. 촬영·인코딩·DB는 각 API 구간으로, 병행되거나 서로 겹칠 수 있어 합산하지 않음. 표는 실행별 중앙값과 괄호 안의 최솟값~최댓값임.
 
 | 항목 | v${before.version} |${after ? ` v${after.version} |` : ''}
 |---|---:|${after ? '---:|' : ''}
 ${rows}
+
+선택 시작 코드는 이번 최적화에서 바꾸지 않았으므로 해당 항목의 차이는 개선 효과로 해석하지 않음. 촬영 API·인코딩·탭 생성에도 실행 간 변동이 있으므로 전체 시간 차이를 단일 API의 단축분으로 분해하지 않음.
 
 실제 pointerdown의 ID를 재사용한 합성 pointermove 입력 120개를 30개 프레임에 전달함. 마지막 실제 마우스 이동 전에 선택 상자가 300 × 200px로 갱신됐는지 단언함. 물리적 마우스 입력 지연을 측정한 결과는 아님. 드래그 구간에서 관측된 50ms 이상 작업은 기준선 ${sum(before.runs.map(run => run.drag.longTasksMs.length))}회${after ? `, 변경 후 ${sum(after.runs.map(run => run.drag.longTasksMs.length))}회` : ''}였음.
 
@@ -80,7 +84,7 @@ v${editor.beforeVersion} 커밋 \`${editor.baselineSha}\`와 v${editor.afterVers
 
 ## 확인한 개선 후보와 제약
 
-- 촬영·자르기가 끝난 뒤 DB 정리를 시작하는 순서가 첫 DB 열기 시간을 그대로 더함. 동일한 만료 기준·쓰기 잠금으로 정리하되 촬영과 겹쳐 실행하는 방법을 시험함. 양쪽 작업이 끝난 뒤에만 저장하고 실패를 전달해야 함.
+- 촬영·자르기가 끝난 뒤 DB 정리를 시작하던 순서를 바꿈. 동일한 만료 기준·쓰기 잠금을 유지하면서 촬영과 겹쳐 실행함. Promise.allSettled로 양쪽 작업 종료를 기다린 뒤에만 저장하며, 촬영 오류를 우선 전달함. 촬영 실패·취소 때도 이미 시작한 만료 기록 정리는 끝날 수 있음.
 - 선택 검증에 전체 UI 함수를 다시 전달하는 비용은 세부 계측에서 작았으므로 우선순위를 낮춤. 드래그 입력 처리도 낮은 비용을 보였으므로 현재 단계에서 새 그리기 구조를 추가하지 않음.
 - 촬영 호출 제한은 유지함. Chrome은 captureVisibleTab을 초당 최대 2회로 제한함. [Chrome Tabs 공식 문서](https://developer.chrome.com/docs/extensions/reference/api/tabs#property-MAX_CAPTURE_VISIBLE_TAB_CALLS_PER_SECOND).
 - executeScript는 주입 함수를 직렬화하며 기본적으로 document_idle에 실행함. 로딩 중 페이지에는 injectImmediately도 후보지만 현재 로드된 예제 결과와 별도로 검증해야 함. [Chrome Scripting 공식 문서](https://developer.chrome.com/docs/extensions/reference/api/scripting#type-ScriptInjection).
@@ -88,7 +92,7 @@ v${editor.beforeVersion} 커밋 \`${editor.baselineSha}\`와 v${editor.afterVers
 
 ## 재현
 
-영역 측정: \`node scripts/benchmark-region.mjs\`. BENCH_TRIALS, BENCH_OUTPUT, BENCH_EXTENSION으로 반복 수·출력·소스를 지정함. 보고서 재생성: \`node scripts/region-performance-report.mjs\`.
+영역 측정: \`node scripts/benchmark-region.mjs\`. BENCH_TRIALS, BENCH_OUTPUT, BENCH_EXTENSION으로 반복 수·출력·소스를 지정함. 전후 교대 비교: \`npm run benchmark:region-compare\`(기준 커밋 ${before.baselineSha || '4df00cb'}). 보고서 재생성: \`node scripts/region-performance-report.mjs\`.
 `;
 await writeFile(output, contents);
 console.log(JSON.stringify({ output, beforeTrials: before.runs.length, afterTrials: after?.runs.length || 0 }));
