@@ -1,5 +1,6 @@
 import { imagePoint, pixelSelection, capturePlan } from './model.js';
 import { getCapture, finishSelection } from './storage.js';
+import { t, initI18n } from './i18n.js';
 
 const $ = selector => document.querySelector(selector);
 const surface = $('#surface');
@@ -10,11 +11,12 @@ try { autoConfirm.checked = localStorage.getItem('screen-mark.auto-confirm') !==
 catch (error) { console.warn('선택 방식 설정을 읽지 못함.', error); }
 let record = null, bitmap = null, objectUrl = null;
 let selection = null, gesture = null, busy = false;
+let currentStatus = { message: '화면을 불러오는 중…', error: false, params: {} };
 
 function selectionHint() {
-  $('#selection-guide').textContent = autoConfirm.checked ? '드래그를 마치면 선택한 부분이 바로 편집기에 열림.' : '원하는 부분을 드래그하고 선택 영역 사용을 누르세요. 다시 드래그해 조정할 수 있음.';
+  $('#selection-guide').textContent = t(autoConfirm.checked ? '드래그를 마치면 선택한 부분이 바로 편집기에 열림.' : '원하는 부분을 드래그하고 선택 영역 사용을 누르세요. 다시 드래그해 조정할 수 있음.');
 }
-selectionHint();
+initI18n(() => { selectionHint(); renderStatus(); });
 autoConfirm.addEventListener('change', () => {
   try { localStorage.setItem('screen-mark.auto-confirm', String(autoConfirm.checked)); }
   catch (error) { console.warn('선택 방식 설정을 저장하지 못함.', error); }
@@ -22,10 +24,12 @@ autoConfirm.addEventListener('change', () => {
   draw();
 });
 
-function status(message, error = false) {
-  $('#status').textContent = message;
+function renderStatus() {
+  const { message, error, params } = currentStatus;
+  $('#status').textContent = t(message, { ...params, ...(params.error ? { error: t(params.error) } : {}) });
   $('#status').className = error ? 'error' : '';
 }
+function status(message, error = false, params = {}) { currentStatus = { message, error, params }; renderStatus(); }
 
 function draw() {
   const box = $('#selection');
@@ -88,7 +92,7 @@ async function confirm() {
     await finishSelection(captureId, blob);
     location.replace(`editor.html?id=${encodeURIComponent(captureId)}`);
   } catch (error) {
-    status(`선택 영역 저장 실패: ${error?.message || '다시 시도해 주세요.'}`, true);
+    status('선택 영역 저장 실패: {error}', true, { error: error?.message || '다시 시도해 주세요.' });
     busy = false; draw();
   }
 }
@@ -105,7 +109,7 @@ async function cancel() {
     const tab = await chrome.tabs.getCurrent();
     if (tab) await chrome.tabs.remove(tab.id);
   } catch (error) {
-    status(`취소하지 못함: ${error?.message || '다시 시도해 주세요.'}`, true);
+    status('취소하지 못함: {error}', true, { error: error?.message || '다시 시도해 주세요.' });
     busy = false; draw();
   }
 }

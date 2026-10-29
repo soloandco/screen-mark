@@ -1,6 +1,7 @@
 import { normalizeRect, imagePoint, createHistory, hitTest, translateShape, cropDocument, capturePlan, nextNumber, numberLabelAtCorner } from './model.js';
 import { renderScene, exportPng, createFrameDraw, createPngCache } from './render.js';
 import { getCapture, putCapture, updateDocument } from './storage.js';
+import { t, initI18n } from './i18n.js';
 
 const $ = selector => document.querySelector(selector);
 const canvas = $('#canvas');
@@ -24,12 +25,17 @@ let pendingTextPoint = null;
 let copyPromise = null;
 const redraw = createFrameDraw(draw);
 const png = createPngCache(() => exportPng(image, history.current));
+let currentStatus = { message: '이미지는 외부로 전송되지 않음', error: false, params: {} };
 
-function status(message, error = false) {
+function renderStatus() {
+  const { message, error, params } = currentStatus;
+  const translated = { ...params };
+  for (const key of ['error', 'hint']) if (translated[key]) translated[key] = t(translated[key]);
   const conflict = saveSession?.conflict;
-  $('#status').textContent = conflict && !error ? `${message} · 다른 탭과 저장 충돌. 파일 저장·복사 후 새로고침하세요.` : message;
+  $('#status').textContent = t(message, translated) + (conflict && !error ? t(' · 다른 탭과 저장 충돌. 파일 저장·복사 후 새로고침하세요.') : '');
   $('#status').className = error || conflict ? 'error' : '';
 }
+function status(message, error = false, params = {}) { currentStatus = { message, error, params }; renderStatus(); }
 
 function currentCrop() { return history.current.crop || { x: 0, y: 0, width: image.width, height: image.height }; }
 
@@ -50,7 +56,7 @@ function draw() {
   frame.style.width = canvas.style.width;
   frame.style.height = canvas.style.height;
   $('#zoom-value').textContent = `${Math.round(zoom * 100)}%`;
-  $('#shape-count').textContent = `표시 ${state.shapes.length}개`;
+  $('#shape-count').textContent = t('표시 {count}개', { count: state.shapes.length });
   $('#dimensions').textContent = `${canvas.width} × ${canvas.height} px`;
   $('#undo').disabled = !history.canUndo;
   $('#redo').disabled = !history.canRedo;
@@ -80,7 +86,7 @@ function save() {
     if (error.name === 'SaveConflictError') session.conflict = error;
     if (session === saveSession) {
       saveFailed = true;
-      status(`자동 저장 실패: ${error.message}${session.conflict ? '' : '. 파일 저장·복사를 이용해 주세요.'}`, true);
+      status('자동 저장 실패: {error}{hint}', true, { error: error.message, hint: session.conflict ? '' : '. 파일 저장·복사를 이용해 주세요.' });
     }
   }).finally(() => {
     pendingSaves--;
@@ -274,7 +280,7 @@ async function openFile(file) {
       if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) throw new Error('PNG, JPG, WebP 파일을 선택해 주세요.');
       if (file.size > 40 * 1024 * 1024) throw new Error('40MB 이하 이미지를 선택해 주세요.');
       await saveQueue;
-      if (saveFailed && !window.confirm('자동 저장되지 않은 표시를 버리고 새 이미지를 열까요? 보관하려면 취소하고 파일 저장·복사를 이용하세요.')) return;
+      if (saveFailed && !window.confirm(t('자동 저장되지 않은 표시를 버리고 새 이미지를 열까요? 보관하려면 취소하고 파일 저장·복사를 이용하세요.'))) return;
       const bitmap = await createImageBitmap(file);
       try { capturePlan(bitmap.width, bitmap.height, bitmap.height); } finally { bitmap.close(); }
       const record = { id: crypto.randomUUID(), blob: file, title: file.name, createdAt: Date.now(), document: { shapes: [], crop: null, nextNumber: 1 } };
@@ -282,7 +288,7 @@ async function openFile(file) {
       window.history.replaceState(null, '', `editor.html?id=${record.id}`);
       await displayCapture(record);
     });
-  } catch (error) { status(`이미지를 열지 못함: ${error.message}`, true); }
+  } catch (error) { status('이미지를 열지 못함: {error}', true, { error: error.message }); }
 }
 
 for (const id of ['#open-file', '#empty-open']) $(id).addEventListener('click', () => $('#file-input').click());
@@ -307,7 +313,7 @@ $('#download').addEventListener('click', async () => {
     anchor.download = `${capture.title.replace(/[<>:"/\\|?*\x00-\x1f]/g, '_').replace(/\.(png|jpe?g|webp)$/i, '').slice(0, 100) || 'capture'}-marked.png`;
     anchor.click(); setTimeout(() => URL.revokeObjectURL(url), 30000);
     status('PNG 다운로드 시작됨');
-  } catch (error) { status(`파일 저장 실패: ${error.message}`, true); }
+  } catch (error) { status('파일 저장 실패: {error}', true, { error: error.message }); }
 });
 
 function copyImage() {
@@ -320,12 +326,12 @@ function copyImage() {
     copyPromise = navigator.clipboard.write([new ClipboardItem({ 'image/png': png.get() })]).then(() => {
       status('이미지가 클립보드에 복사됨. AI 입력창에 Ctrl+V로 붙여 넣으세요.');
     }).catch(error => {
-      status(`복사하지 못함. 파일 저장을 이용해 주세요. (${error.message})`, true);
+      status('복사하지 못함. 파일 저장을 이용해 주세요. ({error})', true, { error: error.message });
     }).finally(() => { copyPromise = null; $('#copy').disabled = false; });
     return copyPromise;
   } catch (error) {
     $('#copy').disabled = false;
-    status(`복사하지 못함. 파일 저장을 이용해 주세요. (${error.message})`, true);
+    status('복사하지 못함. 파일 저장을 이용해 주세요. ({error})', true, { error: error.message });
   }
 }
 $('#copy').addEventListener('click', copyImage);
@@ -335,6 +341,14 @@ window.addEventListener('beforeunload', event => {
 });
 window.addEventListener('resize', fit);
 applyStyle();
+initI18n(() => {
+  renderStatus();
+  $('#shape-count').textContent = t('표시 {count}개', { count: history.current.shapes.length });
+  if (capture) {
+    $('#file-title').textContent = capture.title; document.title = `${capture.title} · Screen Mark`;
+    $('#dimensions').textContent = `${canvas.width} × ${canvas.height} px`;
+  }
+});
 if (params.get('id')) {
   try {
     await loadImage(async () => {

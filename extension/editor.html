@@ -1,41 +1,42 @@
 <!doctype html>
-<html lang="ko">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Screen Mark · 편집</title><link rel="stylesheet" href="editor.css"></head>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title data-i18n="Screen Mark · 편집">Screen Mark · Editor</title><link rel="stylesheet" href="editor.css"><link rel="stylesheet" href="language.css"></head>
 <body>
   <header class="topbar">
-    <a class="brand" href="editor.html" title="새 이미지 열기"><span class="brand-icon">m<span>1</span></span><span>Screen Mark</span></a>
-    <span class="divider"></span><span id="file-title">화면에 생각을 표시하세요</span>
-    <div class="top-actions"><button id="open-file" class="quiet">이미지 열기</button><button id="download" class="secondary" title="표시한 화면을 PNG 파일로 저장" disabled>파일 저장</button><button id="copy" class="primary" title="표시한 화면을 클립보드로 복사 (Ctrl+C)" disabled>클립보드 복사 <span aria-hidden="true">Ctrl+C</span></button></div>
+    <a class="brand" href="editor.html" data-i18n-title="새 이미지 열기" title="Open a new image"><span class="brand-icon">m<span>1</span></span><span>Screen Mark</span></a>
+    <span class="divider"></span><span id="file-title" data-i18n="화면에 생각을 표시하세요">Annotate your screenshot</span>
+    <div class="top-actions"><label class="language-control"><span data-i18n="언어">Language</span><select data-language-picker data-i18n-aria="언어" aria-label="Language"></select></label><button id="open-file" class="quiet" data-i18n="이미지 열기">Open image</button><button id="download" class="secondary" data-i18n="파일 저장" data-i18n-title="표시한 화면을 PNG 파일로 저장" title="Save the annotated image as PNG" disabled>Save image</button><button id="copy" class="primary" data-i18n-title="표시한 화면을 클립보드로 복사 (Ctrl+C)" title="Copy the annotated image (Ctrl+C)" disabled><span data-i18n="클립보드 복사">Copy image</span><span aria-hidden="true">Ctrl+C</span></button></div>
   </header>
   <div class="workspace">
-    <aside class="tools" aria-label="편집 도구">
-      <span class="section-label">MARK TOOLS</span>
-      <button class="tool" data-tool="select" title="선택 / 이동 (V)" aria-label="선택 / 이동" aria-pressed="false"><span class="tool-icon">↖</span><span>선택</span><kbd>V</kbd></button>
-      <button class="tool active" data-tool="rectangle" title="사각형 (R)" aria-label="사각형" aria-pressed="true"><span class="tool-icon">▭</span><span>사각형</span><kbd>R</kbd></button>
-      <label class="auto-number"><input id="auto-number" type="checkbox" checked>사각형 자동 번호</label>
-      <button class="tool" data-tool="number" title="원형 번호 라벨 (N)" aria-label="번호 라벨" aria-pressed="false"><span class="tool-icon number-icon">1</span><span>번호 라벨</span><kbd>N</kbd></button>
-      <button class="tool" data-tool="arrow" title="화살표 (A)" aria-label="화살표" aria-pressed="false"><span class="tool-icon">↗</span><span>화살표</span><kbd>A</kbd></button>
-      <button class="tool" data-tool="text" title="텍스트 (T)" aria-label="텍스트" aria-pressed="false"><span class="tool-icon text-icon">T</span><span>텍스트</span><kbd>T</kbd></button>
-      <button class="tool" data-tool="mosaic" title="모자이크 (M)" aria-label="모자이크" aria-pressed="false"><span class="tool-icon">▦</span><span>모자이크</span><kbd>M</kbd></button>
-      <button class="tool" data-tool="crop" title="자르기 (C)" aria-label="자르기" aria-pressed="false"><span class="tool-icon">⌗</span><span>자르기</span><kbd>C</kbd></button>
-      <hr><span class="section-label">STYLE</span>
-      <label class="field-label" for="color">표시 색상</label>
-      <div class="colors"><button class="swatch" data-color="#e44d35" style="--swatch:#e44d35" aria-label="빨강"></button><button class="swatch" data-color="#216b52" style="--swatch:#216b52" aria-label="초록"></button><button class="swatch" data-color="#2f6de1" style="--swatch:#2f6de1" aria-label="파랑"></button><input id="color" type="color" value="#e44d35" title="직접 색상 선택" aria-label="직접 색상 선택"></div>
-      <label class="field-label" for="stroke">선 굵기 <output id="stroke-value">4 px</output></label><input id="stroke" type="range" min="2" max="16" value="4">
-      <label class="field-label" for="number-start">다음 번호</label><input id="number-start" type="number" min="1" max="999" value="1">
-      <label class="field-label" for="label-size">번호 크기</label><select id="label-size"><option value="16">작게</option><option value="22" selected>보통</option><option value="30">크게</option></select>
-      <div class="tool-bottom"><button id="delete" class="quiet" disabled>선택한 표시 삭제 <kbd>Del</kbd></button><p>Ctrl/⌘+드래그로 표시 이동.<br>Ctrl/⌘+V로 이미지 열기.</p></div>
+    <aside class="tools" data-i18n-aria="편집 도구" aria-label="Editing tools">
+      <span class="section-label" data-i18n="표시 도구">MARK TOOLS</span>
+      <button class="tool" data-tool="select" data-i18n-title="선택 / 이동 (V)" title="Select / move (V)" data-i18n-aria="선택 / 이동" aria-label="Select / move" aria-pressed="false"><span class="tool-icon">↖</span><span data-i18n="선택">Select</span><kbd>V</kbd></button>
+      <button class="tool active" data-tool="rectangle" data-i18n-title="사각형 (R)" title="Rectangle (R)" data-i18n-aria="사각형" aria-label="Rectangle" aria-pressed="true"><span class="tool-icon">▭</span><span data-i18n="사각형">Rectangle</span><kbd>R</kbd></button>
+      <label class="auto-number"><input id="auto-number" type="checkbox" checked><span data-i18n="사각형 자동 번호">Auto-number rectangles</span></label>
+      <button class="tool" data-tool="number" data-i18n-title="원형 번호 라벨 (N)" title="Number label (N)" data-i18n-aria="번호 라벨" aria-label="Number" aria-pressed="false"><span class="tool-icon number-icon">1</span><span data-i18n="번호 라벨">Number</span><kbd>N</kbd></button>
+      <button class="tool" data-tool="arrow" data-i18n-title="화살표 (A)" title="Arrow (A)" data-i18n-aria="화살표" aria-label="Arrow" aria-pressed="false"><span class="tool-icon">↗</span><span data-i18n="화살표">Arrow</span><kbd>A</kbd></button>
+      <button class="tool" data-tool="text" data-i18n-title="텍스트 (T)" title="Text (T)" data-i18n-aria="텍스트" aria-label="Text" aria-pressed="false"><span class="tool-icon text-icon">T</span><span data-i18n="텍스트">Text</span><kbd>T</kbd></button>
+      <button class="tool" data-tool="mosaic" data-i18n-title="모자이크 (M)" title="Mosaic (M)" data-i18n-aria="모자이크" aria-label="Mosaic" aria-pressed="false"><span class="tool-icon">▦</span><span data-i18n="모자이크">Mosaic</span><kbd>M</kbd></button>
+      <button class="tool" data-tool="crop" data-i18n-title="자르기 (C)" title="Crop (C)" data-i18n-aria="자르기" aria-label="Crop" aria-pressed="false"><span class="tool-icon">⌗</span><span data-i18n="자르기">Crop</span><kbd>C</kbd></button>
+      <hr><span class="section-label" data-i18n="스타일">STYLE</span>
+      <label class="field-label" for="color" data-i18n="표시 색상">Annotation color</label>
+      <div class="colors"><button class="swatch" data-color="#e44d35" style="--swatch:#e44d35" data-i18n-aria="빨강" aria-label="Red"></button><button class="swatch" data-color="#216b52" style="--swatch:#216b52" data-i18n-aria="초록" aria-label="Green"></button><button class="swatch" data-color="#2f6de1" style="--swatch:#2f6de1" data-i18n-aria="파랑" aria-label="Blue"></button><input id="color" type="color" value="#e44d35" data-i18n-title="직접 색상 선택" title="Choose a color" data-i18n-aria="직접 색상 선택" aria-label="Choose a color"></div>
+      <label class="field-label" for="stroke"><span data-i18n="선 굵기">Line width</span><output id="stroke-value">4 px</output></label><input id="stroke" type="range" min="2" max="16" value="4">
+      <label class="field-label" for="number-start" data-i18n="다음 번호">Next number</label><input id="number-start" type="number" min="1" max="999" value="1">
+      <label class="field-label" for="label-size" data-i18n="번호 크기">Number size</label><select id="label-size"><option value="16" data-i18n="작게">Small</option><option value="22" selected data-i18n="보통">Medium</option><option value="30" data-i18n="크게">Large</option></select>
+      <div class="tool-bottom"><button id="delete" class="quiet" disabled><span data-i18n="선택한 표시 삭제">Delete selected mark</span><kbd>Del</kbd></button><p data-i18n="Ctrl/⌘+드래그로 표시 이동.&#10;Ctrl/⌘+V로 이미지 열기.">Ctrl/⌘+drag to move a mark.&#10;Ctrl/⌘+V to open an image.</p></div>
     </aside>
     <main class="desk" id="desk">
-      <div class="canvas-toolbar"><div class="history-buttons"><button id="undo" title="실행 취소 (Ctrl+Z)" aria-label="실행 취소" disabled>↶</button><button id="redo" title="다시 실행 (Ctrl+Shift+Z)" aria-label="다시 실행" disabled>↷</button><span id="shape-count">표시 0개</span></div><div class="zoom-controls"><button id="zoom-out" aria-label="축소">−</button><output id="zoom-value">100%</output><button id="zoom-in" aria-label="확대">+</button><button id="fit">화면 맞춤</button></div></div>
+      <div class="canvas-toolbar"><div class="history-buttons"><button id="undo" data-i18n-title="실행 취소 (Ctrl+Z)" title="Undo (Ctrl+Z)" data-i18n-aria="실행 취소" aria-label="Undo" disabled>↶</button><button id="redo" data-i18n-title="다시 실행 (Ctrl+Shift+Z)" title="Redo (Ctrl+Shift+Z)" data-i18n-aria="다시 실행" aria-label="Redo" disabled>↷</button><span id="shape-count">Marks: 0</span></div><div class="zoom-controls"><button id="zoom-out" data-i18n-aria="축소" aria-label="Zoom out">−</button><output id="zoom-value">100%</output><button id="zoom-in" data-i18n-aria="확대" aria-label="Zoom in">+</button><button id="fit" data-i18n="화면 맞춤">Fit</button></div></div>
       <div id="canvas-scroll" class="canvas-scroll">
-        <section id="empty" class="empty"><div class="empty-graphic" aria-hidden="true"><span class="empty-square"></span><span class="empty-number">1</span><span class="empty-line"></span><span class="empty-line short"></span></div><span class="section-label">A LITTLE MARK. A CLEARER MESSAGE.</span><h1>한 장이면 충분한 설명.</h1><p>화면을 캡처하거나 이미지를 열고,<br>사각형과 번호로 중요한 곳을 짚어 보세요.</p><button id="empty-open" class="primary">이미지 파일 열기 <span aria-hidden="true">↗</span></button><small>Ctrl/⌘+V로 이미지 붙여넣기 · 파일 드래그도 가능</small></section>
-        <div id="canvas-frame" class="canvas-frame" hidden><canvas id="canvas" aria-label="이미지 편집 캔버스. 사각형은 드래그, 번호 라벨은 클릭으로 추가" tabindex="0"></canvas></div>
+        <section id="empty" class="empty"><div class="empty-graphic" aria-hidden="true"><span class="empty-square"></span><span class="empty-number">1</span><span class="empty-line"></span><span class="empty-line short"></span></div><span class="section-label" data-i18n="작은 표시로 더 명확하게.">A LITTLE MARK. A CLEARER MESSAGE.</span><h1 data-i18n="한 장이면 충분한 설명.">One image says it clearly.</h1><p data-i18n="화면을 캡처하거나 이미지를 열고, 사각형과 번호로 중요한 곳을 짚어 보세요.">Capture a screen or open an image, then highlight what matters with rectangles and numbers.</p><button id="empty-open" class="primary"><span data-i18n="이미지 파일 열기">Open image file</span><span aria-hidden="true">↗</span></button><small data-i18n="Ctrl/⌘+V로 이미지 붙여넣기 · 파일 드래그도 가능">Paste with Ctrl/⌘+V or drag an image file here</small></section>
+        <div id="canvas-frame" class="canvas-frame" hidden><canvas id="canvas" data-i18n-aria="이미지 편집 캔버스. 사각형은 드래그, 번호 라벨은 클릭으로 추가" aria-label="Image editor. Drag to draw rectangles; click to add numbers." tabindex="0"></canvas></div>
       </div>
-      <footer class="statusbar"><span id="status" role="status" aria-live="polite">이미지는 외부로 전송되지 않음</span><span id="dimensions">LOCAL ONLY</span></footer>
+      <footer class="statusbar"><span id="status" data-i18n="이미지는 외부로 전송되지 않음" role="status" aria-live="polite">Your images are not uploaded</span><span id="dimensions" data-i18n="로컬에서만 처리">LOCAL ONLY</span></footer>
     </main>
   </div>
   <input id="file-input" type="file" accept="image/png,image/jpeg,image/webp" hidden>
-  <dialog id="text-dialog"><form method="dialog"><h2>텍스트 추가</h2><label for="text-input">화면에 표시할 내용</label><textarea id="text-input" rows="3" maxlength="500" required></textarea><div><button value="cancel" formnovalidate class="quiet">취소</button><button value="add" class="primary">추가</button></div></form></dialog>
+  <p data-language-error hidden role="status" aria-live="polite"></p>
+  <dialog id="text-dialog"><form method="dialog"><h2 data-i18n="텍스트 추가">Add text</h2><label for="text-input" data-i18n="화면에 표시할 내용">Text to add</label><textarea id="text-input" rows="3" maxlength="500" required></textarea><div><button value="cancel" formnovalidate class="quiet" data-i18n="취소">Cancel</button><button value="add" class="primary" data-i18n="추가">Add</button></div></form></dialog>
   <script type="module" src="editor.js"></script>
 </body></html>

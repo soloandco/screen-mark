@@ -6,6 +6,7 @@ import path from 'node:path';
 import http from 'node:http';
 import { chromium } from 'playwright';
 import sharp from 'sharp';
+import { useKorean } from './support/language.mjs';
 
 const root = path.resolve(import.meta.dirname, '..');
 const temporary = await mkdtemp(path.join(os.tmpdir(), 'screen-mark-regressions-'));
@@ -30,6 +31,7 @@ try {
     channel: 'chrome', headless: true, viewport: { width: 1200, height: 1000 },
     ignoreDefaultArgs: ['--disable-extensions'], args: ['--enable-unsafe-extension-debugging']
   });
+  await useKorean(context);
   context.setDefaultTimeout(10000);
   context.on('weberror', event => errors.push(event.error().message));
   const cdp = await context.browser().newBrowserCDPSession();

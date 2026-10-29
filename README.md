@@ -17,6 +17,12 @@ A local Chrome screenshot and annotation extension with numbered labels and clip
 
 ![Chrome 확장 관리 화면. 오른쪽 위 개발자 모드를 켜고 왼쪽 위 압축해제된 확장 프로그램 로드를 누른다.](docs/images/install-extension.png)
 
+## 언어 선택
+
+기본 언어는 영어다. 캡처 메뉴와 편집기 상단에서 **English, 한국어, 日本語, Español** 순서로 언어를 선택할 수 있다. 선택은 이 브라우저에 저장되며 열려 있는 편집기에도 바로 적용된다. 이미지·표시·실행 취소 기록·도구·확대율은 유지된다. 아래 한국어 사용 예시를 따라 하려면 먼저 **한국어**를 선택한다.
+
+영역 선택 안내에는 선택을 시작할 때의 언어가 적용된다. [언어 지원과 검증 범위](docs/languages.md)에 동작과 번역 관리 방식을 기록한다.
+
 ## 이미지로 따라 하기
 
 아래 이미지는 확장을 실제로 실행해 촬영했다. 영역 선택은 v1.2.1, 메뉴는 v1.2.0, 자동 번호는 v1.0.5, 나머지는 기존 버전의 사용 예시다. 화면 안의 웹사이트는 설명용 예제다.
@@ -128,9 +134,11 @@ npm run package
 
 Linux에서 브라우저 시스템 라이브러리도 필요하면 `npx playwright install --with-deps chromium`을 사용한다. 브라우저 검사는 별도 임시 프로필만 사용하며 사용자 Chrome 프로필을 건드리지 않는다. CDP `Extensions.triggerAction`으로 확장 아이콘 호출을 재현해 activeTab을 부여한다. 원본 매니페스트의 권한을 바꾸지 않고 테스트한다. 개발 의존성은 확장 ZIP에 포함되지 않는다.
 
-검증 결과: `docs/verification.md`. ZIP 생성 결과: `dist/screen-mark-1.2.3.zip`.
+검증 결과: `docs/verification.md`. ZIP 생성 결과: `dist/screen-mark-1.3.0.zip`.
 
 `npm run test:interaction`은 실제 클립보드 이미지·텍스트 붙여넣기, 도구를 유지하는 modifier 드래그, 실행 취소, 저장 충돌 후 붙여넣기 취소, 로딩 중 입력 잠금을 검사한다. [클릭 흐름 검토](docs/fewer-clicks.md)에 비교 기준과 검증 범위를 기록한다.
+
+`npm run test:languages`는 영어 기본값, 네 언어의 순서·선택 저장·열린 편집기 반영, 편집 상태 보존, 번역된 오류·접근성 라벨·실제 캡처·PNG·클립보드 쓰기와 기존 선택 탭을 검사한다. 기존 한국어 회귀 검사는 언어를 한국어로 명시해서 실행한다.
 
 `npm run test:region`은 설치된 Google Chrome의 별도 headless 프로필에서 원래 페이지의 드래그 선택, 실제 PNG 픽셀, 편집·클립보드 쓰기, 취소·크기 변경, 캡처·저장 실패 후 재시도를 검사한다. `REGION_SCALE=2` 환경변수로 2배 배율에서도 실행할 수 있다. 선택 예시 이미지는 `test-results/region-1/`에 생성된다. `npm run test:region-legacy`는 이전 버전에서 이미 열어 둔 선택 탭의 호환성을 검사한다.
 

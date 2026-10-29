@@ -5,6 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import http from 'node:http';
 import { chromium } from 'playwright';
+import { useKorean } from '../tests/support/language.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const output = path.join(root, 'docs/images');
@@ -30,6 +31,7 @@ try {
     channel: 'chromium', headless: true, locale: 'ko-KR', viewport: { width: 1440, height: 1000 },
     args: ['--lang=ko', '--enable-unsafe-extension-debugging', `--disable-extensions-except=${extension}`, `--load-extension=${extension}`]
   });
+  await useKorean(context);
   const worker = context.serviceWorkers()[0] || await context.waitForEvent('serviceworker');
   const id = new URL(worker.url()).host;
   const popup = await context.newPage();

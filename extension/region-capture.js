@@ -1,9 +1,11 @@
 // Serialized into the isolated world of the source tab. Keep this self-contained.
-export async function regionCapture(action = 'start') {
+export async function regionCapture(action = 'start', options = {}) {
   const key = '__screenMarkRegion';
   const current = globalThis[key];
+  const copy = (action === 'start' ? options.copy : current?.copy) || {};
+  const text = (name, fallback) => copy[name] || fallback;
   if (action !== 'start') {
-    if (!current) throw new Error('영역 선택이 종료됨. 메뉴에서 다시 선택해 주세요.');
+    if (!current) throw new Error(text('ended', '영역 선택이 종료됨. 메뉴에서 다시 선택해 주세요.'));
     if (action === 'take' && current.phase === 'selected') {
       current.phase = 'capturing';
       // Let the compositor remove the guide and dimming before taking the screenshot.
@@ -14,11 +16,11 @@ export async function regionCapture(action = 'start') {
         frame = requestAnimationFrame(() => { frame = requestAnimationFrame(done); });
       });
     } else if (action !== 'verify' || current.phase !== 'capturing') {
-      throw new Error('먼저 캡처할 영역을 드래그해 주세요.');
+      throw new Error(text('selectFirst', '먼저 캡처할 영역을 드래그해 주세요.'));
     }
     const rect = current.rect;
     if (globalThis[key] !== current || innerWidth !== rect.viewportWidth || innerHeight !== rect.viewportHeight || scrollX !== rect.scrollX || scrollY !== rect.scrollY || devicePixelRatio !== rect.scale) {
-      throw new Error('화면 크기나 스크롤 위치가 바뀜. 영역을 다시 선택해 주세요.');
+      throw new Error(text('changed', '화면 크기나 스크롤 위치가 바뀜. 영역을 다시 선택해 주세요.'));
     }
     return rect;
   }
@@ -28,7 +30,7 @@ export async function regionCapture(action = 'start') {
   host.setAttribute('data-screen-mark-region', '');
   host.setAttribute('popover', 'manual');
   host.setAttribute('role', 'dialog');
-  host.setAttribute('aria-label', '캡처할 영역 선택');
+  host.setAttribute('aria-label', text('label', '캡처할 영역 선택'));
   host.tabIndex = -1;
   host.style.cssText = 'all:initial!important;position:fixed!important;inset:0!important;margin:0!important;padding:0!important;border:0!important;width:100vw!important;height:100vh!important;max-width:none!important;max-height:none!important;background:transparent!important;outline:none!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important;transform:none!important;animation:none!important;transition:none!important;';
   const shadow = host.attachShadow({ mode: 'closed' });
@@ -43,15 +45,15 @@ export async function regionCapture(action = 'start') {
   const surface = document.createElement('div'); surface.id = 'surface';
   const guide = document.createElement('div'); guide.id = 'guide';
   const hint = document.createElement('p'); hint.id = 'hint'; hint.setAttribute('role', 'status');
-  hint.textContent = '원하는 부분을 드래그하세요. 놓으면 바로 캡처됨.';
-  const cancel = document.createElement('button'); cancel.type = 'button'; cancel.textContent = '취소 Esc';
+  hint.textContent = text('guide', '원하는 부분을 드래그하세요. 놓으면 바로 캡처됨.');
+  const cancel = document.createElement('button'); cancel.type = 'button'; cancel.textContent = text('cancel', '취소 Esc');
   const box = document.createElement('div'); box.id = 'box'; box.hidden = true;
   guide.append(hint, cancel); surface.append(box, guide); shadow.append(style, surface);
   const events = new AbortController();
   const listen = (target, type, handler, options = {}) => target.addEventListener(type, handler, { ...options, signal: events.signal });
   let gesture = null, timer;
   const session = {
-    phase: 'selecting', rect: null,
+    phase: 'selecting', rect: null, copy, language: options.language || 'en',
     close() {
       if (events.signal.aborted) return;
       clearTimeout(timer);
@@ -90,19 +92,19 @@ export async function regionCapture(action = 'start') {
     if (!gesture || gesture.id !== event.pointerId) return;
     const rect = selection(point(event)); gesture = null;
     if (surface.hasPointerCapture(event.pointerId)) surface.releasePointerCapture(event.pointerId);
-    if (rect.width < 3 || rect.height < 3) { reset('영역이 너무 작음. 원하는 부분을 다시 드래그하세요.'); return; }
+    if (rect.width < 3 || rect.height < 3) { reset(text('tiny', '영역이 너무 작음. 원하는 부분을 다시 드래그하세요.')); return; }
     session.rect = { ...rect, viewportWidth: innerWidth, viewportHeight: innerHeight, scrollX, scrollY, scale: devicePixelRatio };
     session.phase = 'selected'; host.setAttribute('data-state', 'capturing'); surface.style.visibility = 'hidden';
     try {
-      const result = await chrome.runtime.sendMessage({ type: 'capture-region' });
-      if (!result?.ok) throw new Error(result?.error || '캡처하지 못함. 다시 드래그해 주세요.');
+      const result = await chrome.runtime.sendMessage({ type: 'capture-region', language: session.language });
+      if (!result?.ok) throw new Error(result?.error || text('failed', '캡처하지 못함. 다시 드래그해 주세요.'));
       session.close();
     } catch (error) {
-      if (globalThis[key] === session) reset(`캡처 실패: ${error.message}`);
+      if (globalThis[key] === session) reset(text('failure', '캡처 실패: {error}').replace('{error}', () => error.message));
     }
   });
-  listen(surface, 'pointercancel', () => reset('원하는 부분을 다시 드래그하세요.'));
-  listen(surface, 'lostpointercapture', () => { if (gesture) reset('원하는 부분을 다시 드래그하세요.'); });
+  listen(surface, 'pointercancel', () => reset(text('redraw', '원하는 부분을 다시 드래그하세요.')));
+  listen(surface, 'lostpointercapture', () => { if (gesture) reset(text('redraw', '원하는 부분을 다시 드래그하세요.')); });
   listen(host, 'contextmenu', event => { event.preventDefault(); event.stopPropagation(); });
   listen(window, 'wheel', event => { event.preventDefault(); event.stopImmediatePropagation(); }, { capture: true, passive: false });
   listen(window, 'touchmove', event => event.preventDefault(), { capture: true, passive: false });

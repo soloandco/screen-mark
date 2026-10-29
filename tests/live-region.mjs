@@ -6,6 +6,7 @@ import path from 'node:path';
 import http from 'node:http';
 import { chromium } from 'playwright';
 import sharp from 'sharp';
+import { useKorean } from './support/language.mjs';
 
 const root = path.resolve(import.meta.dirname, '..');
 const temporary = await mkdtemp(path.join(os.tmpdir(), 'screen-mark-region-'));
@@ -29,6 +30,7 @@ try {
     channel: 'chrome', headless: true, viewport: { width: 1200, height: 900 }, deviceScaleFactor: scale, acceptDownloads: true,
     ignoreDefaultArgs: ['--disable-extensions'], args: ['--enable-unsafe-extension-debugging', `--force-device-scale-factor=${scale}`]
   });
+  await useKorean(context);
   context.setDefaultTimeout(10000);
   context.on('weberror', event => errors.push(event.error().message));
   const cdp = await context.browser().newBrowserCDPSession();
@@ -62,7 +64,7 @@ try {
     const before = await records(), pages = context.pages().length, originalUrl = source.url();
     const result = await control.evaluate(async () => {
       const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
-      return chrome.runtime.sendMessage({ type: 'capture', mode: 'region', tabId: tab.id });
+      return chrome.runtime.sendMessage({ type: 'capture', mode: 'region', tabId: tab.id, language: 'ko' });
     });
     assert.equal(result.ok, true, result.error);
     assert.equal(context.pages().length, pages, 'region menu must not open a screenshot tab before dragging');

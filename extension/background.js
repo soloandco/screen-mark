@@ -2,6 +2,7 @@ import { putCapture, cleanOldCaptures } from './storage.js';
 import { capturePlan, captureSlice, pixelSelection } from './model.js';
 import { pageCapture } from './page-capture.js';
 import { regionCapture } from './region-capture.js';
+import { t, normalizeLanguage, regionCopy } from './i18n.js';
 
 let busy = false;
 let lastCapture = 0;
@@ -89,7 +90,7 @@ async function capture(message) {
     const tab = await chrome.tabs.get(message.tabId);
     await assertActive(tab);
     if (message.mode === 'region') {
-      await executeInTab(tab, regionCapture, 'start');
+      await executeInTab(tab, regionCapture, 'start', regionCopy(message.language));
       return { ok: true, selecting: true };
     }
     let blob;
@@ -108,7 +109,7 @@ async function capture(message) {
     }
     if (message.mode !== 'selected-region') await cleanOldCaptures();
     const id = crypto.randomUUID();
-    await putCapture({ id, blob, title: tab.title || '화면 캡처', createdAt: Date.now(), document: { shapes: [], crop: null } });
+    await putCapture({ id, blob, title: tab.title || t('화면 캡처', {}, message.language), createdAt: Date.now(), document: { shapes: [], crop: null } });
     const url = chrome.runtime.getURL(`editor.html?id=${id}`);
     await chrome.tabs.create({ url });
     return { ok: true, id };
@@ -120,10 +121,13 @@ chrome.runtime.onMessage.addListener((message, sender, reply) => {
   if (sender.id !== chrome.runtime.id) return false;
   let request;
   if (message?.type === 'capture-region' && sender.tab && sender.frameId === 0) {
-    request = { mode: 'selected-region', tabId: sender.tab.id };
+    request = { mode: 'selected-region', tabId: sender.tab.id, language: normalizeLanguage(message.language) };
   } else if (message?.type === 'capture' && sender.url && allowed.has(sender.url.split('?')[0]) && ['visible', 'region', 'full'].includes(message.mode)) {
-    request = message;
+    request = { ...message, language: normalizeLanguage(message.language) };
   } else return false;
-  capture(request).then(reply).catch(error => reply({ ok: false, error: error.message?.includes('Cannot access') || error.message?.includes('cannot be scripted') ? '이 페이지에서는 영역 선택·전체 페이지 캡처가 제한됨. 현재 화면 캡처를 사용해 주세요.' : error.message || '캡처하지 못함. 다시 시도해 주세요.' }));
+  capture(request).then(reply).catch(error => {
+    const errorKey = error.message?.includes('Cannot access') || error.message?.includes('cannot be scripted') ? '이 페이지에서는 영역 선택·전체 페이지 캡처가 제한됨. 현재 화면 캡처를 사용해 주세요.' : error.message || '캡처하지 못함. 다시 시도해 주세요.';
+    reply({ ok: false, error: t(errorKey, {}, request.language), errorKey });
+  });
   return true;
 });

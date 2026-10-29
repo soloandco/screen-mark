@@ -8,6 +8,7 @@ import { createInterface } from 'node:readline';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 import sharp from 'sharp';
+import { useKorean } from '../tests/support/language.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const baselineRef = process.env.BENCH_BASELINE || 'd5aed23';
@@ -102,6 +103,7 @@ async function runTrial(label, trial, extension) {
       channel: process.env.BENCH_CHANNEL || 'chrome', headless: true, viewport: result.environment.viewport,
       ignoreDefaultArgs: ['--disable-extensions'], args: ['--enable-unsafe-extension-debugging']
     });
+    await useKorean(context);
     const cdp = await context.browser().newBrowserCDPSession();
     browserPid = (await cdp.send('SystemInfo.getProcessInfo')).processInfo.find(item => item.type === 'browser')?.id;
     result.environment.chrome = await cdp.send('Browser.getVersion');

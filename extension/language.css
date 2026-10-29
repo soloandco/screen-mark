@@ -1,0 +1,5 @@
+.language-control{display:flex;align-items:center;gap:8px;font:12px 'Segoe UI',sans-serif;color:inherit;white-space:nowrap}
+.language-control select{width:auto;max-width:140px;margin:0;padding:6px 9px;min-height:32px;border:1px solid #bcc9b6;border-radius:5px;background:#fffdf5;color:#242d28;font:inherit;cursor:pointer}
+.language-control select:focus-visible{outline:3px solid #c2963c;outline-offset:2px}
+[data-language-error]{font-size:11px;color:#b13222;margin:6px 0}
+[data-language-error][hidden]{display:none!important}

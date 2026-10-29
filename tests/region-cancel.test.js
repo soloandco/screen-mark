@@ -5,6 +5,7 @@ import vm from 'node:vm';
 import { capturePlan, captureSlice, pixelSelection } from '../extension/model.js';
 import { pageCapture } from '../extension/page-capture.js';
 import { regionCapture } from '../extension/region-capture.js';
+import { t, normalizeLanguage, regionCopy } from '../extension/i18n.js';
 
 async function captureFixture(cleanup = async () => {}) {
   const source = await readFile(new URL('../extension/background.js', import.meta.url), 'utf8');
@@ -29,7 +30,7 @@ async function captureFixture(cleanup = async () => {}) {
     } }
   };
   const context = vm.createContext({
-    chrome, capturePlan, captureSlice, pixelSelection, pageCapture, regionCapture,
+    chrome, capturePlan, captureSlice, pixelSelection, pageCapture, regionCapture, t, normalizeLanguage, regionCopy,
     putCapture: async record => writes.push(record), cleanOldCaptures: async () => { cleanupCalls++; return cleanup(); },
     createImageBitmap: async () => bitmap, fetch: async () => ({ blob: async () => new Blob(['image']) }),
     OffscreenCanvas: class {
@@ -45,7 +46,7 @@ async function captureFixture(cleanup = async () => {}) {
     cancel: () => { active = false; },
     get cleanupCalls() { return cleanupCalls; },
     start: () => new Promise(resolve => {
-      assert.equal(listener({ type: 'capture-region' }, { id: chrome.runtime.id, tab, frameId: 0 }, resolve), true);
+      assert.equal(listener({ type: 'capture-region', language: 'ko' }, { id: chrome.runtime.id, tab, frameId: 0 }, resolve), true);
     })
   };
 }

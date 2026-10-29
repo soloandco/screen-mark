@@ -1,11 +1,12 @@
 <!doctype html>
-<html lang="ko">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>선택 영역 캡처 · Screen Mark</title><link rel="stylesheet" href="selection.css"></head>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title data-i18n="선택 영역 캡처 · Screen Mark">Area capture · Screen Mark</title><link rel="stylesheet" href="selection.css"><link rel="stylesheet" href="language.css"></head>
 <body>
-  <header><div><span class="brand">Screen Mark</span><h1>선택 영역 캡처</h1></div><div class="actions"><button id="cancel">취소 <kbd>Esc</kbd></button><button id="confirm" class="primary" disabled hidden>선택 영역 사용 <kbd>Enter</kbd></button></div></header>
-  <div class="guide"><p id="selection-guide">드래그를 마치면 선택한 부분이 바로 편집기에 열림.</p><label><input id="auto-confirm" type="checkbox" checked>드래그 후 바로 편집</label></div>
-  <main id="stage"><div id="surface" hidden tabindex="0" role="img" aria-label="캡처할 영역을 드래그로 선택하는 고정된 화면"><img id="capture-image" alt="캡처 시점의 현재 화면" draggable="false"><div id="selection" hidden></div></div></main>
-  <footer><span id="status" role="status" aria-live="polite">화면을 불러오는 중…</span><span id="dimensions"></span></footer>
+  <header><div><span class="brand">Screen Mark</span><h1 data-i18n="선택 영역 캡처">Area capture</h1></div><div class="actions"><label class="language-control"><span data-i18n="언어">Language</span><select data-language-picker data-i18n-aria="언어" aria-label="Language"></select></label><button id="cancel"><span data-i18n="취소">Cancel</span><kbd>Esc</kbd></button><button id="confirm" class="primary" disabled hidden><span data-i18n="선택 영역 사용">Use selected area</span><kbd>Enter</kbd></button></div></header>
+  <p data-language-error hidden role="status" aria-live="polite"></p>
+  <div class="guide"><p id="selection-guide" data-i18n="드래그를 마치면 선택한 부분이 바로 편집기에 열림.">Release after dragging to open the selected area in the editor.</p><label><input id="auto-confirm" type="checkbox" checked><span data-i18n="드래그 후 바로 편집">Edit after dragging</span></label></div>
+  <main id="stage"><div id="surface" hidden tabindex="0" role="img" data-i18n-aria="캡처할 영역을 드래그로 선택하는 고정된 화면" aria-label="Frozen screenshot. Drag to select an area."><img id="capture-image" data-i18n-alt="캡처 시점의 현재 화면" alt="Screen at the time of capture" draggable="false"><div id="selection" hidden></div></div></main>
+  <footer><span id="status" data-i18n="화면을 불러오는 중…" role="status" aria-live="polite">Loading image…</span><span id="dimensions"></span></footer>
   <script type="module" src="selection.js"></script>
 </body>
 </html>

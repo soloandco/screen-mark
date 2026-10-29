@@ -6,6 +6,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 import sharp from 'sharp';
+import { useKorean } from './support/language.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const temporary = await mkdtemp(path.join(os.tmpdir(), 'screen-mark-auto-number-'));
@@ -21,6 +22,7 @@ try {
     channel: 'chrome', headless: true, viewport: { width: 1440, height: 1000 }, acceptDownloads: true,
     ignoreDefaultArgs: ['--disable-extensions'], args: ['--enable-unsafe-extension-debugging']
   });
+  await useKorean(context);
   context.on('weberror', event => errors.push(event.error().message));
   const cdp = await context.browser().newBrowserCDPSession();
   browserPid = (await cdp.send('SystemInfo.getProcessInfo')).processInfo.find(item => item.type === 'browser')?.id;
