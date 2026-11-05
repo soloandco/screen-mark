@@ -1,12 +1,19 @@
 import { t, getLanguage, initI18n } from './i18n.js';
+import { autoCopyEnabled, setAutoCopy } from './storage.js';
 
 const status = document.querySelector('#status');
 const buttons = [...document.querySelectorAll('button')];
-let currentStatus = { message: '표시한 화면은 클립보드로 복사해 AI에 붙여 넣으세요.', error: false };
+let currentStatus = { message: '캡처와 표시는 클립보드에 자동 복사됨. AI 입력창에 Ctrl+V로 붙여 넣으세요.', error: false };
 function showStatus(message, error = false) {
   currentStatus = { message, error }; status.className = error ? 'error' : ''; status.textContent = t(message);
 }
 initI18n(() => showStatus(currentStatus.message, currentStatus.error));
+const autoCopy = document.querySelector('#auto-copy');
+autoCopy.checked = autoCopyEnabled();
+autoCopy.addEventListener('change', () => {
+  try { setAutoCopy(autoCopy.checked); }
+  catch (error) { autoCopy.checked = !autoCopy.checked; showStatus('자동 복사 설정을 저장하지 못함. 다시 시도해 주세요.', true); console.warn(error); }
+});
 document.querySelector('#version').textContent = `v${chrome.runtime.getManifest().version}`;
 document.querySelectorAll('[data-mode]').forEach(button => button.addEventListener('click', async () => {
   buttons.forEach(item => { item.disabled = true; });

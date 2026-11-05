@@ -1,3 +1,9 @@
+export function autoCopyEnabled() {
+  try { return localStorage.getItem('screen-mark.auto-copy') !== 'false'; }
+  catch (error) { console.warn('자동 복사 설정을 읽지 못함.', error); return true; }
+}
+export const setAutoCopy = enabled => localStorage.setItem('screen-mark.auto-copy', String(enabled));
+
 async function database() {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open('screen-mark', 1);

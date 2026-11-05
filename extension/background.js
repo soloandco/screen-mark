@@ -110,7 +110,7 @@ async function capture(message) {
     if (message.mode !== 'selected-region') await cleanOldCaptures();
     const id = crypto.randomUUID();
     await putCapture({ id, blob, title: tab.title || t('화면 캡처', {}, message.language), createdAt: Date.now(), document: { shapes: [], crop: null } });
-    const url = chrome.runtime.getURL(`editor.html?id=${id}`);
+    const url = chrome.runtime.getURL(`editor.html?id=${id}&copy=1`);
     await chrome.tabs.create({ url });
     return { ok: true, id };
   } finally { busy = false; }

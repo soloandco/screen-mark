@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import http from 'node:http';
 import { chromium } from 'playwright';
 import sharp from 'sharp';
-import { useKorean } from './support/language.mjs';
+import { useKorean, useManualCopy } from './support/language.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const output = path.join(root, 'test-results');
@@ -33,7 +33,7 @@ try {
     channel: 'chromium', headless: true, viewport: { width: 1440, height: 1000 }, acceptDownloads: true,
     args: ['--enable-unsafe-extension-debugging', `--disable-extensions-except=${extension}`, `--load-extension=${extension}`]
   });
-  await useKorean(context);
+  await useKorean(context); await useManualCopy(context);
   let worker = context.serviceWorkers()[0] || await context.waitForEvent('serviceworker');
   const id = new URL(worker.url()).host;
   const versionPopup = await context.newPage();

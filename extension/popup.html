@@ -8,7 +8,8 @@
     <button class="capture primary" data-mode="visible"><span class="symbol">▣</span><span><strong data-i18n="현재 화면">Visible area</strong><small data-i18n="지금 보이는 화면을 캡처">Capture what is visible now</small></span><span>↗</span></button>
     <button class="capture" data-mode="region"><span class="symbol">⌗</span><span><strong data-i18n="선택 영역">Select an area</strong><small data-i18n="현재 화면에서 원하는 부분만 드래그">Drag to select part of this page</small></span><span>↗</span></button>
     <button class="capture" data-mode="full"><span class="symbol">↕</span><span><strong data-i18n="스크롤 전체 페이지">Full page</strong><small data-i18n="아래까지 스크롤하며 한 장으로 캡처">Scroll and capture the full page</small></span><span>↗</span></button>
-    <p id="status" data-i18n="표시한 화면은 클립보드로 복사해 AI에 붙여 넣으세요." role="status" aria-live="polite">Copy your annotated image and paste it into your AI chat.</p>
+    <label class="auto-copy"><input id="auto-copy" type="checkbox" checked><span data-i18n="캡처와 표시를 클립보드에 자동 복사">Copy captures and marks to clipboard automatically</span></label>
+    <p id="status" data-i18n="캡처와 표시는 클립보드에 자동 복사됨. AI 입력창에 Ctrl+V로 붙여 넣으세요." role="status" aria-live="polite">Captures and marks are copied automatically. Paste into your AI chat with Ctrl+V.</p>
     <button id="open-editor"><span data-i18n="이미지 파일 열어 편집하기">Open an image to edit</span><span>↗</span></button>
   </main>
   <footer><span class="dot"></span><span data-i18n="이미지는 이 브라우저에만 저장됨">Images stay in this browser</span><span id="version" data-i18n-aria="설치된 버전" aria-label="Installed version"></span></footer>

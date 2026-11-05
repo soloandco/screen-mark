@@ -1,6 +1,6 @@
 import { normalizeRect, imagePoint, createHistory, hitTest, translateShape, cropDocument, capturePlan, nextNumber, numberLabelAtCorner } from './model.js';
 import { renderScene, exportPng, createFrameDraw, createPngCache } from './render.js';
-import { getCapture, putCapture, updateDocument } from './storage.js';
+import { getCapture, putCapture, updateDocument, autoCopyEnabled } from './storage.js';
 import { t, initI18n } from './i18n.js';
 
 const $ = selector => document.querySelector(selector);
@@ -23,6 +23,8 @@ let saveSession = null;
 let loading = false;
 let pendingTextPoint = null;
 let copyPromise = null;
+let copyDirty = false;
+let copyTimer = null;
 const redraw = createFrameDraw(draw);
 const png = createPngCache(() => exportPng(image, history.current));
 let currentStatus = { message: '이미지는 외부로 전송되지 않음', error: false, params: {} };
@@ -100,7 +102,7 @@ function commit(state) {
   history.commit(state);
   capture.document = history.current;
   $('#number-start').value = state.nextNumber || 1;
-  draw(); save();
+  draw(); save(); scheduleAutoCopy();
 }
 
 function undoRedo(action) {
@@ -108,7 +110,7 @@ function undoRedo(action) {
   png.invalidate();
   history[action](); selectedId = null; preview = null; gesture = null;
   $('#number-start').value = history.current.nextNumber || 1;
-  fit(); save();
+  fit(); save(); scheduleAutoCopy();
 }
 
 function setTool(value, render = true) {
@@ -245,6 +247,7 @@ async function displayCapture(record) {
   try { capturePlan(bitmap.width, bitmap.height, bitmap.height); }
   catch (error) { bitmap.close(); throw error; }
   png.invalidate();
+  clearTimeout(copyTimer); copyDirty = false;
   image?.close(); image = bitmap;
   capture = record;
   saveSession = { id: record.id, revision: record.revision || 0, conflict: null };
@@ -316,25 +319,45 @@ $('#download').addEventListener('click', async () => {
   } catch (error) { status('파일 저장 실패: {error}', true, { error: error.message }); }
 });
 
-function copyImage() {
+function copyImage(source = png.get, automatic = false) {
   if (!image) return;
   if (copyPromise) return copyPromise;
+  clearTimeout(copyTimer); copyDirty = false;
+  const failure = automatic ? '자동으로 복사하지 못함. 클립보드 복사 또는 Ctrl+C를 이용해 주세요. ({error})' : '복사하지 못함. 파일 저장을 이용해 주세요. ({error})';
   $('#copy').disabled = true;
-  status('클립보드에 복사 중…');
+  if (!automatic) status('클립보드에 복사 중…');
   try {
     // Start the write synchronously in the click/shortcut handler to preserve user activation.
-    copyPromise = navigator.clipboard.write([new ClipboardItem({ 'image/png': png.get() })]).then(() => {
-      status('이미지가 클립보드에 복사됨. AI 입력창에 Ctrl+V로 붙여 넣으세요.');
+    copyPromise = navigator.clipboard.write([new ClipboardItem({ 'image/png': source() })]).then(() => {
+      // A background copy must not hide a save problem the user still has to act on.
+      if (!automatic || !saveFailed) status('이미지가 클립보드에 복사됨. AI 입력창에 Ctrl+V로 붙여 넣으세요.');
     }).catch(error => {
-      status('복사하지 못함. 파일 저장을 이용해 주세요. ({error})', true, { error: error.message });
+      if (automatic && !document.hasFocus()) copyDirty = true;
+      else status(failure, true, { error: error.message });
     }).finally(() => { copyPromise = null; $('#copy').disabled = false; });
     return copyPromise;
   } catch (error) {
     $('#copy').disabled = false;
-    status('복사하지 못함. 파일 저장을 이용해 주세요. ({error})', true, { error: error.message });
+    status(failure, true, { error: error.message });
   }
 }
-$('#copy').addEventListener('click', copyImage);
+$('#copy').addEventListener('click', () => copyImage());
+
+// A short pause lets a burst of marks encode one PNG instead of one per mark.
+function scheduleAutoCopy() {
+  if (!autoCopyEnabled()) return;
+  copyDirty = true;
+  clearTimeout(copyTimer);
+  copyTimer = setTimeout(flushAutoCopy, 300);
+}
+
+// Chrome only lets a focused page write, so an unfocused copy waits for the focus event below.
+function flushAutoCopy() {
+  if (!copyDirty || !image || !document.hasFocus()) return;
+  if (copyPromise) { copyPromise.then(flushAutoCopy); return; }
+  copyImage(png.get, true);
+}
+window.addEventListener('focus', flushAutoCopy);
 
 window.addEventListener('beforeunload', event => {
   if (pendingSaves || saveFailed) { event.preventDefault(); event.returnValue = ''; }
@@ -350,6 +373,9 @@ initI18n(() => {
   }
 });
 if (params.get('id')) {
+  const copyOnOpen = params.has('copy') && autoCopyEnabled();
+  // Forget the request first, so a reload never overwrites the clipboard again.
+  if (params.has('copy')) window.history.replaceState(null, '', `editor.html?id=${encodeURIComponent(params.get('id'))}`);
   try {
     await loadImage(async () => {
       const record = await getCapture(params.get('id'));
@@ -357,5 +383,7 @@ if (params.get('id')) {
       if (record.selectionPending) throw new Error('선택 화면에서 영역을 먼저 확정해 주세요.');
       await displayCapture(record);
     });
+    // An unedited capture is already a PNG, so this copy needs no second encoding.
+    if (copyOnOpen) { if (document.hasFocus()) copyImage(() => capture.blob, true); else copyDirty = true; }
   } catch (error) { status(error.message, true); }
 }

@@ -6,6 +6,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { chromium } from 'playwright';
 import sharp from 'sharp';
+import { useManualCopy } from './support/language.mjs';
 import { LANGUAGES, t, regionCopy } from '../extension/i18n.js';
 import { messages } from '../extension/translations.js';
 
@@ -25,6 +26,7 @@ try {
     channel: 'chrome', headless: true, viewport: { width: 1200, height: 900 }, acceptDownloads: true,
     ignoreDefaultArgs: ['--disable-extensions'], args: ['--enable-unsafe-extension-debugging']
   });
+  await useManualCopy(context);
   context.setDefaultTimeout(12000); context.on('weberror', event => errors.push(event.error().message));
   const cdp = await context.browser().newBrowserCDPSession();
   browserPid = (await cdp.send('SystemInfo.getProcessInfo')).processInfo.find(item => item.type === 'browser').id;

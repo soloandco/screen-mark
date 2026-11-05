@@ -90,7 +90,7 @@ async function confirm() {
     try { blob = await output.convertToBlob({ type: 'image/png' }); }
     finally { output.width = 0; output.height = 0; }
     await finishSelection(captureId, blob);
-    location.replace(`editor.html?id=${encodeURIComponent(captureId)}`);
+    location.replace(`editor.html?id=${encodeURIComponent(captureId)}&copy=1`);
   } catch (error) {
     status('선택 영역 저장 실패: {error}', true, { error: error?.message || '다시 시도해 주세요.' });
     busy = false; draw();

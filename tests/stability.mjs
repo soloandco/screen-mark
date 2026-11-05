@@ -7,7 +7,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 import sharp from 'sharp';
-import { useKorean } from './support/language.mjs';
+import { useKorean, useManualCopy } from './support/language.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const output = path.join(root, 'test-results/stability');
@@ -76,7 +76,7 @@ async function png(page) {
 try {
   console.log('CHECK: launch isolated Chrome');
   context = await chromium.launchPersistentContext(path.join(temporary, 'profile'), { channel: process.env.STABILITY_CHANNEL || 'chrome', headless: true, viewport: result.environment.viewport, acceptDownloads: true, ignoreDefaultArgs: ['--disable-extensions'], args: ['--enable-unsafe-extension-debugging'] });
-  await useKorean(context);
+  await useKorean(context); await useManualCopy(context);
   console.log('CHECK: Chrome launched');
   context.on('weberror', event => result.pageErrors.push(event.error().message));
   cdp = await context.browser().newBrowserCDPSession();
