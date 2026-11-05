@@ -25,6 +25,7 @@ let pendingTextPoint = null;
 let copyPromise = null;
 let copyDirty = false;
 let copyTimer = null;
+let copyPendingSince = 0;
 const redraw = createFrameDraw(draw);
 const png = createPngCache(() => exportPng(image, history.current));
 let currentStatus = { message: '이미지는 외부로 전송되지 않음', error: false, params: {} };
@@ -106,7 +107,7 @@ function commit(state) {
 }
 
 function undoRedo(action) {
-  if (!image || loading) return;
+  if (!image || loading || !history[action === 'undo' ? 'canUndo' : 'canRedo']) return;
   png.invalidate();
   history[action](); selectedId = null; preview = null; gesture = null;
   $('#number-start').value = history.current.nextNumber || 1;
@@ -323,17 +324,18 @@ function copyImage(source = png.get, automatic = false) {
   if (!image) return;
   if (copyPromise) return copyPromise;
   clearTimeout(copyTimer); copyDirty = false;
+  const copied = capture;
   const failure = automatic ? '자동으로 복사하지 못함. 클립보드 복사 또는 Ctrl+C를 이용해 주세요. ({error})' : '복사하지 못함. 파일 저장을 이용해 주세요. ({error})';
   $('#copy').disabled = true;
   if (!automatic) status('클립보드에 복사 중…');
   try {
     // Start the write synchronously in the click/shortcut handler to preserve user activation.
     copyPromise = navigator.clipboard.write([new ClipboardItem({ 'image/png': source() })]).then(() => {
-      // A background copy must not hide a save problem the user still has to act on.
-      if (!automatic || !saveFailed) status('이미지가 클립보드에 복사됨. AI 입력창에 Ctrl+V로 붙여 넣으세요.');
+      // Only the newest state may say "copied", and a background copy must not hide a save problem.
+      if (!copyDirty && copied === capture && !(automatic && saveFailed)) status('이미지가 클립보드에 복사됨. AI 입력창에 Ctrl+V로 붙여 넣으세요.');
     }).catch(error => {
-      if (automatic && !document.hasFocus()) copyDirty = true;
-      else status(failure, true, { error: error.message });
+      if (automatic && !document.hasFocus()) markCopyPending();
+      else if (!automatic || !saveFailed) status(failure, true, { error: error.message });
     }).finally(() => { copyPromise = null; $('#copy').disabled = false; });
     return copyPromise;
   } catch (error) {
@@ -343,10 +345,12 @@ function copyImage(source = png.get, automatic = false) {
 }
 $('#copy').addEventListener('click', () => copyImage());
 
+function markCopyPending() { copyDirty = true; copyPendingSince = Date.now(); }
+
 // A short pause lets a burst of marks encode one PNG instead of one per mark.
 function scheduleAutoCopy() {
   if (!autoCopyEnabled()) return;
-  copyDirty = true;
+  markCopyPending();
   clearTimeout(copyTimer);
   copyTimer = setTimeout(flushAutoCopy, 300);
 }
@@ -354,7 +358,14 @@ function scheduleAutoCopy() {
 // Chrome only lets a focused page write, so an unfocused copy waits for the focus event below.
 function flushAutoCopy() {
   if (!copyDirty || !image || !document.hasFocus()) return;
+  if (!autoCopyEnabled()) { copyDirty = false; return; }
   if (copyPromise) { copyPromise.then(flushAutoCopy); return; }
+  // After a longer absence the clipboard may hold something newer the user copied elsewhere.
+  if (Date.now() - copyPendingSince > 10000) {
+    copyDirty = false;
+    if (!saveFailed) status('다른 창에 있는 동안 복사하지 않음. 클립보드 복사 또는 Ctrl+C를 이용해 주세요.');
+    return;
+  }
   copyImage(png.get, true);
 }
 window.addEventListener('focus', flushAutoCopy);
@@ -384,6 +395,6 @@ if (params.get('id')) {
       await displayCapture(record);
     });
     // An unedited capture is already a PNG, so this copy needs no second encoding.
-    if (copyOnOpen) { if (document.hasFocus()) copyImage(() => capture.blob, true); else copyDirty = true; }
+    if (copyOnOpen) { if (document.hasFocus()) copyImage(() => capture.blob, true); else markCopyPending(); }
   } catch (error) { status(error.message, true); }
 }

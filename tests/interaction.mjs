@@ -257,7 +257,71 @@ try {
     await page.waitForFunction(() => window.writes === 1);
     await page.waitForTimeout(600);
     assert.equal(await page.evaluate(() => window.writes), 1);
+    assert.deepEqual(await clipboardPixel(100, 50), red);
+    assert.deepEqual(await clipboardPixel(100, 350), red);
     await page.close();
+  });
+  await check('a mark during a running copy gets its own copy and "copied" waits for it', async () => {
+    const page = await markedEditor();
+    await page.evaluate(() => {
+      window.gates = []; const write = navigator.clipboard.write.bind(navigator.clipboard);
+      navigator.clipboard.write = async (...args) => { await new Promise(resolve => window.gates.push(resolve)); return write(...args); };
+    });
+    await drag(page, { x: 100, y: 50 }, { x: 300, y: 150 });
+    await page.waitForFunction(() => window.gates.length === 1);
+    await drag(page, { x: 100, y: 300 }, { x: 300, y: 450 });
+    await page.waitForTimeout(500);
+    await page.evaluate(() => window.gates[0]());
+    await page.waitForFunction(() => window.gates.length === 2);
+    assert.equal(await page.locator('#status').filter({ hasText: '클립보드에 복사됨' }).count(), 0);
+    await page.evaluate(() => window.gates[1]());
+    await page.locator('#status').filter({ hasText: '클립보드에 복사됨' }).waitFor();
+    assert.deepEqual(await clipboardPixel(200, 300), red);
+    await page.close();
+  });
+  await check('undo with nothing to undo leaves the clipboard alone', async () => {
+    const page = await markedEditor();
+    await page.keyboard.press('Control+z');
+    await page.keyboard.press('Control+y');
+    await page.waitForTimeout(600);
+    assert.equal(await page.evaluate(() => window.writes), 0);
+    await page.close();
+  });
+  await check('a pending copy expires after a long absence and says so', async () => {
+    const page = await markedEditor();
+    await page.evaluate(() => { document.hasFocus = () => false; });
+    await drag(page, { x: 100, y: 300 }, { x: 300, y: 450 });
+    await page.evaluate(() => { const now = Date.now; Date.now = () => now() + 11000; delete document.hasFocus; window.dispatchEvent(new Event('focus')); });
+    await page.locator('#status').filter({ hasText: '다른 창에 있는 동안' }).waitFor();
+    await page.waitForTimeout(300);
+    assert.equal(await page.evaluate(() => window.writes), 0);
+    await page.close();
+  });
+  await check('turning the setting off cancels a pending copy', async () => {
+    const page = await markedEditor();
+    await page.evaluate(() => { document.hasFocus = () => false; });
+    await drag(page, { x: 100, y: 300 }, { x: 300, y: 450 });
+    await page.evaluate(() => { localStorage.setItem('screen-mark.auto-copy', 'false'); delete document.hasFocus; window.dispatchEvent(new Event('focus')); });
+    await page.waitForTimeout(300);
+    assert.equal(await page.evaluate(() => window.writes), 0);
+    await page.evaluate(() => localStorage.removeItem('screen-mark.auto-copy'));
+    await page.close();
+  });
+  await check('a capture opened without focus is copied when focus returns', async () => {
+    await context.addInitScript(() => {
+      if (location.search.includes('copy=1') && localStorage.getItem('test.unfocused')) document.hasFocus = () => false;
+    });
+    await copySeed();
+    await seed.evaluate(() => localStorage.setItem('test.unfocused', '1'));
+    const editor = await captureVisible();
+    await editor.waitForTimeout(500);
+    await seed.evaluate(() => localStorage.removeItem('test.unfocused'));
+    assert.equal(await clipboardDimensions(), '800 × 600 px');
+    await editor.bringToFront();
+    await editor.evaluate(() => { delete document.hasFocus; window.dispatchEvent(new Event('focus')); });
+    await editor.locator('#status').filter({ hasText: '클립보드에 복사됨' }).waitFor();
+    assert.notEqual(await clipboardDimensions(), '800 × 600 px');
+    await editor.close();
   });
   await check('a mark made without focus is copied when focus returns', async () => {
     const page = await markedEditor();
@@ -271,25 +335,28 @@ try {
   });
   await check('a background copy does not hide a failed save', async () => {
     const page = await markedEditor();
-    await page.evaluate(() => { IDBObjectStore.prototype.put = () => { throw new Error('simulated save failure'); }; });
+    await page.evaluate(() => { IDBDatabase.prototype.transaction = () => { throw new Error('simulated save failure'); }; });
     await drag(page, { x: 100, y: 300 }, { x: 300, y: 450 }, false, '자동 저장 실패');
     await page.waitForFunction(() => window.writes === 1);
-    await page.waitForTimeout(300);
+    await page.waitForTimeout(800);
     assert.ok((await page.locator('#status.error').textContent()).includes('자동 저장 실패'));
     await page.close();
   });
   await check('opening or pasting an image file does not auto-copy', async () => {
     await copySeed();
-    const page = await context.newPage(); await page.goto(`${base}/editor.html`); await page.bringToFront();
-    await page.evaluate(() => {
+    const page = await markedEditor();
+    await page.waitForTimeout(500);
+    assert.equal(await page.evaluate(() => window.writes), 0);
+    const pasted = await context.newPage(); await pasted.goto(`${base}/editor.html`); await pasted.bringToFront();
+    await pasted.evaluate(() => {
       window.writes = 0; const write = navigator.clipboard.write.bind(navigator.clipboard);
       navigator.clipboard.write = (...args) => { window.writes++; return write(...args); };
     });
-    await page.locator('#file-input').setInputFiles(fixture);
-    await page.locator('#canvas-frame').waitFor({ state: 'visible' });
-    await page.waitForTimeout(500);
-    assert.equal(await page.evaluate(() => window.writes), 0);
-    await page.close();
+    await pasted.keyboard.press('Control+v');
+    await pasted.locator('#canvas-frame').waitFor({ state: 'visible' });
+    await pasted.waitForTimeout(500);
+    assert.equal(await pasted.evaluate(() => window.writes), 0);
+    await pasted.close(); await page.close();
   });
   await check('the menu setting turns auto-copy off and keeps the clipboard', async () => {
     const menu = await context.newPage(); await menu.goto(`${base}/popup.html`);
@@ -297,6 +364,7 @@ try {
     await menu.locator('#auto-copy').uncheck();
     await menu.reload();
     assert.equal(await menu.locator('#auto-copy').isChecked(), false);
+    assert.ok((await menu.locator('#status').textContent()).includes('복사해 AI'));
     await copySeed();
     const editor = await captureVisible();
     await drag(editor, { x: 100, y: 100 }, { x: 300, y: 250 });

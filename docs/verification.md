@@ -6,9 +6,10 @@
 
 Captures, marks, undo and redo now reach the clipboard without a copy action. Checked on Windows with installed Chrome in separate test profiles, not in a person's everyday Chrome window. Pasting into another app was not tested.
 
-- `npm run test:interaction` covers the real clipboard: capture, mark, undo, grouping of quick marks, retry when focus returns, failed copy, failed save, no copy on reload or on opening a file, and the off setting. Disabling the feature in a temporary copy made six of these checks fail.
-- Mid-run results were unstable before this was finished: `test:languages` failed 2 of 2 runs on the previous commit, and `test:region-legacy` and `test:browser` failed intermittently with the source tab crashing or new tabs not appearing in time. With auto-copy forced off in a temporary copy, `test:region-legacy` passed 2 of 4 and `test:browser` 3 of 4. With it on, they passed 1 of 4 and 3 of 4. The rate does not track the feature, and the root cause is not identified.
-- Older suites now select manual copy with `useManualCopy` so background copies cannot race their clipboard checks. Final run: all seven passed once each. One passing run does not show the instability is gone.
+- `npm run test:interaction` covers the real clipboard: capture, mark, undo, grouping of quick marks, a mark during a running copy, retry when focus returns, expiry after 10 seconds away, failed copy, failed save, no copy on reload, file open, paste or empty undo, and the off setting. Removing the feature or its guards in a temporary copy made the matching checks fail.
+- Final runs on 2026-11-06 with no leftover browsers: `test:interaction` passed 4 of 5 runs, all 21 checks each. The failed run stopped one check because a capture never opened its new tab, before the editor or any copy code ran. `test:browser`, `test:auto-number`, `test:region`, `test:region-legacy`, `test:languages`, `test:stability` and `test:regressions` each passed the one final run.
+- Earlier comparisons were unreliable and are not evidence either way. An outer `timeout` on Windows stopped the test command but left its test browsers running, and they competed for CPU and the system clipboard. Run these suites without an outer kill timer. An occasional capture that never opens its tab remains unexplained.
+- Older suites select manual copy with `useManualCopy` so background copies cannot race their clipboard checks.
 
 ## 확인 결과
 

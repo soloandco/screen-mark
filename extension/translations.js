@@ -11,6 +11,8 @@ export const messages = {
   '스크롤 전체 페이지': ['Full page', 'ページ全体', 'Página completa'],
   '아래까지 스크롤하며 한 장으로 캡처': ['Scroll and capture the full page', 'スクロールしてページ全体をキャプチャ', 'Captura toda la página con desplazamiento'],
   '캡처와 표시는 클립보드에 자동 복사됨. AI 입력창에 Ctrl+V로 붙여 넣으세요.': ['Captures and marks are copied automatically. Paste into your AI chat with Ctrl+V.', 'キャプチャと注釈は自動でコピーされます。AIチャットにCtrl+Vで貼り付けてください。', 'Las capturas y marcas se copian automáticamente. Pégalas en tu chat de IA con Ctrl+V.'],
+  '표시한 화면은 클립보드로 복사해 AI에 붙여 넣으세요.': ['Copy your annotated image and paste it into your AI chat.', '注釈付き画像をコピーして、AIチャットに貼り付けられます。', 'Copia la imagen anotada y pégala en tu chat de IA.'],
+  '다른 창에 있는 동안 복사하지 않음. 클립보드 복사 또는 Ctrl+C를 이용해 주세요.': ['Not copied while you were in another window. Use Copy image or Ctrl+C.', '別のウィンドウにいる間はコピーしませんでした。「画像をコピー」またはCtrl+Cを使用してください。', 'No se copió mientras estabas en otra ventana. Usa Copiar imagen o Ctrl+C.'],
   '캡처와 표시를 클립보드에 자동 복사': ['Copy captures and marks to clipboard automatically', 'キャプチャと注釈を自動でクリップボードへコピー', 'Copiar capturas y marcas al portapapeles automáticamente'],
   '자동 복사 설정을 저장하지 못함. 다시 시도해 주세요.': ['Could not save the auto-copy setting. Please try again.', '自動コピーの設定を保存できませんでした。もう一度お試しください。', 'No se pudo guardar el ajuste de copia automática. Inténtalo de nuevo.'],
   '자동으로 복사하지 못함. 클립보드 복사 또는 Ctrl+C를 이용해 주세요. ({error})': ['Could not copy automatically. Use Copy image or Ctrl+C. ({error})', '自動でコピーできませんでした。「画像をコピー」またはCtrl+Cを使用してください。({error})', 'No se pudo copiar automáticamente. Usa Copiar imagen o Ctrl+C. ({error})'],

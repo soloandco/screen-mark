@@ -58,7 +58,7 @@ Only the part you selected is cut out and passed to the editor. Rectangles, numb
 
 - Each capture replaces what was on your clipboard, and so does each mark, undo and redo in step 3. To keep your clipboard untouched, uncheck **Copy captures and marks to clipboard automatically** in the menu. The setting is saved in this browser.
 - Opening an image file, pasting an image or reloading the editor does not change your clipboard by itself.
-- If you switch to another window before the copy runs, it runs when you come back. If it fails, the status bar says so. Click **Copy image** or press `Ctrl+C`.
+- If you switch to another window before the copy runs, it runs when you come back within 10 seconds. After that it is skipped so it cannot replace something you copied elsewhere, and the status bar says so. If a copy is skipped or fails, click **Copy image** or press `Ctrl+C`.
 
 ### 3. Mark it up with rectangles and numbers
 
