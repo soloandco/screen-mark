@@ -1,128 +1,138 @@
 # Screen Mark
 
-현재 화면·선택 영역·스크롤 전체 페이지를 캡처하고, 사각형·원형 숫자로 표시한 뒤 AI 입력창에 붙여 넣는 크롬 확장 프로그램.
+English | [한국어](README.ko.md)
 
-A local Chrome screenshot and annotation extension with numbered labels and clipboard export. MIT licensed. No account or cloud upload required.
+A Chrome extension that captures the visible area, a selected region or a full scrolling page, and keeps your clipboard up to date as you mark it with rectangles and numbered labels. Just paste into your AI chat.
 
-## 설치
+MIT licensed. No account or cloud upload required.
 
-1. [최신 릴리스](https://github.com/soloandco/screen-mark/releases/latest)에서 `screen-mark-1.2.0.zip`을 내려받아 압축을 푼다. 소스를 받았다면 저장소 안의 `extension` 폴더를 사용한다.
-2. Chrome 주소창에 `chrome://extensions`를 입력한다.
-3. 오른쪽 위 **개발자 모드**를 켠 뒤 **압축해제된 확장 프로그램을 로드합니다**를 누른다.
-4. 릴리스 ZIP에서는 `screen-mark` 폴더, 소스에서는 `extension` 폴더를 선택한다. `manifest.json`이 들어 있는 폴더가 설치 대상이다.
+## Install
 
-도구 모음의 퍼즐 아이콘에서 Screen Mark를 고정하면 편하다. ZIP으로 받았다면 먼저 압축을 풀고 그 안의 `screen-mark` 폴더(manifest.json이 들어 있는 폴더)를 선택한다.
+1. Download `screen-mark-<version>.zip` from the [latest release](https://github.com/soloandco/screen-mark/releases/latest) and unzip it. If you cloned the source, use the `extension` folder in the repository.
+2. Enter `chrome://extensions` in the Chrome address bar.
+3. Turn on **Developer mode** in the top right, then click **Load unpacked**.
+4. Select the `screen-mark` folder from the release ZIP, or the `extension` folder from the source. The folder you select must contain `manifest.json`.
 
-기존 설치를 업데이트할 때는 열려 있는 편집 작업을 PNG로 보관하고, 설치한 폴더의 파일을 새 ZIP 내용으로 교체한 뒤 `chrome://extensions`에서 Screen Mark의 새로고침 버튼을 누른다. 소스를 설치했다면 최신 소스를 받은 뒤 같은 버튼을 누른다. 기존 확장 항목을 삭제할 필요는 없다.
+Pin Screen Mark from the puzzle icon in the toolbar for quicker access.
 
-![Chrome 확장 관리 화면. 오른쪽 위 개발자 모드를 켜고 왼쪽 위 압축해제된 확장 프로그램 로드를 누른다.](docs/images/install-extension.png)
+To update, save any open work as PNG, replace the files in your installed folder with the new ZIP contents, then click Screen Mark's reload button in `chrome://extensions`. If you installed from source, pull the latest source and click the same button. You do not need to remove the existing extension.
 
-## 언어 선택
+![The Chrome extensions page. Turn on Developer mode in the top right, then click Load unpacked in the top left.](docs/images/install-extension.png)
 
-기본 언어는 영어다. 캡처 메뉴와 편집기 상단에서 **English, 한국어, 日本語, Español** 순서로 언어를 선택할 수 있다. 선택은 이 브라우저에 저장되며 열려 있는 편집기에도 바로 적용된다. 이미지·표시·실행 취소 기록·도구·확대율은 유지된다. 아래 한국어 사용 예시를 따라 하려면 먼저 **한국어**를 선택한다.
+## Language
 
-영역 선택 안내에는 선택을 시작할 때의 언어가 적용된다. [언어 지원과 검증 범위](docs/languages.md)에 동작과 번역 관리 방식을 기록한다.
+The default language is English. Choose **English, 한국어, 日本語 or Español** in the capture menu or at the top of the editor. Your choice is saved in this browser and applies immediately to open editors. Images, marks, undo history, the selected tool and zoom are preserved.
 
-## 이미지로 따라 하기
+The region selection guide uses the language set when the selection starts. See [language support and test coverage](docs/languages.md) for details.
 
-아래 이미지는 확장을 실제로 실행해 촬영했다. 영역 선택은 v1.2.1, 메뉴는 v1.2.0, 자동 번호는 v1.0.5, 나머지는 기존 버전의 사용 예시다. 화면 안의 웹사이트는 설명용 예제다.
+## Quick start
 
-### 1. 캡처 방식 선택
+The screenshots below were taken by running the extension itself. The website inside them is a made-up example.
 
-크롬 도구 모음에서 **Screen Mark 아이콘**을 누른다.
+### 1. Choose what to capture
 
-메뉴 하단에 실제 설치된 버전이 표시된다. 업데이트한 폴더를 쓰는 경우 `chrome://extensions`에서 Screen Mark의 새로고침을 누르고 메뉴를 다시 열어 버전을 확인한다.
+Click the **Screen Mark icon** in the Chrome toolbar.
 
-<img src="docs/images/capture-menu.png" alt="현재 화면, 선택 영역, 스크롤 전체 페이지를 선택하는 Screen Mark 실제 메뉴" width="344">
+The installed version appears at the bottom of the menu. After updating a folder, click Screen Mark's reload button in `chrome://extensions` and reopen the menu to check the version.
 
-| 메뉴 | 선택할 때 |
+<img src="docs/images/capture-menu.png" alt="The Screen Mark menu with Visible area, Select an area and Full page options" width="344">
+
+| Menu item | Use it to |
 |---|---|
-| **현재 화면** | 지금 보이는 부분만 캡처할 때 |
-| **선택 영역** | 현재 화면 중 원하는 부분만 드래그해 캡처할 때 |
-| **스크롤 전체 페이지** | 아래로 긴 웹페이지를 한 장에 담을 때 |
-| 이미지 파일 열어 편집하기 | 이미 저장한 PNG·JPG·WebP를 편집할 때 |
+| **Visible area** | Capture only what is on screen now |
+| **Select an area** | Drag over the part of the screen you want |
+| **Full page** | Capture a long page as one image |
+| Open an image to edit | Edit a saved PNG, JPG or WebP |
 
-**선택 영역**을 누르면 지금 보고 있는 페이지 위에서 선택을 시작한다. 원하는 부분을 **드래그하고 마우스를 놓으면 그 부분만 캡처해 편집기로 이동**한다. 선택 전에는 새 탭을 열거나 이미지를 저장하지 않는다. **취소** 또는 `Esc`를 누르면 원래 페이지로 돌아간다.
+**Select an area** starts the selection on the page you are viewing. **Drag and release, and only that part is captured and opened in the editor.** No new tab opens and no image is saved before you select. **Cancel** or `Esc` returns you to the page.
 
-![원래 페이지 위에서 원하는 부분을 드래그하는 실제 선택 화면. 마우스를 놓으면 그 부분만 편집기에 열린다.](docs/images/region-capture.png)
+![Dragging over part of the original page. Releasing the mouse opens only that part in the editor.](docs/images/region-capture.png)
 
-너무 작은 드래그는 캡처하지 않으며 다시 선택할 수 있다. 캡처나 저장에 실패해도 같은 페이지에서 다시 드래그할 수 있다. 화면 크기가 바뀌면 선택을 취소한다. Chrome 설정·웹 스토어 등 영역 선택이 제한된 페이지에서는 **현재 화면**을 사용한다. 이전 버전에서 이미 열어 둔 선택 탭은 계속 완료할 수 있다.
+A drag that is too small is not captured, and you can select again. If capturing or saving fails, you can drag again on the same page. Resizing the window cancels the selection. On pages where selection is restricted, such as Chrome settings and the Web Store, use **Visible area**. Selection tabs already open from an earlier version can still be completed.
 
-확정한 부분만 이미지로 잘라서 편집기에 넘긴다. 이후 사각형·번호 표시, 파일 저장, 클립보드 복사를 그대로 사용할 수 있다. 편집기의 실행 취소로 선택 바깥을 되살릴 수는 없다. 페이지를 스크롤해서 더 넓은 부분을 담으려면 **스크롤 전체 페이지**로 캡처한 뒤 편집기의 **자르기**를 사용한다.
+Only the part you selected is cut out and passed to the editor. Rectangles, numbers, saving and copying then work as usual, but Undo cannot bring back what was outside the selection. To include more than one screen, capture with **Full page** and use **Crop** in the editor.
 
-### 2. 사각형과 번호로 표시
+### 2. Paste it right away
 
-왼쪽 **사각형**을 누르고 표시할 부분을 드래그한다. **사각형 자동 번호**가 켜져 있으면 박스 왼쪽 위에 1, 2, 3 순서로 원형 번호가 함께 붙는다. 기본으로 켜져 있으며, 체크를 끄면 사각형만 추가된다.
+**Every new capture goes straight to your clipboard.** When the status bar shows **Image copied**, press `Ctrl+V` in your AI chat (`⌘+V` on Mac). You do not need to press a copy button.
 
-![사각형 자동 번호가 켜진 실제 편집 화면. 두 박스를 그리자 왼쪽 위에 1번과 2번이 자동으로 붙은 예시.](docs/images/auto-number.png)
+- Each capture replaces what was on your clipboard, and so does each mark, undo and redo in step 3. To keep your clipboard untouched, uncheck **Copy captures and marks to clipboard automatically** in the menu. The setting is saved in this browser.
+- Opening an image file, pasting an image or reloading the editor does not change your clipboard by itself.
+- If you switch to another window before the copy runs, it runs when you come back. If it fails, the status bar says so. Click **Copy image** or press `Ctrl+C`.
 
-**다음 번호**와 **번호 크기**를 바꾸면 다음 박스에도 적용된다. **번호 라벨** 도구로 직접 추가하는 번호와 같은 순서를 사용한다. 실행 취소 한 번으로 방금 만든 박스와 번호를 함께 지우고, 다시 실행 한 번으로 복원한다. 추가 후에는 박스와 번호를 각각 선택해 이동·삭제할 수 있다. 이미 그린 박스에 소급 적용하지 않으며, 새 편집 탭을 열면 자동 번호가 다시 켜진다.
+### 3. Mark it up with rectangles and numbers
 
-![실제 편집 화면. 왼쪽 사각형과 번호 라벨 도구를 사용해 문의 버튼과 서비스 카드를 1번과 2번으로 표시한 예시.](docs/images/annotate-screen.png)
+Click **Rectangle** on the left and drag over what you want to highlight. With **Auto-number rectangles** on, a round number is added to the top left of each box in order: 1, 2, 3. It is on by default. Uncheck it to add rectangles only.
 
-표시를 옮길 때는 **Ctrl을 누른 채 드래그**한다(Mac은 `⌘`). 도구를 바꾸지 않고 옮길 수 있어 선택 도구로 전환했다가 돌아오는 클릭 2회를 줄인다. **선택** 도구도 그대로 사용할 수 있다. 지우려면 선택 후 `Delete`, 되돌리려면 `Ctrl+Z`를 누른다.
+![The editor with Auto-number rectangles on. Drawing two boxes adds labels 1 and 2 automatically.](docs/images/auto-number.png)
 
-### 3. 복사해서 AI에 붙여 넣기
+Changes to **Next number** and **Number size** apply to the next box. The **Number** tool shares the same sequence. One Undo removes the new box and its number together, and one Redo restores them. You can then select, move or delete the box and number separately. Auto-numbering does not apply to boxes already drawn, and it turns back on when you open a new editor tab.
 
-오른쪽 위 초록색 **클립보드 복사**를 누르거나 `Ctrl+C`를 누른다. 아래 상태줄에 **클립보드에 복사됨**이 표시되면 AI 입력창에서 `Ctrl+V`를 누른다.
+![The editor showing the contact button and a service card marked 1 and 2.](docs/images/annotate-screen.png)
 
-![초록색 클립보드 복사 버튼과 하단 복사 완료 상태가 표시된 실제 화면. 파일로 보관하려면 옆의 파일 저장 버튼을 사용한다.](docs/images/copy-to-ai.png)
+To move a mark, **hold Ctrl and drag** (`⌘` on Mac). You keep your current tool, saving two clicks to the **Select** tool and back, which is also still available. To delete a mark, select it and press `Delete`. To undo, press `Ctrl+Z`.
 
-이미지와 함께 이렇게 요청할 수 있다.
+### 4. Paste your marked image into your AI chat
 
-> 1번 문의 버튼을 더 크게 해줘. 2번 카드의 제목은 '이용 방법'으로 바꿔줘.
+Each change is copied about a third of a second after you make it, with your marks included. When the status bar shows **Image copied**, press `Ctrl+V` in your AI chat. Large images can take longer. The green **Copy image** button at the top right and `Ctrl+C` are still there when you want to copy by hand.
 
-파일로 보관할 때는 **파일 저장**을 누른다. 사각형과 번호가 포함된 PNG로 저장된다.
+![The green Copy image button and the status bar confirming the copy. Save image is next to it.](docs/images/copy-to-ai.png)
 
-## 클립보드 이미지 바로 편집
+You can send the image with a request like this.
 
-Windows 화면 캡처 등으로 복사한 이미지가 있으면 편집기에서 **Ctrl+V**(Mac은 `⌘+V`)를 누른다. 파일로 저장하거나 파일 선택창을 열지 않아도 바로 편집할 수 있다. 열려 있는 이미지가 있으면 새 이미지로 교체한다. 텍스트 입력란에서는 평소처럼 텍스트가 붙여넣어지고, 미저장 표시가 있으면 기존 확인 절차를 거친다.
+> Make button 1 larger. Change the title of card 2 to "How it works".
 
-## 도구·단축키
+To keep a file, click **Save image**. It saves a PNG with your rectangles and numbers included.
 
-| 도구 | 사용법 | 키 |
+## Edit an image from your clipboard
+
+If you copied an image with another tool, such as the Windows screenshot tool, press **Ctrl+V** in the editor (`⌘+V` on Mac). It opens for editing without saving a file or using a file picker. An open image is replaced by the new one. Text fields paste text as usual, and if you have unsaved marks you are asked to confirm first.
+
+## Tools and shortcuts
+
+| Tool | How to use | Key |
 |---|---|---|
-| 사각형 | 드래그해 테두리 표시. 자동 번호가 켜져 있으면 번호도 함께 추가 | R |
-| 번호 라벨 | 화면을 클릭하면 원형 숫자를 추가. 다음 번호 자동 증가 | N |
-| 선택 | 표시를 선택해 드래그로 이동. Delete로 삭제 | V |
-| 화살표 | 시작점에서 끝점으로 드래그 | A |
-| 텍스트 | 위치 클릭 후 문구 입력 | T |
-| 모자이크 | 가릴 영역을 드래그 | M |
-| 자르기 | 남길 영역을 드래그. 실행 취소 가능 | C |
+| Rectangle | Drag to draw an outline. Also adds a number when auto-numbering is on | R |
+| Number | Click to add a round number. The next number increases automatically | N |
+| Select | Select a mark and drag to move it. Delete removes it | V |
+| Arrow | Drag from start to end | A |
+| Text | Click a position and type | T |
+| Mosaic | Drag over the area to hide | M |
+| Crop | Drag over the area to keep. Can be undone | C |
 
-색상과 굵기는 왼쪽에서 바꾼다. 표시를 선택한 상태에서는 선택한 표시에도 적용된다. 번호는 **다음 번호**에서 직접 지정하고 크기도 선택할 수 있다. `Ctrl+Z`로 실행 취소, `Ctrl+Shift+Z` 또는 `Ctrl+Y`로 다시 실행한다. `Esc`로 선택과 진행 중인 드래그를 취소한다.
+Change color and line width on the left. With a mark selected, they apply to that mark too. Set a number directly in **Next number** and choose its size. `Ctrl+Z` undoes, `Ctrl+Shift+Z` or `Ctrl+Y` redoes, and `Esc` cancels the selection or a drag in progress.
 
-**클립보드 복사**가 기본 버튼이다. 표시를 마친 뒤 버튼을 누르거나 `Ctrl+C`로 복사하고 AI 입력창에 `Ctrl+V`로 붙여 넣는다. 텍스트 입력 중에는 일반 텍스트 복사가 유지된다. **파일 저장**은 표시를 합성한 원래 해상도의 PNG를 내려받는다. 확대·축소는 편집 화면에만 적용된다.
+Marks are copied automatically, so paste with `Ctrl+V` in your AI chat. **Copy image** or `Ctrl+C` copies by hand. While you type in a text field, normal text copy still works. **Save image** downloads a PNG at the original resolution with your marks merged in. Zoom only affects the editing view.
 
-## 저장과 권한
+## Storage and permissions
 
-이미지를 외부 서버로 보내지 않는다. 원본과 편집 정보는 이 브라우저 프로필의 확장 IndexedDB에 저장된다. 새로고침 시 편집은 복원되며 실행 취소 이력은 초기화된다. 캡처 시 마지막 저장 후 하루가 지난 임시 작업을 삭제한다. 보관할 이미지는 PNG로 저장한다. 확장을 제거하면 내부 저장 데이터도 제거된다.
+Images are never sent to an external server. The original image and your edits are stored in this browser profile's extension IndexedDB. Reloading restores your edits and clears undo history. When you capture, temporary work last saved more than a day ago is deleted. Save images you want to keep as PNG. Removing the extension also removes its stored data.
 
-영역 선택 중에는 전체 현재 화면을 임시 저장한다. 확정하면 선택 부분으로 교체하고, **취소**·`Esc`를 누르면 임시 원본을 삭제한다. 선택 탭을 X로 닫으면 임시 원본이 남으며, 마지막 저장 후 하루가 지난 다음 캡처 때 정리된다.
+During a region selection, the full visible area is stored temporarily. Confirming replaces it with the selected part, and **Cancel** or `Esc` deletes the temporary original. If you close a selection tab with X, the temporary original stays until the next capture made more than a day after its last save.
 
-같은 캡처를 두 편집 탭에서 열면 저장 충돌을 감지한다. 다른 탭의 저장본을 덮어쓰지 않으며, 충돌한 탭의 표시는 현재 화면에 남는다. 해당 탭에서 먼저 **파일 저장** 또는 **클립보드 복사**로 보관한 뒤 새로고침하면 최신 저장본으로 다시 편집할 수 있다. 자동 저장에 실패한 상태에서 새 이미지를 열 때는 미저장 표시를 버릴지 확인한다. 취소하면 현재 작업을 유지한다.
+Opening the same capture in two editor tabs is detected as a save conflict. Another tab's saved version is not overwritten, and the conflicting tab's marks stay on screen. Keep them with **Save image** or **Copy image** first, then reload that tab to continue from the latest saved version. If automatic saving has failed and you open a new image, you are asked whether to discard the unsaved marks. Canceling keeps your current work.
 
-- `activeTab`: 확장 아이콘으로 호출한 현재 탭 캡처.
-- `scripting`: 전체 페이지 스크롤과 고정 요소 중복 방지. 캡처 후 원래 위치와 스타일 복원.
-- `clipboardWrite`: 편집 이미지 복사.
+- `activeTab`: captures the current tab when you invoke the extension.
+- `scripting`: scrolls for full-page capture and avoids duplicating fixed elements. Restores the original position and styles afterward.
+- `clipboardWrite`: copies captures and marked images.
 
-확장 실행 중에는 전체 사이트 상시 접근 권한, 로그인, 외부 라이브러리, 분석 도구를 사용하지 않는다.
+While running, the extension uses no always-on access to all sites, no login, no external libraries and no analytics.
 
-## 지원 범위
+## Limitations
 
-- Chrome 120 이상, Manifest V3.
-- 전체 페이지는 현재 로드된 본문의 **세로 스크롤** 대상. 가로 초과 페이지는 현재 화면 캡처를 이용한다.
-- 고정 헤더·버튼은 첫 화면에 포함하고 후속 화면에서 중복을 숨긴다.
-- 내부 스크롤 패널, 무한 스크롤, 가상 목록, 영상·움직이는 콘텐츠는 완전한 전체 캡처를 보장하지 않는다. 복잡한 페이지는 현재 화면 캡처를 이용한다.
-- 스크립트를 넣을 수 없는 Chrome 내부 페이지와 웹스토어 등은 전체 페이지 모드가 제한된다.
-- 파일은 40MB 이하, 이미지 한 변 32,760px 이하, 전체 4,800만 픽셀 이하. 배율이 높은 화면은 전체 페이지 한도에 먼저 도달할 수 있다.
-- 모자이크는 시각적 가림이다. 비밀번호처럼 민감한 정보는 공유 전 실제 PNG 결과를 확인한다.
+- Chrome 120 or later, Manifest V3.
+- Full page covers **vertical scrolling** of the currently loaded main content. For pages wider than the window, use **Visible area**.
+- Fixed headers and buttons are included on the first screen and hidden on later ones to avoid duplicates.
+- Inner scrolling panels, infinite scroll, virtualized lists, video and moving content are not guaranteed to capture completely. Use **Visible area** for complex pages.
+- Chrome internal pages and the Web Store, where scripts cannot run, restrict full-page mode.
+- Files up to 40 MB, images up to 32,760 px per side and 48 million pixels in total. High-DPI screens can reach the full-page limit sooner.
+- Mosaic is a visual cover. Check the actual PNG before sharing anything sensitive, such as passwords.
 
-## 개발·검증
+## Development and testing
 
-런타임 의존성과 빌드 단계 없이 `extension/`을 로드한다. 소스를 바꾼 뒤 확장 관리 화면에서 새로고침한다.
+Load `extension/` directly. There are no runtime dependencies and no build step. After changing the source, click reload on the extensions page.
 
-Node.js 22 이상에서 개발 의존성을 설치한다. 확장을 설치해서 사용하는 데에는 Node.js가 필요하지 않다.
+Install the development dependencies with Node.js 22 or later. You do not need Node.js to install and use the extension.
 
 ```sh
 npm ci
@@ -132,40 +142,38 @@ npm run test:browser
 npm run package
 ```
 
-Linux에서 브라우저 시스템 라이브러리도 필요하면 `npx playwright install --with-deps chromium`을 사용한다. 브라우저 검사는 별도 임시 프로필만 사용하며 사용자 Chrome 프로필을 건드리지 않는다. CDP `Extensions.triggerAction`으로 확장 아이콘 호출을 재현해 activeTab을 부여한다. 원본 매니페스트의 권한을 바꾸지 않고 테스트한다. 개발 의존성은 확장 ZIP에 포함되지 않는다.
+On Linux, use `npx playwright install --with-deps chromium` if you also need browser system libraries. Browser tests use separate temporary profiles and never touch your Chrome profile. They reproduce a click on the extension icon with CDP `Extensions.triggerAction` to grant activeTab, without changing the permissions in the source manifest. Development dependencies are not included in the extension ZIP.
 
-검증 결과: `docs/verification.md`. ZIP 생성 결과: `dist/screen-mark-1.3.0.zip`.
+Test results: `docs/verification.md`. ZIP output: `dist/screen-mark-1.3.0.zip`.
 
-`npm run test:interaction`은 실제 클립보드 이미지·텍스트 붙여넣기, 도구를 유지하는 modifier 드래그, 실행 취소, 저장 충돌 후 붙여넣기 취소, 로딩 중 입력 잠금을 검사한다. [클릭 흐름 검토](docs/fewer-clicks.md)에 비교 기준과 검증 범위를 기록한다.
+| Command | What it checks |
+|---|---|
+| `npm run test:interaction` | Automatic copy after capture and after each mark, its off setting, real clipboard image and text paste, modifier drag that keeps the tool, undo, cancelling a paste after a save conflict, and input lock while loading. See the [click-flow review](docs/fewer-clicks.md) (Korean) |
+| `npm run test:languages` | English default, order and persistence of the four languages, updates in open editors, preserved edit state, translated errors and accessibility labels, real capture, PNG, clipboard write and existing selection tabs. Older regression tests select Korean explicitly |
+| `npm run test:region` | In a separate headless profile of installed Google Chrome: drag selection on the original page, real PNG pixels, editing and clipboard write, cancel and resize, retry after capture or save failure. Set `REGION_SCALE=2` to run at 2x scale. Sample images go to `test-results/region-1/` |
+| `npm run test:region-legacy` | Compatibility of selection tabs already open from an earlier version |
+| `npm run test:regressions` | Initial image load conflicts, recovering file open after an error, arrow selection, and header and footer pixels in full-page capture. `npm run test:regressions -- --long` adds a 3.2-second delay to each capture on a 32,000 px page to confirm completion past 90 seconds. It takes several minutes and is not a speed benchmark |
+| `npm run test:auto-number` | Auto-numbering, undo and redo, sequence shared with manual numbers, placement at edges and after crop, PNG pixels and real clipboard write. See [v1.0.5 results](docs/auto-number/v1.0.5.json) |
+| `npm run test:stability` | In a new test profile: repeated capture, multiple editor tabs, save conflicts, cleanup of old work, switching tabs during capture and restarting an idle worker. See the [v1.0.3 stability review](docs/stability.md) (Korean) |
 
-`npm run test:languages`는 영어 기본값, 네 언어의 순서·선택 저장·열린 편집기 반영, 편집 상태 보존, 번역된 오류·접근성 라벨·실제 캡처·PNG·클립보드 쓰기와 기존 선택 탭을 검사한다. 기존 한국어 회귀 검사는 언어를 한국어로 명시해서 실행한다.
+## Performance
 
-`npm run test:region`은 설치된 Google Chrome의 별도 headless 프로필에서 원래 페이지의 드래그 선택, 실제 PNG 픽셀, 편집·클립보드 쓰기, 취소·크기 변경, 캡처·저장 실패 후 재시도를 검사한다. `REGION_SCALE=2` 환경변수로 2배 배율에서도 실행할 수 있다. 선택 예시 이미지는 `test-results/region-1/`에 생성된다. `npm run test:region-legacy`는 이전 버전에서 이미 열어 둔 선택 탭의 호환성을 검사한다.
+The [region capture performance record](docs/performance-region.md) (Korean) keeps the initial measurements and those split by browser stage. `npm run benchmark:region` measures selection, capture, cropping and opening the editor. `node scripts/region-performance-report.mjs` recalculates the report from the published raw results.
 
-`npm run test:regressions`는 설치된 Google Chrome의 별도 임시 프로필에서 초기 이미지 로딩 충돌, 오류 후 파일 열기 복구, 화살표 선택, 전체 페이지의 헤더·하단 픽셀을 검사한다. `npm run test:regressions -- --long`은 캡처 API에 매회 3.2초 지연을 주입하고 높이 32,000px 페이지를 실제로 32번 촬영해, 90초 이후에도 완료되는지 추가 검사한다. 이 검사는 수 분이 걸리며 속도 벤치마크가 아니다. 단위 테스트는 제어된 시계로 복원 타이머 갱신과 유휴 상태의 원상 복구도 확인한다.
+v1.0.2 removed a duplicate PNG conversion in visible-area capture and grouped drawing during a drag by screen frame. It reuses one PNG export result while nothing changes and discards it immediately on edit, undo, redo or image replacement. The cache keeps PNGs up to 16 MiB, and repeated copy requests share the work in progress.
 
-`npm run test:auto-number`는 설치된 Google Chrome의 별도 임시 프로필에서 자동 번호, 실행 취소·다시 실행, 수동 번호와의 순서 공유, 가장자리·자르기 배치, PNG 픽셀과 실제 클립보드 쓰기를 검사한다. [v1.0.5 실행 결과](docs/auto-number/v1.0.5.json)를 공개한다.
+The [before-and-after report](docs/performance.md) (Korean) compares capture, opening the editor, dragging, real clipboard copy and memory. It was measured on 2026-10-21 in a separate headless profile of installed Chrome, with the median and range of five runs per version. Memory is an observation of the whole test Chrome, not of the extension alone and not a comparison with other products. [Raw results](docs/benchmarks/2026-10-21.json) are included.
 
-`npm run test:stability`는 설치된 Google Chrome의 새 시험용 프로필에서 연속 캡처·다중 편집 탭·저장 충돌·오래된 작업 정리·캡처 중 탭 전환·유휴 worker 재시작을 검사한다. 사용자 프로필은 열지 않는다. [v1.0.3 안정성 검증](docs/stability.md)에 발견한 결함과 검증 범위를 기록한다.
+Reproduce the comparison with `npm run benchmark`. It uses installed Google Chrome and a new temporary profile, and Windows memory measurement needs Python 3. By default it alternates five runs each of the earlier public version `d5aed23` and the current `extension/`. Raw results go to `test-results/performance/raw.json`. Set `BENCH_BASELINE`, `BENCH_TRIALS`, `BENCH_OUTPUT` and `BENCH_PYTHON` to choose the baseline commit, number of runs, output path and Python executable.
 
-## 성능 개선과 측정
+`node scripts/performance-report.mjs docs/benchmarks/2026-10-21.json docs/performance.md` recalculates the report figures from the published raw results. `node tests/render-mutation.mjs` disables frame grouping, PNG reuse and invalidation one at a time in a temporary copy to confirm the regression tests fail.
 
-[영역 캡처 성능 기록](docs/performance-region.md)에 초기 측정값과 브라우저 내부 구간을 나눈 측정값을 보존한다. `npm run benchmark:region`으로 영역 선택·촬영·자르기·편집 화면 표시를 측정하고, `node scripts/region-performance-report.mjs`로 공개 원시 결과에서 보고서를 다시 계산한다.
+To contribute, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
-v1.0.2는 현재 화면 캡처의 중복 PNG 변환을 제거하고, 드래그 중 그리기를 화면 프레임 단위로 묶는다. 변경 없는 PNG 내보내기 결과를 한 개만 재사용하며, 편집·실행 취소·다시 실행·이미지 교체 시 즉시 무효화한다. 캐시는 16MiB 이하의 PNG만 유지하며, 연속 복사 요청은 진행 중인 작업을 공유한다.
+Retake the README screenshots with `npm run docs:images`. It runs real capture, marking and copying in a separate Chromium that does not use your profile.
 
-[변경 전후 실측 보고서](docs/performance.md)에 캡처·편집 화면 표시·드래그·실제 클립보드 복사·메모리를 비교했다. 측정일은 2026-10-21이며, 설치된 Chrome의 별도 headless 프로필에서 버전별 다섯 번 측정한 중앙값과 변동 범위를 공개한다. 메모리는 시험용 Chrome 전체의 관측값이며 확장 단독이나 다른 제품과의 비교 수치가 아니다. [원시 결과](docs/benchmarks/2026-10-21.json)도 포함한다.
+## License
 
-전후 측정은 `npm run benchmark`로 재현한다. 설치된 Google Chrome과 새 임시 프로필을 사용하며, Windows 메모리 측정에는 Python 3가 필요하다. 기본값은 이전 공개 버전 `d5aed23`과 현재 `extension/`을 각각 다섯 번 번갈아 실행하는 것이다. 원시 결과는 `test-results/performance/raw.json`에 저장된다. `BENCH_BASELINE`, `BENCH_TRIALS`, `BENCH_OUTPUT`, `BENCH_PYTHON` 환경변수로 기준 커밋·반복 수·출력 위치·Python 실행 파일을 지정할 수 있다.
+[MIT](LICENSE). You may use, modify, redistribute and use it commercially, keeping the copyright and license notice.
 
-`node scripts/performance-report.mjs docs/benchmarks/2026-10-21.json docs/performance.md`로 공개 원시 결과에서 보고서 수치를 다시 계산한다. `node tests/render-mutation.mjs`는 임시 사본의 프레임 묶기·PNG 재사용·무효화를 각각 무력화해 회귀 테스트가 실패하는지 확인한다.
-
-기여 방법은 [CONTRIBUTING.md](CONTRIBUTING.md)를 참고한다.
-
-README 화면 이미지는 `npm run docs:images`로 다시 촬영할 수 있다. 사용자 프로필을 사용하지 않는 별도 Chromium에서 실제 캡처·표시·복사를 실행한다.
-
-## 라이선스
-
-[MIT](LICENSE). 사용·수정·재배포·상업적 이용을 허용하며 저작권과 라이선스 고지를 유지해야 한다.
-
-이 프로젝트는 Awesome Screenshot과 제휴하거나 그 제품의 코드를 포함하지 않는다. 다른 확장보다 메모리를 적게 사용한다는 비교 성능 주장은 검증하지 않았다.
+This project is not affiliated with Awesome Screenshot and contains none of its code. We have not verified any claim that it uses less memory than other extensions.

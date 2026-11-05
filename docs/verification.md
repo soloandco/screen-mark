@@ -2,6 +2,14 @@
 
 기준일: 2026-10-21. 초기 검증 대상: 이 프로젝트 `extension/`의 로컬 확장 v1.0.1. 자동 검증은 별도 테스트 프로필에서 진행함. 이후 사용자가 자신의 Chrome에 설치하고 정상 동작을 확인함. v1.0.2와 v1.0.3의 추가 검증은 아래에 별도 기록함.
 
+## v1.3.0 automatic copy (2026-11-05)
+
+Captures, marks, undo and redo now reach the clipboard without a copy action. Checked on Windows with installed Chrome in separate test profiles, not in a person's everyday Chrome window. Pasting into another app was not tested.
+
+- `npm run test:interaction` covers the real clipboard: capture, mark, undo, grouping of quick marks, retry when focus returns, failed copy, failed save, no copy on reload or on opening a file, and the off setting. Disabling the feature in a temporary copy made six of these checks fail.
+- Mid-run results were unstable before this was finished: `test:languages` failed 2 of 2 runs on the previous commit, and `test:region-legacy` and `test:browser` failed intermittently with the source tab crashing or new tabs not appearing in time. With auto-copy forced off in a temporary copy, `test:region-legacy` passed 2 of 4 and `test:browser` 3 of 4. With it on, they passed 1 of 4 and 3 of 4. The rate does not track the feature, and the root cause is not identified.
+- Older suites now select manual copy with `useManualCopy` so background copies cannot race their clipboard checks. Final run: all seven passed once each. One passing run does not show the instability is gone.
+
 ## 확인 결과
 
 - `npm test`: 모델 테스트 10개 통과. 역방향 사각형, 확대 좌표, 번호 증가, undo/redo, 이력 격리, 선택, 이동, crop, 전체 페이지 크기 제한 확인.
